@@ -86,14 +86,15 @@ Implement lazy loading for news articles for performance optimizaAdd analytics f
 ## Future Enhancements
 
 **Real-Time Comments**: Enable users to comment on news articles in real-time using WebSockets.
+
 **Push Notifications**: Implement push notifications for breaking news alerts.
+
 **SEO Optimization**: Improve SEO for better visibility and ranking on search engines.
+
 **Content Moderation**: Add a content approval workflow for admin moderators to approve user comments and posts.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Note: 
-
-These are initial plan and mybe change according to free time avaliable to me.
+Note: These are initial plan and mybe change according to free time avaliable to me.
