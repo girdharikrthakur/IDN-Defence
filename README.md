@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# News Website with Admin Panel and OAuth Authentication (Target: React Implementation)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project aims to build a **News Website** featuring a **Home Page**, **Admin Panel** for posting news, and **OAuth-based authentication** for both users and administrators. The ultimate goal is to implement the front-end using **React**.
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+### Key Features (Planned)
 
-### `npm start`
+**Home Page**:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Display news articles, trending stories, and category filters (e.g., sports, tech, politics).
+- User-friendly navigation and responsive design for mobile and desktop.
+**Admin Panel**:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Administrators can log in to post, edit, or delete news articles.
+- Role-based access to ensure only admins can modify content.
+**User and Admin Authentication (OAuth)**:
 
-### `npm test`
+- Users and admins will sign in using OAuth (Google, Facebook, etc.).
+- Admins will have separate access permissions to manage content.
+**User Features**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Users can sign in to comment, like, and share news articles.
+- News articles can be shared via social media platforms.
 
-### `npm run build`
+## Target Technology Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Front-End (Planned):
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**React**:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- To build the user interface and implement dynamic features like news loading, filtering, and pagination.
+- React Router for navigation and page transitions.
+- Styled-components or CSS-in-JS for a modular design system.
+**React Context / Redux**:
 
-### `npm run eject`
+- To manage global state for authentication, news data, and user sessions.
+**OAuth with React**:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Implement Google and Facebook OAuth sign-in using libraries like `react-oauth/google` or `react-facebook-login`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Back-End (Planned):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Node.js** with **Express.js**:- API development for managing news articles, user sessions, and admin actions.
+**Database**:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- MongoDB or MySQL for storing user credentials, news articles, and comments.
+**JWT (JSON Web Tokens)**:
 
-## Learn More
+- For session management and securing API routes (admin/user access control).
+**Passport.js**:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- To handle OAuth authentication for both users and admins.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Roadmap
 
-### Code Splitting
+### Phase 1: Initial Set-Up
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Set up the basic file structure for the project.
+Install React, Node.js, and Express.js.
+Implement OAuth login for users and admin using Passport.js.
 
-### Analyzing the Bundle Size
+### Phase 2: Core Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Develop a React-based Home Page to display news articles.
+Implement a basic Admin Panel for posting news articles (accessible only to admins).
+Set up API endpoints using Node.js for posting and fetching news.
 
-### Making a Progressive Web App
+### Phase 3: OAuth Authentication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Add OAuth login with Google and Facebook for users.
+Set up session handling and role-based access for the admin panel.
 
-### Advanced Configuration
+### Phase 4: Enhancements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Add user-specific features like commenting and sharing articles.
+Create a search functionality to allow users to find specific news articles.
+Implement filtering for news categories (e.g., sports, tech, etc.).
 
-### Deployment
+##### Phase 5: Final Features & Optimizations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Improve the responsiveness of the front-end for mobile users.
+Implement lazy loading for news articles for performance optimizaAdd analytics for user engagement (most-read articles, user activity, etc.).
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Future Enhancements
+
+**Real-Time Comments**: Enable users to comment on news articles in real-time using WebSockets.
+**Push Notifications**: Implement push notifications for breaking news alerts.
+**SEO Optimization**: Improve SEO for better visibility and ranking on search engines.
+**Content Moderation**: Add a content approval workflow for admin moderators to approve user comments and posts.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Note: 
+
+These are initial plan and mybe change according to free time avaliable to me.
