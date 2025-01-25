@@ -1,0 +1,12 @@
+/* IndependenceDay.css */
+body {
+ margin: 0;
+ font-family: Arial, sans-serif;
+ height: 100vh;
+}
+
+h1 {
+ font-size: 36px;
+ text-align: center;
+ margin: 20px 0;
+}

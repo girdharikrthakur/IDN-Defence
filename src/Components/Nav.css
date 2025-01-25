@@ -1,32 +1,71 @@
-/* src/components/Nav.css */
-.nav {
- background-color: #333;
- color: white;
+/* Nav.css */
+nav {
+ height: 40px;
  display: flex;
  justify-content: space-between;
  align-items: center;
- padding: 1rem 2rem;
+ padding: 10px 20px;
+ background-color: #ad3d00;
+ /* Navy Blue */
+ color: white;
+ box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
- font-size: 1.5rem;
+nav .logo {
+ font-size: 24px;
+ font-weight: bold;
 }
 
-.nav-links {
- list-style: none;
+nav ul {
  display: flex;
+ list-style: none;
+ margin: 0;
+ padding: 0;
 }
 
-.nav-links li {
- margin: 0 1rem;
+nav ul li {
+ margin-left: 20px;
 }
 
-.nav-links a {
+nav ul li a {
  color: white;
  text-decoration: none;
- font-size: 1.1rem;
+ font-size: 16px;
+ font-weight: 500;
+ transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
- color: #ff9900;
+nav ul li a:hover {
+ color: #ffcc00;
+ /* Golden Yellow */
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+ nav ul {
+  display: none;
+  /* Hide the menu by default */
+ }
+
+ .menu-toggle {
+  display: block;
+  font-size: 20px;
+  cursor: pointer;
+ }
+
+ .menu-open nav ul {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: #004aad;
+  padding: 10px 0;
+ }
+
+ .menu-open nav ul li {
+  margin: 10px 0;
+  text-align: center;
+ }
 }

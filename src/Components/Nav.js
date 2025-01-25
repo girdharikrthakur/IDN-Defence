@@ -1,24 +1,27 @@
-// src/components/Nav.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Nav.css';  // Add a CSS file for styling
+import React from "react";
+import "./Nav.css";
 
 const Nav = () => {
   return (
-    <nav className="nav">
-      <h3 className="logo">NewsSite</h3>
-      <ul className="nav-links">
+    <nav className="bg-blue-700 text-white py-4 px-6 flex justify-between items-center">
+      <div class className="text-xl font-bold">
+        IDN Defence
+      </div>
+      <ul className="flex space-x-6">
         <li>
-          <Link to="/">Home</Link>
+          <a href="#home" className="hover:text-gray-300">
+            Home
+          </a>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <a href="#about" className="hover:text-gray-300">
+            About
+          </a>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-        <li>
-          <Link to="/admin">Admin</Link>
+          <a href="#contact" className="hover:text-gray-300">
+            Contact
+          </a>
         </li>
       </ul>
     </nav>

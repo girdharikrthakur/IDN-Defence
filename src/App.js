@@ -1,17 +1,22 @@
-import React from 'react';
-import './App.css';
+import React from "react";
 
+import "./index.css";
+import IndependenceDay from "./Components/IndependenceDay";
+import Nav from "./Components/Nav";
+import Popup from "./Components/Popup";
+import "./index.css";
 
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>We're Currently Under Maintenance</h1>
-        <p>We'll be back soon! Stay tuned.</p>
-      </header>
+    <div>
+      {/* Navigation Bar */}
+      <Nav />
+      {/* Add the popup component */}
+      <Popup />
+      {/* Main Content */}
+      <IndependenceDay />
     </div>
   );
-}
+};
 
 export default App;
