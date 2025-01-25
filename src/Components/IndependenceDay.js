@@ -15,7 +15,7 @@ const IndependenceDay = () => {
 
       {/* Header */}
       <header className="header">
-        <h1 className="header-title">Happy Independence Day!</h1>
+        <h1 className="header-title">Happy Republic Day</h1>
       </header>
 
       {/* Main Content */}
