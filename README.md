@@ -1,100 +1,103 @@
-# News Website with Admin Panel and OAuth Authentication (Target: React Implementation)
+# News Website with Admin Panel and OAuth Authentication (Spring Boot & React)
 
-This project aims to build a **News Website** featuring a **Home Page**, **Admin Panel** for posting news, and **OAuth-based authentication** for both users and administrators. The ultimate goal is to implement the front-end using **React**.
+This project aims to build a **News Website** featuring a **Home Page**, **Admin Panel** for managing news, and **OAuth-based authentication** for both users and administrators. The backend will be developed using **Spring Boot**, and the frontend will be built with **React**.
 
-## Project Overview
+---
 
-### Key Features (Planned)
+## **Project Overview**
 
-**Home Page**:
+### **Key Features (Planned)**
 
-- Display news articles, trending stories, and category filters (e.g., sports, tech, politics).
-- User-friendly navigation and responsive design for mobile and desktop.
-**Admin Panel**:
+### **1. Home Page**
+- Display news articles, trending stories, and category filters (e.g., politics, sports, technology).
+- User-friendly navigation with a fully responsive design for desktop and mobile.
+- Pagination and search functionality to browse news effectively.
 
-- Administrators can log in to post, edit, or delete news articles.
-- Role-based access to ensure only admins can modify content.
-**User and Admin Authentication (OAuth)**:
+### **2. Admin Panel**
+- Admins can log in to **add, edit, or delete** news articles.
+- Role-based access control ensures only authorized admins can modify content.
+- Dashboard with analytics to track popular articles.
 
-- Users and admins will sign in using OAuth (Google, Facebook, etc.).
-- Admins will have separate access permissions to manage content.
-**User Features**:
+### **3. User & Admin Authentication (OAuth)**
+- Users and admins will sign in using **OAuth (Google, Facebook, etc.)**.
+- Admins have higher privileges for content management.
+- JWT (JSON Web Tokens) will be used for session management.
 
-- Users can sign in to comment, like, and share news articles.
-- News articles can be shared via social media platforms.
+### **4. User Features**
+- Users can **like, comment, and share** news articles.
+- Articles can be **shared via social media** platforms.
+- Personalized news recommendations based on user preferences.
 
-## Target Technology Stack
+---
 
-### Front-End (Planned):
+## **Technology Stack**
 
-**React**:
+### **Frontend (React + Vite)**
+- **React.js**: Build dynamic and interactive UI.
+- **React Router**: Handle navigation between different pages.
+- **Styled-components / Tailwind CSS**: Modern styling approaches for UI.
+- **Redux Toolkit / Context API**: Manage global state efficiently.
+- **OAuth with React**: Use Google & Facebook login with libraries like `react-oauth/google`.
 
-- To build the user interface and implement dynamic features like news loading, filtering, and pagination.
-- React Router for navigation and page transitions.
-- Styled-components or CSS-in-JS for a modular design system.
-**React Context / Redux**:
+### **Backend (Spring Boot + Security)**
+- **Spring Boot**: Backend framework for handling API requests.
+- **Spring Security & OAuth**: Authentication and authorization.
+- **JWT (JSON Web Tokens)**: Secure API endpoints for users and admins.
+- **Spring Data JPA (Hibernate)**: ORM for managing database operations.
+- **MySQL/PostgreSQL**: Database for storing users, news articles, and comments.
 
-- To manage global state for authentication, news data, and user sessions.
-**OAuth with React**:
+### **API & Deployment**
+- **RESTful APIs**: Secure, scalable API endpoints for frontend interaction.
+- **Swagger/OpenAPI**: API documentation.
+- **Docker + Kubernetes**: Containerized deployment for scalability.
+- **Netlify (Frontend) & AWS/GCP (Backend)**: Hosting solutions.
 
-- Implement Google and Facebook OAuth sign-in using libraries like `react-oauth/google` or `react-facebook-login`.
+---
 
-### Back-End (Planned):
+## **Project Roadmap**
 
-**Node.js** with **Express.js**:- API development for managing news articles, user sessions, and admin actions.
-**Database**:
+### **Phase 1: Backend & Authentication Setup**
+- Set up Spring Boot project with security & OAuth authentication.
+- Implement JWT authentication for users & admin.
+- Define database schema for news, users, and comments.
 
-- MongoDB or MySQL for storing user credentials, news articles, and comments.
-**JWT (JSON Web Tokens)**:
+### **Phase 2: Core Features & API Development**
+- Develop REST APIs for fetching and managing news articles.
+- Implement pagination, filtering, and search features.
+- Configure the admin panel for managing news content.
 
-- For session management and securing API routes (admin/user access control).
-**Passport.js**:
+### **Phase 3: Frontend Integration (React)**
+- Build the React frontend using Vite.
+- Integrate API calls to fetch and display news.
+- Implement user authentication using OAuth providers.
 
-- To handle OAuth authentication for both users and admins.
+### **Phase 4: Enhancements & Performance Optimization**
+- Implement role-based access control (RBAC) for admins.
+- Add caching mechanisms to optimize performance.
+- Enable user commenting and live chat features.
 
-## Project Roadmap
+### **Phase 5: Final Testing & Deployment**
+- Perform end-to-end testing.
+- Deploy backend to **AWS/GCP** and frontend to **Netlify**.
+- Set up monitoring and analytics for performance tracking.
 
-### Phase 1: Initial Set-Up
+---
 
-Set up the basic file structure for the project.
-Install React, Node.js, and Express.js.
-Implement OAuth login for users and admin using Passport.js.
+## **Future Enhancements**
 
-### Phase 2: Core Features
+🔹 **Real-Time News Updates**: Enable live updates using WebSockets.  
+🔹 **Push Notifications**: Send alerts for breaking news.  
+🔹 **SEO Optimization**: Improve search ranking with structured metadata.  
+🔹 **AI-Powered Content Moderation**: Automatically detect and filter inappropriate comments.  
+🔹 **Multi-Language Support**: Allow users to read news in different languages.  
 
-Develop a React-based Home Page to display news articles.
-Implement a basic Admin Panel for posting news articles (accessible only to admins).
-Set up API endpoints using Node.js for posting and fetching news.
+---
 
-### Phase 3: OAuth Authentication
-
-Add OAuth login with Google and Facebook for users.
-Set up session handling and role-based access for the admin panel.
-
-### Phase 4: Enhancements
-
-Add user-specific features like commenting and sharing articles.
-Create a search functionality to allow users to find specific news articles.
-Implement filtering for news categories (e.g., sports, tech, etc.).
-
-##### Phase 5: Final Features & Optimizations
-
-Improve the responsiveness of the front-end for mobile users.
-Implement lazy loading for news articles for performance optimizaAdd analytics for user engagement (most-read articles, user activity, etc.).
-
-
-## Future Enhancements
-
-**Real-Time Comments**: Enable users to comment on news articles in real-time using WebSockets.
-
-**Push Notifications**: Implement push notifications for breaking news alerts.
-
-**SEO Optimization**: Improve SEO for better visibility and ranking on search engines.
-
-**Content Moderation**: Add a content approval workflow for admin moderators to approve user comments and posts.
-
-## License
+## **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Note: These are initial plan and mybe change according to free time avaliable to me.
+---
+
+📌 **Note:** This is an initial plan and may change based on available development time.
+
