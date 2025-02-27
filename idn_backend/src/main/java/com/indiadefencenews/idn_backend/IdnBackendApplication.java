@@ -8,6 +8,6 @@ public class IdnBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IdnBackendApplication.class, args);
-	}
 
+	}
 }
