@@ -39,7 +39,10 @@ export default function PostNews() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-lg shadow-md">
+    <>
+      <h1 className="text-center p-4 bg-gray-300">Just to test API</h1>
+    
+    <div className="max-w-md mx-auto p-4 border rounded-lg shadow">
       <h2 className="text-xl font-bold mb-4">Send POST Request</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -50,7 +53,16 @@ export default function PostNews() {
           placeholder="Enter title"
           className="w-full p-2 border rounded"
           required
-        />
+          />
+          <input
+            type="text"
+            name="imageURL"
+            value={formData.imageURL}
+            onChange={handleChange}
+            placeholder="Image Url"
+            className="w-full p-2 border rounded"
+            required
+          />
         <input
           type="text"
           name="content"
@@ -85,5 +97,6 @@ export default function PostNews() {
       {response && <p className="mt-4 text-green-500">Success: {JSON.stringify(response)}</p>}
       {error && <p className="mt-4 text-red-500">Error: {error}</p>}
     </div>
+    </>
   );
 }

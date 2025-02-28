@@ -33,7 +33,9 @@ public class News {
 
     private String author;
 
-    private String imageAddress;
+    private String imgURL;
+
+    private Long views;
 
     private LocalDateTime publishedAt = LocalDateTime.now();
 }
