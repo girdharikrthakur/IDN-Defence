@@ -54,36 +54,36 @@ const Blog = () => {
 
     return (
         <>
-            <div className="flex gap-[20px] flex-row flex-wrap w-full justify-center items-center bg-gray-700 p-4">
+            <div className="flex flex-wrap justify-center gap-4 w-full bg-gray-200 p-4">
+
                 {/* Latest News Section */}
                 {newsItem && (
-                    <div className="rounded-xl flex justify-center items-center flex-col bg-gray-100 text-red-600 h-[400px] max-w-[50%] min-w-[400px] p-4">
-                        <h1>Latest News</h1>
-                        <h1 className="text-black font-semibold text-3xl">{newsItem.title}</h1>
+                    <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 text-red-600 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
+                        <h1 className="text-xl md:text-2xl font-bold">Latest News</h1>
+                        <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{newsItem.title}</h1>
                         {newsItem.imgURL && (
-                            <img src={newsItem.imgURL} alt="image" className="w-96 h-60 mt-2 rounded" />
+                            <img src={newsItem.imgURL} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
-                        <p className="text-gray-700">{newsItem.content}</p>
+                        <p className="text-gray-700 text-center line-clamp-3">{newsItem.content}</p>
                         <p className="text-blue-600"><strong>Category:</strong> {newsItem.category}</p>
                         <p className="text-red-800"><strong>Author:</strong> {newsItem.author}</p>
                         <p><strong>Published At:</strong> {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleString() : "N/A"}</p>
-                        <Link to={`/news/${newsItem.id}`} onClick={() => handleReadMore(newsItem.id)}>
+                        <Link to={`/news/${newsItem.id}`} onClick={() => handleReadMore(newsItem.id)} className="text-blue-500 underline">
                             Read More
                         </Link>
                         <p><strong>Views:</strong> {newsItem.views ?? 0}</p>
-
                     </div>
                 )}
 
                 {/* Trending News Section */}
                 {maxViews && (
-                    <div className="rounded-xl flex justify-center items-center flex-col bg-gray-100 h-[400px] max-w-[50%] min-w-[400px] p-4">
-                        <h1 className="font-semibold text-2xl p-4">Trending News</h1>
+                    <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
+                        <h1 className="font-semibold text-xl md:text-2xl p-2">Trending News</h1>
                         {maxViews.imgURL && (
-                            <img src={maxViews.imgURL} alt="image" className="w-96 h-60 mt-2 rounded" />
+                            <img src={maxViews.imgURL} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
-                        <h1 className="text-black font-semibold text-3xl">{maxViews.title}</h1>
-                        <p className="text-gray-700">{maxViews.content}</p>
+                        <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{maxViews.title}</h1>
+                        <p className="text-gray-700 text-center line-clamp-3">{maxViews.content}</p>
                         <p className="text-blue-600"><strong>Category:</strong> {maxViews.category}</p>
                         <p className="text-red-800"><strong>Author:</strong> {maxViews.author}</p>
                         <p><strong>Published At:</strong> {maxViews.publishedAt ? new Date(maxViews.publishedAt).toLocaleString() : "N/A"}</p>
@@ -92,17 +92,33 @@ const Blog = () => {
                 )}
             </div>
 
-            <div className="bg-gray-700 min-h-screen p-6">
-                <h1 className="text-white font-bold text-3xl text-center mb-6">News Articles</h1>
+
+            <div className="bg-gray-200 min-h-screen p-6">
+                <h1 className="text-black font-bold text-3xl text-center mb-6">News Articles</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {news.map((item) => (
-                        <div key={item.id} className="bg-gray-100 p-4 shadow-md rounded-lg relative">
-                            <h2 className="text-xl font-semibold">{item.title}</h2>
-                            <img src={item.imgURL} alt="image" className="w-96 h-60 mt-2 rounded" />
-                            <p className="text-gray-700 mb-16">{item.content}</p> {/* Added bottom margin for spacing */}
+                        <div key={item.id} className="bg-gray-100 p-4 shadow-md rounded-lg relative h-[600px] flex flex-col">
 
-                            {/* Fixed info at the bottom */}
-                            <div className="absolute bottom-4 left-4 right-4 flex justify-between text-sm text-gray-600">
+                            {/* Title */}
+                            <h2 className="text-xl font-semibold line-clamp-2">{item.title}</h2>
+
+                            {/* Image with fallback */}
+                            <img
+                                src={item.imgurl}
+                                alt="news image"
+                                className="w-full h-60 mt-2 rounded object-cover"
+                            // onError={(e) => e.target.src = "/default-image.jpg"} // Fallback image
+                            />
+
+                            {/* Content with Read More */}
+                            <p className="text-gray-700 mt-2 line-clamp-7">{item.content}</p>
+
+                            {/* Read More Button */}
+                            <button className="text-blue-500 underline absolute bottom-20 left-4"
+                                onClick={() => handleReadMore(item.id)}>Read More</button>
+
+                            {/* Fixed Info at Bottom */}
+                            <div className="absolute bottom-4 left-4 right-4 flex flex-row gap-2 text-sm text-gray-600">
                                 <p className="text-blue-600"><strong>Category:</strong> {item.category}</p>
                                 <p className="text-red-800"><strong>Author:</strong> {item.author}</p>
                                 <p><strong>Published At:</strong> {new Date(item.publishedAt).toLocaleString()}</p>
@@ -110,9 +126,8 @@ const Blog = () => {
                         </div>
                     ))}
                 </div>
+            </div>
 
-
-            </div >
         </>
     );
 };
