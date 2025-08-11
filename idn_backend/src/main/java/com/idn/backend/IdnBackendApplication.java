@@ -1,4 +1,4 @@
-package com.indiadefencenews.idn_backend;
+package com.idn.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

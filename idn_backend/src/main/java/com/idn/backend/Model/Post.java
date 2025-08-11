@@ -1,4 +1,4 @@
-package com.indiadefencenews.idn_backend.Model;
+package com.idn.backend.Model;
 
 import java.time.LocalDateTime;
 
@@ -9,33 +9,37 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "news_articles")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class News {
+@Table(name = "POSTS")
+public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "POST_ID")
     private Long id;
 
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
-    private String category;
+    @Column(name = "IMG_URL")
+    private String imageUrl;
 
-    private String author;
+    @Column(name = "CREATED_DATE")
+    private LocalDateTime createdAt;
 
-    private String imgURL;
+    @Column(name = "UPDATED_DATE")
+    private LocalDateTime updatedAt;
 
-    private Long views;
+    @Column(name = "IS_PUBLISHED")
+    private boolean isPublished;
 
-    private LocalDateTime publishedAt = LocalDateTime.now();
 }
