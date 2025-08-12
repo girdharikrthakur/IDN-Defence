@@ -1,5 +1,6 @@
 package com.idn.backend.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,8 @@ import com.idn.backend.Services.GCSService;
 @RequestMapping("/media")
 public class MediaController {
 
-    private final GCSService gcsService;
-
-    public MediaController(GCSService gcsService) {
-        this.gcsService = gcsService;
-    }
+    @Autowired
+    private GCSService gcsService;
 
     @PostMapping(consumes = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<String> uploadJpeg(@RequestBody byte[] fileBytes) {

@@ -33,4 +33,6 @@ build/
 .vscode/
 
 application.properties
+googleCredentils.json
+application.yml
 
