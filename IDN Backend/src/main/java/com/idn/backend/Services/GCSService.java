@@ -32,7 +32,6 @@ public class GCSService {
     public String uploadFile(MultipartFile file) throws IOException {
         String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
 
-        // Use @Value bucketName instead of hardcoded
         BlobId blobId = BlobId.of(bucketName, fileName);
 
         String contentType = file.getContentType() != null ? file.getContentType() : "application/octet-stream";
@@ -40,7 +39,6 @@ public class GCSService {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();
         storage.create(blobInfo, file.getBytes());
 
-        // ✅ Return full URL, now using actual bucket name
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
 }

@@ -40,7 +40,6 @@ public class PostController {
             post.setPublishedAt(LocalDateTime.now());
             post.setUpdatedAt(LocalDateTime.now());
 
-            // Save to DB
             Post savedPost = postRepo.save(post);
 
             return ResponseEntity.ok(savedPost);

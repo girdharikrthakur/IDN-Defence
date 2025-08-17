@@ -9,6 +9,6 @@ spring:
 
 gcp:
   credentials:
-    path: src\main\java\com\idn\backend\Credentials\googleCredentils.json
+    path: IDN Backend\src\main\java\com\idn\backend\Credentials\googleCredentils.json
   bucket:
     name: blog-media-bucket
