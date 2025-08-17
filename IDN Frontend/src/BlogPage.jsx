@@ -7,6 +7,8 @@ const Blog = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const startTime = Date.now();
+
         fetch("http://localhost:8080/api/v1/posts")
             .then((response) => {
                 if (!response.ok) {
@@ -16,7 +18,13 @@ const Blog = () => {
             })
             .then((data) => {
                 setNews(data);
-                setLoading(false);
+
+                const elapsed = Date.now() - startTime;
+                const delay = Math.max(0, 1000 - elapsed);
+
+                setTimeout(() => {
+                    setLoading(false);
+                }, delay);
             })
             .catch((error) => {
                 setError(error.message);
@@ -25,7 +33,7 @@ const Blog = () => {
     }, []);
 
     const handleReadMore = async (id) => {
-        if (!id) return; 
+        if (!id) return;
         try {
             const response = await fetch(`http://localhost:8080/api/v1/posts/${id}/increment-views`, {
                 method: "PATCH",
@@ -46,16 +54,32 @@ const Blog = () => {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+    // Loader
+if (loading) {
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-white/70 backdrop-blur-sm">
+      <div
+        aria-label="Loading"
+        className="h-16 w-16 rounded-full border-4 border-gray-300 border-t-transparent animate-spin"
+      />
+      <p className="mt-4 text-base font-semibold text-gray-700">Loading News…</p>
+    </div>
+  );
+}
 
-    const newsItem = news.length > 0 ? news[0] : null; // Ensure there's at least one news item
-    const maxViews = news.length > 0 ? news.reduce((maxItem, item) => (item.views > maxItem.views ? item : maxItem), news[0]) : null;
+
+    if (error) return <p className="text-red-600 text-center mt-10">Error: {error}</p>;
+
+    const newsItem = news.length > 0 ? news[0] : null;
+    const maxViews =
+        news.length > 0
+            ? news.reduce((maxItem, item) =>
+                item.views > maxItem.views ? item : maxItem, news[0])
+            : null;
 
     return (
         <>
             <div className="flex flex-wrap justify-center gap-4 w-full bg-gray-200 p-4">
-
                 {/* Latest News Section */}
                 {newsItem && (
                     <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 text-red-600 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
@@ -92,32 +116,21 @@ const Blog = () => {
                 )}
             </div>
 
-
             <div className="bg-gray-200 min-h-screen p-6">
                 <h1 className="text-black font-bold text-3xl text-center mb-6">News Articles</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {news.map((item) => (
                         <div key={item.id} className="bg-gray-100 p-4 shadow-md rounded-lg relative h-[600px] flex flex-col">
-
-                            {/* Title */}
                             <h2 className="text-xl font-semibold line-clamp-2">{item.title}</h2>
-
-                            {/* Image with fallback */}
                             <img
                                 src={item.imgUrl}
                                 alt="news image"
                                 className="w-full h-60 mt-2 rounded object-cover"
-                            // onError={(e) => e.target.src = "/default-image.jpg"} // Fallback image
                             />
-
-                            {/* Content with Read More */}
                             <p className="text-gray-700 mt-2 line-clamp-7">{item.content}</p>
-
-                            {/* Read More Button */}
-                            <button className="text-blue-500 underline absolute bottom-20 left-4"
+                            <button
+                                className="text-blue-500 underline absolute bottom-20 left-4"
                                 onClick={() => handleReadMore(item.id)}>Read More</button>
-
-                            {/* Fixed Info at Bottom */}
                             <div className="absolute bottom-4 left-4 right-4 flex flex-row gap-2 text-sm text-gray-600">
                                 <p className="text-blue-600"><strong>Category:</strong> {item.category}</p>
                                 <p className="text-red-800"><strong>Author:</strong> {item.author}</p>
@@ -127,7 +140,6 @@ const Blog = () => {
                     ))}
                 </div>
             </div>
-
         </>
     );
 };
