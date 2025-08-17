@@ -21,25 +21,23 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
     private Long id;
 
-    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "CONTENT", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "IMG_URL")
-    private String imageUrl;
+    private String imgUrl;
 
-    @Column(name = "CREATED_DATE")
-    private LocalDateTime createdAt;
+    private String category;
 
-    @Column(name = "UPDATED_DATE")
+    private int views;
+
+    private LocalDateTime publishedAt;
+
     private LocalDateTime updatedAt;
 
-    @Column(name = "IS_PUBLISHED")
     private boolean isPublished;
 
 }

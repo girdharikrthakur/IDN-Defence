@@ -7,7 +7,6 @@ spring:
   application:
     name: backdend
 
-
 gcp:
   credentials:
     path: src\main\java\com\idn\backend\Credentials\googleCredentils.json

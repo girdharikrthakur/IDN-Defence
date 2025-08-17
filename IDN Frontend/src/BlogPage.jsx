@@ -7,7 +7,7 @@ const Blog = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/news")
+        fetch("http://localhost:8080/api/v1/posts")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
@@ -25,9 +25,9 @@ const Blog = () => {
     }, []);
 
     const handleReadMore = async (id) => {
-        if (!id) return; // Prevent errors if id is undefined
+        if (!id) return; 
         try {
-            const response = await fetch(`http://localhost:8080/api/news/${id}/increment-views`, {
+            const response = await fetch(`http://localhost:8080/api/v1/posts/${id}/increment-views`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" }
             });
@@ -61,8 +61,8 @@ const Blog = () => {
                     <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 text-red-600 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
                         <h1 className="text-xl md:text-2xl font-bold">Latest News</h1>
                         <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{newsItem.title}</h1>
-                        {newsItem.imgURL && (
-                            <img src={newsItem.imgURL} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
+                        {newsItem.imgUrl && (
+                            <img src={newsItem.imgUrl} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
                         <p className="text-gray-700 text-center line-clamp-3">{newsItem.content}</p>
                         <p className="text-blue-600"><strong>Category:</strong> {newsItem.category}</p>
@@ -79,8 +79,8 @@ const Blog = () => {
                 {maxViews && (
                     <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
                         <h1 className="font-semibold text-xl md:text-2xl p-2">Trending News</h1>
-                        {maxViews.imgURL && (
-                            <img src={maxViews.imgURL} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
+                        {maxViews.imgUrl && (
+                            <img src={maxViews.imgUrl} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
                         <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{maxViews.title}</h1>
                         <p className="text-gray-700 text-center line-clamp-3">{maxViews.content}</p>
@@ -104,7 +104,7 @@ const Blog = () => {
 
                             {/* Image with fallback */}
                             <img
-                                src={item.imgurl}
+                                src={item.imgUrl}
                                 alt="news image"
                                 className="w-full h-60 mt-2 rounded object-cover"
                             // onError={(e) => e.target.src = "/default-image.jpg"} // Fallback image

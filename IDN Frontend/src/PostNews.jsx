@@ -21,7 +21,7 @@ export default function PostNews() {
     setResponse(null);
 
     try {
-      const res = await fetch("http://localhost:8080/api/news", {
+      const res = await fetch("http://localhost:8080/api/v1/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

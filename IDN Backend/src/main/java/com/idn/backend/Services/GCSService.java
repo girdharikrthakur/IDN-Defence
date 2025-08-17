@@ -26,27 +26,21 @@ public class GCSService {
         BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         storage.create(blobInfo, data);
-        return fileName;
+        return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
 
-    public String uploadFile(MultipartFile file) {
-        try {
-            String fileName = file.getOriginalFilename();
-            if (fileName == null || fileName.isEmpty()) {
-                throw new IllegalArgumentException("File name cannot be null or empty");
-            }
+    public String uploadFile(MultipartFile file) throws IOException {
+        String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
 
-            BlobId blobId = BlobId.of(bucketName, fileName);
-            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                    .setContentType(file.getContentType())
-                    .build();
+        // Use @Value bucketName instead of hardcoded
+        BlobId blobId = BlobId.of(bucketName, fileName);
 
-            storage.create(blobInfo, file.getBytes());
-            return fileName;
+        String contentType = file.getContentType() != null ? file.getContentType() : "application/octet-stream";
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error uploading file to GCS", e);
-        }
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();
+        storage.create(blobInfo, file.getBytes());
+
+        // ✅ Return full URL, now using actual bucket name
+        return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
-
 }

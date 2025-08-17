@@ -1,6 +1,7 @@
 package com.idn.backend.Controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,8 @@ import com.idn.backend.Repo.PostRepo;
 import com.idn.backend.Services.GCSService;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/v1/posts")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PostController {
 
     @Autowired
@@ -26,19 +28,16 @@ public class PostController {
     public ResponseEntity<Post> createPost(
             @RequestParam() String title,
             @RequestParam() String content,
-
             @RequestParam() MultipartFile file) {
 
         try {
-            // Upload image to GCP
             String imageUrl = gcsService.uploadFile(file);
 
-            // Create post entity
             Post post = new Post();
             post.setTitle(title);
             post.setContent(content);
-            post.setImageUrl(imageUrl);
-            post.setCreatedAt(LocalDateTime.now());
+            post.setImgUrl(imageUrl);
+            post.setPublishedAt(LocalDateTime.now());
             post.setUpdatedAt(LocalDateTime.now());
 
             // Save to DB
@@ -49,4 +48,12 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping()
+    public ResponseEntity<List<Post>> getAllPosts() {
+
+        List<Post> posts = postRepo.findAll();
+        return ResponseEntity.ok(posts);
+    }
+
 }
