@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function PostNews() {
   const [formData, setFormData] = useState({
     title: "",
-    image: "",
+    image: null, // file object
     content: "",
     category: "",
     author: ""
@@ -12,7 +12,12 @@ export default function PostNews() {
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "file") {
+      setFormData({ ...formData, image: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -21,12 +26,18 @@ export default function PostNews() {
     setResponse(null);
 
     try {
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("content", formData.content);
+      data.append("category", formData.category);
+      data.append("author", formData.author);
+      if (formData.image) {
+        data.append("file", formData.image);
+      }
+
       const res = await fetch("http://localhost:8080/api/v1/posts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data, // don't set Content-Type manually, browser will handle it
       });
 
       const result = await res.json();
@@ -55,22 +66,15 @@ export default function PostNews() {
             className="w-full p-2 border rounded"
             required
           />
-          <input
-            type="text"
-            name="imageURL"
-            placeholder="Image Url"
-            className="w-full p-2 border rounded"
-            required
-          />
 
           <input
             type="file"
-            name="image"
-            value={formData.imageURL}
+            name="file"
             onChange={handleChange}
             accept="image/*"
             className="w-full p-2 border rounded bg-gray-100"
           />
+
 
           <textarea
             name="content"
@@ -78,9 +82,9 @@ export default function PostNews() {
             value={formData.content}
             onChange={handleChange}
             className="w-full p-2 border rounded"
-            required>
+            required
+          ></textarea>
 
-          </textarea>
           <input
             type="text"
             name="category"
@@ -90,6 +94,7 @@ export default function PostNews() {
             className="w-full p-2 border rounded"
             required
           />
+
           <input
             type="text"
             name="author"
@@ -99,11 +104,20 @@ export default function PostNews() {
             className="w-full p-2 border rounded"
             required
           />
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
             Submit
           </button>
         </form>
-        {response && <p className="mt-4 text-green-500">Success: {JSON.stringify(response)}</p>}
+
+        {response && (
+          <p className="mt-4 text-green-500">
+            Success: {JSON.stringify(response)}
+          </p>
+        )}
         {error && <p className="mt-4 text-red-500">Error: {error}</p>}
       </div>
     </>
