@@ -19,13 +19,19 @@ public class UserAuth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AUTH_ID")
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "USER_NAME")
+    @Column(nullable = false)
     private String userName;
 
-    @Column(name = "PASSWORD")
-    private String passweord;
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String pwd;
+
+    @Column(nullable = false)
+    private String role;
 
 }

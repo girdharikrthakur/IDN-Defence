@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,11 +24,12 @@ public class GCSConfig {
     public Storage storage() throws IOException {
         InputStream credentialsStream;
 
+        // Handle both classpath and filesystem paths
         if (credentialsPath.startsWith("classpath:")) {
             String resourcePath = credentialsPath.replace("classpath:", "");
             credentialsStream = getClass().getResourceAsStream("/" + resourcePath);
         } else {
-            credentialsStream = new java.io.FileInputStream(credentialsPath);
+            credentialsStream = new FileInputStream(credentialsPath);
         }
 
         if (credentialsStream == null) {
@@ -39,5 +41,9 @@ public class GCSConfig {
                 .setCredentials(credentials)
                 .build()
                 .getService();
+    }
+
+    public String getBucketName() {
+        return bucketName;
     }
 }
