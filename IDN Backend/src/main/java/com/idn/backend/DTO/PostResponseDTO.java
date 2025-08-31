@@ -1,6 +1,5 @@
 package com.idn.backend.DTO;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -30,8 +29,4 @@ public class PostResponseDTO {
 
     private boolean isPublished;
 
-=======
-public class PostResponseDTO {
-    
->>>>>>> 4b67cafe63b444f2d2e9ac432da94992e59320f0
 }

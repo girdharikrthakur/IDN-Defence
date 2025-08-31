@@ -1,6 +1,5 @@
 package com.idn.backend.Services;
 
-<<<<<<< HEAD
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +29,4 @@ public class UserService {
 
     }
 
-=======
-import org.springframework.stereotype.Service;
-
-@Service
-public class UserService {
-
->>>>>>> 4b67cafe63b444f2d2e9ac432da94992e59320f0
 }

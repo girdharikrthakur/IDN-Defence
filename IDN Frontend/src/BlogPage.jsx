@@ -9,7 +9,7 @@ const Blog = () => {
     useEffect(() => {
         const startTime = Date.now();
 
-        fetch("http://localhost:8080/api/v1/posts")
+        fetch("http://localhost:8080/public/api/v1/posts")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
@@ -35,7 +35,7 @@ const Blog = () => {
     const handleReadMore = async (id) => {
         if (!id) return;
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/posts/${id}/increment-views`, {
+            const response = await fetch(`http://localhost:8080/public/api/v1/posts/${id}/increment-views`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" }
             });

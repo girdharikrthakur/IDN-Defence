@@ -35,7 +35,7 @@ export default function PostNews() {
         data.append("file", formData.image);
       }
 
-      const res = await fetch("http://localhost:8080/api/v1/posts", {
+      const res = await fetch("http://localhost:8080/public/api/v1/posts", {
         method: "POST",
         body: data, // don't set Content-Type manually, browser will handle it
       });

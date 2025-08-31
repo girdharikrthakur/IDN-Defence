@@ -1,56 +1,53 @@
 package com.idn.backend.Services;
 
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-
-=======
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.idn.backend.Model.Draft;
->>>>>>> 4b67cafe63b444f2d2e9ac432da94992e59320f0
+import com.idn.backend.Model.Category;
 import com.idn.backend.Model.Post;
 import com.idn.backend.Repo.PostRepo;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class PostService {
 
-<<<<<<< HEAD
     private final PostRepo postRepository;
-
-    public PostService(PostRepo postRepository) {
-        this.postRepository = postRepository;
-    }
-=======
-    @Autowired
-    private PostRepo postRepository;
->>>>>>> 4b67cafe63b444f2d2e9ac432da94992e59320f0
+    private final GCSService gcsService;
 
     public Post save(Post post) {
         return postRepository.save(post);
     }
-<<<<<<< HEAD
-=======
 
-    public List<Post> getAllPost() {
-        return postRepository.findAll();
+    public Post savePost(String title, String content, Category category, MultipartFile file) throws IOException {
+
+        String imageUrl = gcsService.uploadFile(file);
+
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setCategory(category);
+        post.setImgUrl(imageUrl);
+        post.setPublishedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
+        post.setPublished(true);
+        Post savedPost = postRepository.save(post);
+        return (savedPost);
+
     }
 
-    public List<Post> getPost(int id) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getPost'");
+    public List<Post> findAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return (posts);
     }
 
-    public Post savePost(Post post) {
-                Draft draft = new Draft();
-                draft.setTitle(title);
-                draft.setContent(content);
-                draft.setImageUrl(imageUrl);
-                draft.setCreatedAt(LocalDateTime.now());
-                draft.setUpdatedAt(LocalDateTime.now());
+    public Post findAllPostsById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id " + id));
     }
->>>>>>> 4b67cafe63b444f2d2e9ac432da94992e59320f0
+
 }
