@@ -35,4 +35,6 @@ build/
 application.properties
 googleCredentils.json
 application.yml
+# Ignore credentials
+src/main/resources/credentials/*.json
 
