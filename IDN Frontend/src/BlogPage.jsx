@@ -79,18 +79,18 @@ if (loading) {
 
     return (
         <>
-            <div className="flex flex-wrap justify-center gap-4 w-full bg-gray-200 p-4">
+            <div className="flex flex-wrap justify-center gap-4 w-full p-4">
                 {/* Latest News Section */}
                 {newsItem && (
-                    <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 text-red-600 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
+                    <div className=" flex flex-col justify-center items-center text-red-600 h-auto md:h-[400px] w-full md:w-[45%] p-4 m-8">
                         <h1 className="text-xl md:text-2xl font-bold">Latest News</h1>
                         <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{newsItem.title}</h1>
                         {newsItem.imgUrl && (
                             <img src={newsItem.imgUrl} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
                         <p className="text-gray-700 text-center line-clamp-3">{newsItem.content}</p>
-                        <p className="text-blue-600"><strong>Category:</strong> {newsItem.category}</p>
-                        <p className="text-red-800"><strong>Author:</strong> {newsItem.author}</p>
+                        <p className="text-blue-600"><strong>Category:</strong> {newsItem.categoryName}</p>
+                        <p className="text-red-800"><strong>Author:</strong> {newsItem.authorName}</p>
                         <p><strong>Published At:</strong> {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleString() : "N/A"}</p>
                         <Link to={`/news/${newsItem.id}`} onClick={() => handleReadMore(newsItem.id)} className="text-blue-500 underline">
                             Read More
@@ -101,15 +101,15 @@ if (loading) {
 
                 {/* Trending News Section */}
                 {maxViews && (
-                    <div className="rounded-xl flex flex-col justify-center items-center bg-gray-100 h-auto md:h-[400px] w-full md:w-[45%] p-4 shadow-lg">
+                    <div className="flex flex-col justify-center items-center  h-auto md:h-[400px] w-full md:w-[45%] p-4 m-8">
                         <h1 className="font-semibold text-xl md:text-2xl p-2">Trending News</h1>
                         {maxViews.imgUrl && (
                             <img src={maxViews.imgUrl} alt="image" className="w-full max-w-[300px] md:max-w-[400px] h-48 md:h-60 mt-2 rounded" />
                         )}
                         <h1 className="text-black font-semibold text-lg md:text-3xl text-center">{maxViews.title}</h1>
-                        <p className="text-gray-700 text-center line-clamp-3">{maxViews.content}</p>
-                        <p className="text-blue-600"><strong>Category:</strong> {maxViews.category}</p>
-                        <p className="text-red-800"><strong>Author:</strong> {maxViews.author}</p>
+                        <p className="text-sm text-gray-800 text-center line-clamp-3">{maxViews.content}</p>
+                        <p className="text-gray-800 text-sm"><strong>Category:</strong> {maxViews.category}</p>
+                        <p className="text-gray-800 text-sm "><strong>Author:</strong> {maxViews.authorName}</p>
                         <p><strong>Published At:</strong> {maxViews.publishedAt ? new Date(maxViews.publishedAt).toLocaleString() : "N/A"}</p>
                         <p><strong>Views:</strong> {maxViews.views ?? 0}</p>
                     </div>
@@ -121,7 +121,7 @@ if (loading) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {news.map((item) => (
                         <div key={item.id} className="bg-gray-100 p-4 shadow-md rounded-lg relative h-[600px] flex flex-col">
-                            <h2 className="text-xl font-semibold line-clamp-2">{item.title}</h2>
+                            <h2 className="text-xl font-semibold line-clamp-2 text-center">{item.title}</h2>
                             <img
                                 src={item.imgUrl}
                                 alt="news image"
@@ -132,9 +132,9 @@ if (loading) {
                                 className="text-blue-500 underline absolute bottom-20 left-4"
                                 onClick={() => handleReadMore(item.id)}>Read More</button>
                             <div className="absolute bottom-4 left-4 right-4 flex flex-row gap-2 text-sm text-gray-600">
-                                <p className="text-blue-600"><strong>Category:</strong> {item.category}</p>
-                                <p className="text-red-800"><strong>Author:</strong> {item.author}</p>
-                                <p><strong>Published At:</strong> {new Date(item.publishedAt).toLocaleString()}</p>
+                                <p className="text-blue-600 text-xs"><strong>Category:</strong> {item.categoryName}</p>
+                                <p className="text-red-800 text-xs"><strong>Author:</strong> {item.authorName}</p>
+                                <p className="text-xs"><strong>Published At:</strong> {new Date(item.publishedAt).toLocaleString()}</p>
                             </div>
                         </div>
                     ))}

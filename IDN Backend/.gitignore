@@ -36,6 +36,6 @@ application.properties
 googleCredentils.json
 application.yml
 # Ignore credentials
-/IDN Backend/src/main/resources/credentials/googleCredentils.json
+.googleCredentils.json
 
 .gitignore

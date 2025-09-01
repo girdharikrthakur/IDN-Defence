@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.idn.backend.DTO.PostResponseDTO;
 import com.idn.backend.Model.Category;
 import com.idn.backend.Model.Post;
 
@@ -40,9 +41,9 @@ public class PostController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Post>> getAllPosts() {
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
 
-        List<Post> posts = postService.findAllPosts();
+        List<PostResponseDTO> posts = postService.findAllPosts();
         return ResponseEntity.ok(posts);
     }
 

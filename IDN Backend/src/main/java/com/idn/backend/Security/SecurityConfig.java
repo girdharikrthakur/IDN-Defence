@@ -1,4 +1,4 @@
-package com.idn.backend.Config;
+package com.idn.backend.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/public/api/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/public/api/v1/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/public/api/v1/**").authenticated()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());

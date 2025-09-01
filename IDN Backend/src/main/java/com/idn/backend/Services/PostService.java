@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.idn.backend.DTO.PostResponseDTO;
+import com.idn.backend.Mapper.PostMapper;
 import com.idn.backend.Model.Category;
 import com.idn.backend.Model.Post;
 import com.idn.backend.Repo.PostRepo;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class PostService {
 
     private final PostRepo postRepository;
+    private final PostMapper postMapper;
     private final GCSService gcsService;
 
     public Post save(Post post) {
@@ -40,9 +43,9 @@ public class PostService {
 
     }
 
-    public List<Post> findAllPosts() {
+    public List<PostResponseDTO> findAllPosts() {
         List<Post> posts = postRepository.findAll();
-        return (posts);
+        return postMapper.toResponseDTOs(posts);
     }
 
     public Post findAllPostsById(Long id) {
