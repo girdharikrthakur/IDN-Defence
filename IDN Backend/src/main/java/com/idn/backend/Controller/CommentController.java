@@ -1,8 +1,5 @@
 package com.idn.backend.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.idn.backend.DTO.CommentRequestDTO;
 import com.idn.backend.DTO.CommentResponseDTO;
 import com.idn.backend.Services.CommentsService;
@@ -56,6 +53,12 @@ public class CommentController {
 
         return ResponseEntity.ok(updatedCommnet);
 
+    }
+
+    @GetMapping("/{id}/replies")
+    public ResponseEntity<List<CommentResponseDTO>> getReplies(@PathVariable Long id) {
+        List<CommentResponseDTO> replies = commentsService.getReplies(id);
+        return ResponseEntity.ok(replies);
     }
 
 }

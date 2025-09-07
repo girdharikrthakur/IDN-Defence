@@ -68,4 +68,16 @@ public class CommentsService {
 
     }
 
+    public List<CommentResponseDTO> getReplies(Long parentId) {
+
+        Comment parent = commentRepo.findById(parentId)
+                .orElseThrow(() -> new RuntimeException("reply not found with parentId: " + parentId));
+
+        return parent.getReplies()
+                .stream()
+                .map(commentMapper::toResponseDto)
+                .toList();
+
+    }
+
 }

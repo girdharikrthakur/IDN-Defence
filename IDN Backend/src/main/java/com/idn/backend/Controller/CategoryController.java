@@ -3,10 +3,12 @@ package com.idn.backend.Controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.DTO.CategoryRequestDTO;
@@ -33,5 +35,11 @@ public class CategoryController {
     public ResponseEntity<CategoryResponseDTO> saveCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {
         CategoryResponseDTO savedCategory = categoryService.saveCatgeory(categoryRequestDTO);
         return ResponseEntity.ok(savedCategory);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<CategoryResponseDTO> deleteCategory(@RequestParam Long id) {
+        CategoryResponseDTO response = categoryService.deleteCategory(id);
+        return ResponseEntity.ok(response);
     }
 }

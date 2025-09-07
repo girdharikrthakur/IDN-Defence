@@ -20,21 +20,31 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepo categoryRepo;
 
+    public CategoryResponseDTO saveCatgeory(CategoryRequestDTO categoryRequestDTO) {
+
+        Optional<Category> existingCategory = categoryRepo.findByName(categoryRequestDTO.getName());
+        if (existingCategory.isPresent()) {
+            throw new RuntimeException("Category Already Exist");
+        }
+
+        Category category = categoryMapper.toEntity(categoryRequestDTO);
+        Category savedCategory = categoryRepo.save(category);
+        return categoryMapper.toResponseDTO(savedCategory);
+    }
+
     public List<CategoryResponseDTO> findAllCategory() {
 
         List<Category> category = categoryRepo.findAll();
         return categoryMapper.toResponseDTO(category);
     }
 
-    public CategoryResponseDTO saveCatgeory(CategoryRequestDTO categoryRequestDTO) {
+    public CategoryResponseDTO deleteCategory(Long id) {
 
-        Optional<Category> existingCategory = categoryRepo.findByName(categoryRequestDTO.getName());
-        if (existingCategory.isPresent()) {
-            return categoryMapper.toResponseDTO(existingCategory.get());
-        }
-        Category category = categoryMapper.toEntity(categoryRequestDTO);
-        Category savedCategory = categoryRepo.save(category);
-        return categoryMapper.toResponseDTO(savedCategory);
+        Category category = categoryRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Catehgory not found by id : " + id));
+        categoryRepo.deleteById(id);
+        return categoryMapper.toResponseDTO(category);
+
     }
 
 }

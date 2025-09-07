@@ -35,10 +35,17 @@ public class UserAccount {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
+    @Enumerated
     @Column(name = "USER_ROLE")
     private Role role;
 
     @Column(name = "IS_ACTIVE")
     private boolean isActive;
+
+    public enum Role {
+        ADMIN,
+        AUTHOR,
+        READER
+    }
 
 }
