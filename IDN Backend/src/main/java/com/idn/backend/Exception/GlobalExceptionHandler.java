@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleUserExists(UserAlreadyExistsException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("message", ex.getMessage());
-        error.put("error code", "20000");
+        error.put("error code", "201");
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }

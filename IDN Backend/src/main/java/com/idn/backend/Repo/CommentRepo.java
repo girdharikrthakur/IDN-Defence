@@ -2,8 +2,8 @@ package com.idn.backend.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.idn.backend.Model.Comments;
+import com.idn.backend.Model.Comment;
 
-public interface CommentRepo extends JpaRepository<Comments, Long> {
+public interface CommentRepo extends JpaRepository<Comment, Long> {
 
 }

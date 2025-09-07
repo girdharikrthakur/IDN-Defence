@@ -1,5 +1,9 @@
 package com.idn.backend.Model;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +11,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
 @Table(name = "USERS")
 public class UserAccount {
 
@@ -26,6 +31,9 @@ public class UserAccount {
 
     @Column(name = "PHONE_NO")
     private Long phoneno;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 
     @Column(name = "USER_ROLE")
     private Role role;
