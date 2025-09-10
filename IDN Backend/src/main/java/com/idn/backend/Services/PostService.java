@@ -53,4 +53,11 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("Post not found with id " + id));
     }
 
+    public List<PostResponseDTO> search(String keyword) {
+
+        List<Post> qureyPosts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,
+                keyword);
+        return postMapper.toResponseDTOs(qureyPosts);
+    }
+
 }
