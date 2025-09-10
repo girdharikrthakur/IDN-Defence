@@ -3,6 +3,10 @@ package com.idn.backend.Services;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,11 +47,6 @@ public class PostService {
 
     }
 
-    public List<PostResponseDTO> findAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return postMapper.toResponseDTOs(posts);
-    }
-
     public Post findAllPostsById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found with id " + id));
@@ -58,6 +57,14 @@ public class PostService {
         List<Post> qureyPosts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,
                 keyword);
         return postMapper.toResponseDTOs(qureyPosts);
+    }
+
+    public Page<PostResponseDTO> getAllPost(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("publishedAt").descending());
+
+        Page<Post> posts = postRepository.findAll(pageRequest);
+        return posts.map(postMapper::toResponseDTO);
+
     }
 
 }

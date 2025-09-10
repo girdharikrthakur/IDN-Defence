@@ -15,5 +15,5 @@ public interface PostMapper {
     @Mapping(source = "author.name", target = "authorName")
     PostResponseDTO toResponseDTO(Post post);
 
-    List<PostResponseDTO> toResponseDTOs(List<Post> posts);
+    List<PostResponseDTO> toResponseDTOs(List<Post> qureyPosts);
 }
