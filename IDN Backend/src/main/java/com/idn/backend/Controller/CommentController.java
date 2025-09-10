@@ -34,19 +34,19 @@ public class CommentController {
     }
 
     @GetMapping("/id")
-    public ResponseEntity<CommentResponseDTO> getComments(@RequestParam Long id) {
+    public ResponseEntity<CommentResponseDTO> getComments(@PathVariable Long id) {
         CommentResponseDTO reponse = commentsService.getCommentsById(id);
         return ResponseEntity.ok(reponse);
     }
 
     @DeleteMapping
-    public ResponseEntity<CommentResponseDTO> deleteComment(@RequestParam Long id) {
+    public ResponseEntity<CommentResponseDTO> deleteComment(@PathVariable Long id) {
         CommentResponseDTO deletedComment = commentsService.deleteComment(id);
         return ResponseEntity.ok(deletedComment);
     }
 
     @PutMapping
-    public ResponseEntity<CommentResponseDTO> updatedComment(@RequestParam Long id, CommentRequestDTO comment,
+    public ResponseEntity<CommentResponseDTO> updatedComment(@PathVariable Long id, CommentRequestDTO comment,
             Principal principal) {
 
         CommentResponseDTO updatedCommnet = commentsService.editComment(id, comment, principal);

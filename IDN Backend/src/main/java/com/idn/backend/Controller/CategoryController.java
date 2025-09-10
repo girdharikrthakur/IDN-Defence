@@ -3,13 +3,7 @@ package com.idn.backend.Controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.idn.backend.DTO.CategoryRequestDTO;
 import com.idn.backend.DTO.CategoryResponseDTO;
@@ -38,7 +32,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public ResponseEntity<CategoryResponseDTO> deleteCategory(@RequestParam Long id) {
+    public ResponseEntity<CategoryResponseDTO> deleteCategory(@PathVariable Long id) {
         CategoryResponseDTO response = categoryService.deleteCategory(id);
         return ResponseEntity.ok(response);
     }

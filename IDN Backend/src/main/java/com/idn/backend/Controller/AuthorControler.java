@@ -34,21 +34,21 @@ public class AuthorControler {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AuthorDTO> getAuthorById(@RequestParam Long id) {
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable Long id) {
 
         AuthorDTO author = authorService.getAuthorById(id);
         return ResponseEntity.ok(author);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<AuthorDTO> deleteAuthorById(@RequestParam Long id) {
+    public ResponseEntity<AuthorDTO> deleteAuthorById(@PathVariable Long id) {
 
         AuthorDTO author = authorService.deleteAuthorById(id);
         return ResponseEntity.ok(author);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AuthorDTO> editAuthor(@RequestParam Long id, @RequestBody AuthorDTO dto) {
+    public ResponseEntity<AuthorDTO> editAuthor(@PathVariable Long id, @RequestBody AuthorDTO dto) {
 
         AuthorDTO authorToEdit = authorService.editAuthor(id, dto);
 
