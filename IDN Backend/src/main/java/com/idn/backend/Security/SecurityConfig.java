@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/public/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/public/api/v1/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/public/api/v1/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/private/api/v1/**").authenticated()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 

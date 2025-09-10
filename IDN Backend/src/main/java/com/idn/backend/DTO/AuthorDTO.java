@@ -1,5 +1,9 @@
 package com.idn.backend.DTO;
 
+import java.util.List;
+
+import com.idn.backend.Model.Post;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class AuthorDTO {
     private Long id;
     private String name;
-    private String email; // or other required fields
+    private String email;
+    private List<Post> posts;
 }

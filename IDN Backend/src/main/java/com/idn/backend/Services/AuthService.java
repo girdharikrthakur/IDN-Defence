@@ -1,5 +1,8 @@
 package com.idn.backend.Services;
 
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.idn.backend.DTO.AuthResposneDTO;
@@ -16,23 +19,29 @@ public class AuthService {
 
     private final AuthRepo authRepo;
     private final AuthMapper authMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthResposneDTO userSignUp(
             String username,
             String email,
             String password) {
 
-        if (authRepo.findByEmail().isPresent() | authRepo.findByUsername().isPresent()) {
+        Optional<UserAuth> fetchedUserByEmail = authRepo.findByEmail(email);
+        Optional<UserAuth> fetchedUserByUsername = authRepo.findByUserName(username);
+
+        if (fetchedUserByEmail.isPresent() | fetchedUserByUsername.isPresent()) {
 
             throw new UserAlreadyExistsException(
                     username + "User already Exist , Try Signing in with " + email + "or " + username);
         }
+
         UserAuth user = new UserAuth();
         user.setUserName(username);
         user.setEmail(email);
-        user.setPwd(password);
+        user.setPwd(passwordEncoder.encode(password));
+        UserAuth savedUser = authRepo.save(user);
 
-        return authMapper.toAuthResponse(user);
+        return authMapper.toAuthResponse(savedUser);
 
     }
 

@@ -56,7 +56,6 @@ public class CommentsService {
 
         if (!comment.getUser().getUsername().equals(principal.getName())) {
             throw new RuntimeException("You are not allowed to edit this comment!");
-
         }
 
         comment.setContent(dto.getContent());

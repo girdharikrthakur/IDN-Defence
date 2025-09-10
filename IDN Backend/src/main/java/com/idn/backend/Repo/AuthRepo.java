@@ -8,8 +8,8 @@ import com.idn.backend.Model.UserAuth;
 
 public interface AuthRepo extends JpaRepository<UserAuth, Long> {
 
-    Optional<UserAuth> findByEmail();
+    Optional<UserAuth> findByEmail(String email);
 
-    Optional<UserAuth> findByUsername();
+    Optional<UserAuth> findByUserName(String userName);
 
 }

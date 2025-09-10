@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 import com.idn.backend.DTO.AuthResposneDTO;
 import com.idn.backend.Model.UserAuth;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AuthMapper {
 
     @Mapping(target = "id", ignore = true)

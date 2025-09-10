@@ -1,10 +1,7 @@
 package com.idn.backend.Services;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,13 +25,6 @@ public class GCSService {
         this.storage = storage;
     }
 
-    public String uploadFileBytes(byte[] data, String fileName) throws IOException {
-        BlobId blobId = BlobId.of(bucketName, fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-        storage.create(blobInfo, data);
-        return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
-    }
-
     public String uploadFile(MultipartFile file) throws IOException {
         String originalFileName = file.getOriginalFilename();
         String extension = "";
@@ -42,7 +32,7 @@ public class GCSService {
         if (originalFileName != null && originalFileName.contains(".")) {
             extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
         } else {
-            extension = "jpg"; 
+            extension = "jpg";
         }
 
         String fileName = System.currentTimeMillis() + "-" + originalFileName;
@@ -50,13 +40,12 @@ public class GCSService {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Thumbnails.of(file.getInputStream())
                 .size(800, 800)
-                .outputQuality(0.7) 
-                .outputFormat(extension) 
+                .outputQuality(0.7)
+                .outputFormat(extension)
                 .toOutputStream(outputStream);
 
         byte[] compressedBytes = outputStream.toByteArray();
 
-        // Upload to GCS
         BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                 .setContentType(file.getContentType())
@@ -66,5 +55,5 @@ public class GCSService {
 
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
-    
+
 }

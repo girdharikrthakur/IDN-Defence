@@ -9,6 +9,6 @@ public class CommentRequestDTO {
 
     private Long postId;
 
-    private Long parentCommentId;
+    private Long userId;
 
 }
