@@ -52,4 +52,16 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> editPost(
+            @PathVariable Long id,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) Long categoryid,
+            @RequestParam(required = false) MultipartFile file) throws IOException {
+
+        PostResponseDTO editedPost = postService.editPost(id, title, content, categoryid, file);
+        return ResponseEntity.ok(editedPost);
+
+    }
 }

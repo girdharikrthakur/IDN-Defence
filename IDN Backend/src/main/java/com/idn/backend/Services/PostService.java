@@ -14,6 +14,7 @@ import com.idn.backend.DTO.PostResponseDTO;
 import com.idn.backend.Mapper.PostMapper;
 import com.idn.backend.Model.Category;
 import com.idn.backend.Model.Post;
+import com.idn.backend.Repo.CategoryRepo;
 import com.idn.backend.Repo.PostRepo;
 
 import lombok.AllArgsConstructor;
@@ -22,12 +23,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PostService {
 
-    private final PostRepo postRepository;
+    private final PostRepo postRepo;
     private final PostMapper postMapper;
     private final GCSService gcsService;
+    private final CategoryRepo categoryRepo;
 
     public Post save(Post post) {
-        return postRepository.save(post);
+        return postRepo.save(post);
     }
 
     public Post savePost(String title, String content, Category category, MultipartFile file) throws IOException {
@@ -42,19 +44,19 @@ public class PostService {
         post.setPublishedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
         post.setPublished(true);
-        Post savedPost = postRepository.save(post);
+        Post savedPost = postRepo.save(post);
         return (savedPost);
 
     }
 
     public Post findAllPostsById(Long id) {
-        return postRepository.findById(id)
+        return postRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found with id " + id));
     }
 
     public List<PostResponseDTO> search(String keyword) {
 
-        List<Post> qureyPosts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,
+        List<Post> qureyPosts = postRepo.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,
                 keyword);
         return postMapper.toResponseDTOs(qureyPosts);
     }
@@ -62,8 +64,39 @@ public class PostService {
     public Page<PostResponseDTO> getAllPost(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("publishedAt").descending());
 
-        Page<Post> posts = postRepository.findAll(pageRequest);
+        Page<Post> posts = postRepo.findAll(pageRequest);
         return posts.map(postMapper::toResponseDTO);
+
+    }
+
+    public PostResponseDTO editPost(Long id, String title, String content, Long categoryid, MultipartFile file)
+            throws IOException {
+
+        Post post = postRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+
+        if (title != null) {
+            post.setTitle(title);
+        }
+        if (content != null) {
+            post.setContent(content);
+        }
+        if (categoryid != null) {
+            Category category = categoryRepo.findById(categoryid)
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            post.setCategory(category);
+        }
+        if (file != null && file.getSize() > 0) {
+            String imageUrl = gcsService.uploadFile(file);
+            post.setImgUrl(imageUrl);
+        }
+
+        post.setUpdatedAt(LocalDateTime.now());
+        post.setPublished(true);
+
+        Post savedPost = postRepo.save(post);
+
+        return postMapper.toResponseDTO(savedPost);
 
     }
 
