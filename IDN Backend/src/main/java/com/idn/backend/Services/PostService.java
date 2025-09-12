@@ -83,7 +83,7 @@ public class PostService {
         }
         if (categoryid != null) {
             Category category = categoryRepo.findById(categoryid)
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
             post.setCategory(category);
         }
         if (file != null && file.getSize() > 0) {
