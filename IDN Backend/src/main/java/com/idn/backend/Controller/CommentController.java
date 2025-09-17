@@ -4,7 +4,7 @@ import com.idn.backend.DTO.CommentRequestDTO;
 import com.idn.backend.DTO.CommentResponseDTO;
 import com.idn.backend.Services.CommentsService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.security.Principal;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("private/api/v1/comment")
 public class CommentController {
 

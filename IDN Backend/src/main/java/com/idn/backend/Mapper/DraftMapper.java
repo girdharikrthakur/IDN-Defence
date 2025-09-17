@@ -10,13 +10,14 @@ import com.idn.backend.DTO.DraftRequestDTO;
 import com.idn.backend.DTO.DraftResponseDTO;
 import com.idn.backend.Model.Draft;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface DraftMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "published", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Draft toEntityDraft(DraftRequestDTO dto);
 
     DraftResponseDTO draftResponseDTO(Draft draft);
@@ -27,5 +28,6 @@ public interface DraftMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "published", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Draft updateDraftFromDto(DraftRequestDTO dto, @MappingTarget Draft draft);
 }

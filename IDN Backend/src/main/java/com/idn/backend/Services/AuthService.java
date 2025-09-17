@@ -11,10 +11,10 @@ import com.idn.backend.Mapper.AuthMapper;
 import com.idn.backend.Model.UserAuth;
 import com.idn.backend.Repo.AuthRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthService {
 
     private final AuthRepo authRepo;

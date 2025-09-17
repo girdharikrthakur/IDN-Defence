@@ -2,12 +2,7 @@ package com.idn.backend.Model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +16,7 @@ public class Draft {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
+    @Column(name = "DRAFT_ID")
     private Long id;
 
     @Column(name = "TITLE")
@@ -32,6 +27,10 @@ public class Draft {
 
     @Column(name = "IMG_URL")
     private String imageUrl;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne
+    private UserAccount user;
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime createdAt;

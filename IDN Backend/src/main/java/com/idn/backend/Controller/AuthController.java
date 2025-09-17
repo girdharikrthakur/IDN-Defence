@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.DTO.AuthResposneDTO;
 import com.idn.backend.Services.AuthService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/public/api/v1/signup")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;

@@ -4,7 +4,7 @@ import com.idn.backend.DTO.DraftRequestDTO;
 import com.idn.backend.DTO.DraftResponseDTO;
 import com.idn.backend.Services.DraftService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/private/api/v1/draft")
 public class DraftController {
 

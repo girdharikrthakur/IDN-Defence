@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.idn.backend.DTO.CategoryRequestDTO;
 import com.idn.backend.DTO.CategoryResponseDTO;
@@ -19,5 +20,9 @@ public interface CategoryMapper {
     CategoryResponseDTO toResponseDTO(Category category);
 
     List<CategoryResponseDTO> toResponseDTO(List<Category> categories);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "posts", ignore = true)
+    Category updateCategoryFromDTO(CategoryRequestDTO categoryRequestDTO, @MappingTarget Category category);
 
 }

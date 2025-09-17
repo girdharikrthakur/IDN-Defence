@@ -9,10 +9,10 @@ import com.idn.backend.Mapper.AuthorMapper;
 import com.idn.backend.Model.Author;
 import com.idn.backend.Repo.AuthorRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthorService {
 
     private final AuthorRepo authorRepo;

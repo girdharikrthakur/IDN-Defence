@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.DTO.PostResponseDTO;
 import com.idn.backend.Services.PostService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/posts")
 public class SearchController {
 

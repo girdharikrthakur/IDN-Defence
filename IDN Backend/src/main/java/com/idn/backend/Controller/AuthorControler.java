@@ -3,7 +3,7 @@ package com.idn.backend.Controller;
 import com.idn.backend.DTO.AuthorDTO;
 import com.idn.backend.Services.AuthorService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/private/api/v1/author")
 public class AuthorControler {
 

@@ -11,19 +11,17 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 
+import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Service
+@RequiredArgsConstructor
 public class GCSService {
 
     @Value("${gcp.bucket.name}")
     private String bucketName;
 
     private final Storage storage;
-
-    public GCSService(Storage storage) {
-        this.storage = storage;
-    }
 
     public String uploadFile(MultipartFile file) throws IOException {
         String originalFileName = file.getOriginalFilename();

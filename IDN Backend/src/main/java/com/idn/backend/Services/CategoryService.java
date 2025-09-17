@@ -11,10 +11,10 @@ import com.idn.backend.Mapper.CategoryMapper;
 import com.idn.backend.Model.Category;
 import com.idn.backend.Repo.CategoryRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryMapper categoryMapper;
@@ -45,6 +45,13 @@ public class CategoryService {
         categoryRepo.deleteById(id);
         return categoryMapper.toResponseDTO(category);
 
+    }
+
+    public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO dto) {
+        Category category = categoryRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("The comment not avaliable with id: " + id));
+        Category updatedCategory = categoryMapper.updateCategoryFromDTO(dto, category);
+        return categoryMapper.toResponseDTO(updatedCategory);
     }
 
 }

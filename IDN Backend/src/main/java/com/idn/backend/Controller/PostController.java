@@ -13,10 +13,10 @@ import com.idn.backend.Model.Post;
 
 import com.idn.backend.Services.PostService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("public/api/v1/posts")
 @CrossOrigin(origins = "http://localhost:5173")
 public class PostController {

@@ -9,10 +9,10 @@ import com.idn.backend.Mapper.DraftMapper;
 import com.idn.backend.Model.Draft;
 import com.idn.backend.Repo.DraftRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DraftService {
 
     private final DraftRepo draftRepo;

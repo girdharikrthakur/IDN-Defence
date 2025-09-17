@@ -17,10 +17,10 @@ import com.idn.backend.Model.Post;
 import com.idn.backend.Repo.CategoryRepo;
 import com.idn.backend.Repo.PostRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepo postRepo;

@@ -35,6 +35,9 @@ public class UserAccount {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Draft> darfts;
+
     @Enumerated
     @Column(name = "USER_ROLE")
     private Role role;

@@ -12,10 +12,10 @@ import com.idn.backend.Mapper.UserMapper;
 import com.idn.backend.Model.UserAuth;
 import com.idn.backend.Repo.UserRepo;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepo userRepo;
