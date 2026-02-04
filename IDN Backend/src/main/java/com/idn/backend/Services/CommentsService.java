@@ -54,7 +54,7 @@ public class CommentsService {
         Comment comment = commentRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found by id: " + id));
 
-        if (!comment.getUser().getUsername().equals(principal.getName())) {
+        if (!comment.getUser().getUserName().equals(principal.getName())) {
             throw new RuntimeException("You are not allowed to edit this comment!");
         }
 

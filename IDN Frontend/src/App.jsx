@@ -1,18 +1,20 @@
-import BlogPage from './BlogPage.jsx'
-import PostNews from './PostNews.jsx'
+import { Routes, Route } from "react-router-dom";
+import BlogPage from "./BlogPage.jsx";
+import PostDetail from "./PostDetail.jsx";
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
+
 const App = () => {
-    return (
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<BlogPage />} />
+        <Route path="/news/:id" element={<PostDetail />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
 
-        <>
-            <div>
-                <BlogPage />
-
-                <PostNews />
-            </div>
-
-        </>
-    )
-}
-
-export default App
-
+export default App;

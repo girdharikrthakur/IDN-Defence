@@ -3,8 +3,8 @@ package com.idn.backend.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.UserRequestDTO;
-import com.idn.backend.DTO.UserResponseDTO;
+import com.idn.backend.DTO.UsersRequestDTO;
+import com.idn.backend.DTO.UsersResponseDTO;
 import com.idn.backend.Services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,9 +21,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<UserResponseDTO> saveUser(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UsersResponseDTO> saveUser(@RequestBody UsersRequestDTO userRequestDTO) {
 
-        UserResponseDTO savedUser = userService.saveUser(userRequestDTO);
+        UsersResponseDTO savedUser = userService.saveUser(userRequestDTO);
 
         return ResponseEntity.ok(savedUser);
     }

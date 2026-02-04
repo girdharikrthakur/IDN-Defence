@@ -21,7 +21,7 @@ public interface CommentMapper {
     @Mapping(target = "replies", ignore = true)
     Comment toEntity(CommentRequestDTO dto);
 
-    @Mapping(source = "user.username", target = "username")
+    @Mapping(source = "user.userName", target = "username")
     @Mapping(source = "parentComment.id", target = "parentCommentId")
     CommentResponseDTO toResponseDto(Comment comment);
 

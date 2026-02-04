@@ -5,12 +5,12 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.UserRequestDTO;
-import com.idn.backend.DTO.UserResponseDTO;
-import com.idn.backend.Exception.UserAlreadyExistsException;
-import com.idn.backend.Mapper.UserMapper;
-import com.idn.backend.Model.UserAuth;
-import com.idn.backend.Repo.UserRepo;
+import com.idn.backend.DTO.UsersRequestDTO;
+import com.idn.backend.DTO.UsersResponseDTO;
+import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
+import com.idn.backend.Mapper.UsersMapper;
+import com.idn.backend.Model.Users;
+import com.idn.backend.Repo.UsersRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,22 +18,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepo userRepo;
-    private final UserMapper userMapper;
+    private final UsersRepo userRepo;
+    private final UsersMapper usersMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDTO saveUser(UserRequestDTO userRequestDTO) {
+    public UsersResponseDTO saveUser(UsersRequestDTO userRequestDTO) {
 
-        Optional<UserAuth> userOption = userRepo.findByEmail(userRequestDTO.getEmail());
+        Optional<Users> userOption = userRepo.findByEmail(userRequestDTO.getEmail());
 
         if (userOption.isPresent()) {
             throw new UserAlreadyExistsException("Email already exists: " + userRequestDTO.getEmail());
         }
 
         userRequestDTO.setPwd(passwordEncoder.encode(userRequestDTO.getPwd()));
-        UserAuth userAuth = userMapper.toEntity(userRequestDTO);
-        UserAuth savedUserAuth = userRepo.save(userAuth);
-        return userMapper.toResponseDTO(savedUserAuth);
+        Users userAuth = usersMapper.toEntity(userRequestDTO);
+        Users savedUserAuth = userRepo.save(userAuth);
+        return usersMapper.toUsersResponseDTO(savedUserAuth);
 
     }
 

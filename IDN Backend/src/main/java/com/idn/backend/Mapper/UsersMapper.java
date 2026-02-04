@@ -3,17 +3,18 @@ package com.idn.backend.Mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.idn.backend.DTO.AuthResposneDTO;
-import com.idn.backend.Model.UserAuth;
+import com.idn.backend.DTO.UsersRequestDTO;
+import com.idn.backend.DTO.UsersResponseDTO;
+import com.idn.backend.Model.Users;
 
 @Mapper(componentModel = "spring")
-public interface AuthMapper {
+public interface UsersMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", ignore = true)
     @Mapping(target = "pwd", ignore = true)
-    UserAuth toEntity(AuthResposneDTO dto);
+    Users toEntity(UsersRequestDTO dto);
 
-    AuthResposneDTO toAuthResponse(UserAuth user);
+    UsersResponseDTO toUsersResponseDTO(Users user);
 
 }

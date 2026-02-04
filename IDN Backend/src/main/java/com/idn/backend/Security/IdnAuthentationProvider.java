@@ -19,7 +19,9 @@ public class IdnAuthentationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication
+
+            authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
 
@@ -30,7 +32,6 @@ public class IdnAuthentationProvider implements AuthenticationProvider {
                     pwd,
                     userDetails,
                     userDetails.getAuthorities());
-
         } else {
             throw new BadCredentialsException("Invalid Password");
         }

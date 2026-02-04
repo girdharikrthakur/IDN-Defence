@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.AuthResposneDTO;
+import com.idn.backend.DTO.UsersResponseDTO;
 import com.idn.backend.Services.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,15 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<AuthResposneDTO> userSignUp(
+    public ResponseEntity<UsersResponseDTO> userSignUp(
             @RequestParam String username,
             @RequestParam String email,
             @RequestParam String password) {
 
-        AuthResposneDTO saveduser = authService.userSignUp(username, email, password);
+        UsersResponseDTO saveduser = authService.userSignUp(username, email, password);
 
         return ResponseEntity.ok(saveduser);
 
     }
+
 }

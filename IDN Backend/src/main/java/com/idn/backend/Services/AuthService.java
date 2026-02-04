@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.AuthResposneDTO;
-import com.idn.backend.Exception.UserAlreadyExistsException;
-import com.idn.backend.Mapper.AuthMapper;
-import com.idn.backend.Model.UserAuth;
-import com.idn.backend.Repo.AuthRepo;
+import com.idn.backend.DTO.UsersResponseDTO;
+import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
+import com.idn.backend.Mapper.UsersMapper;
+import com.idn.backend.Model.Users;
+import com.idn.backend.Repo.UsersRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,17 +17,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AuthRepo authRepo;
-    private final AuthMapper authMapper;
+    private final UsersRepo usersRepo;
+    private final UsersMapper usersMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthResposneDTO userSignUp(
+    public UsersResponseDTO userSignUp(
             String username,
             String email,
             String password) {
 
-        Optional<UserAuth> fetchedUserByEmail = authRepo.findByEmail(email);
-        Optional<UserAuth> fetchedUserByUsername = authRepo.findByUserName(username);
+        Optional<Users> fetchedUserByEmail = usersRepo.findByEmail(email);
+        Optional<Users> fetchedUserByUsername = usersRepo.findByUserName(username);
 
         if (fetchedUserByEmail.isPresent() | fetchedUserByUsername.isPresent()) {
 
@@ -35,13 +35,13 @@ public class AuthService {
                     username + "User already Exist , Try Signing in with " + email + "or " + username);
         }
 
-        UserAuth user = new UserAuth();
+        Users user = new Users();
         user.setUserName(username);
         user.setEmail(email);
         user.setPwd(passwordEncoder.encode(password));
-        UserAuth savedUser = authRepo.save(user);
+        Users savedUser = usersRepo.save(user);
 
-        return authMapper.toAuthResponse(savedUser);
+        return usersMapper.toUsersResponseDTO(savedUser);
 
     }
 

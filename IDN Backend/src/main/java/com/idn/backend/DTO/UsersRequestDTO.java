@@ -3,7 +3,7 @@ package com.idn.backend.DTO;
 import lombok.Data;
 
 @Data
-public class UserResponseDTO {
+public class UsersRequestDTO {
 
     private Long id;
 
@@ -11,4 +11,7 @@ public class UserResponseDTO {
 
     private String email;
 
+    private String pwd;
+
+    private String role;
 }

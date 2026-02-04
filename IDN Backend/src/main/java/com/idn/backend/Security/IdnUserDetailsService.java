@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.Model.UserAuth;
-import com.idn.backend.Repo.UserRepo;
+import com.idn.backend.Model.Users;
+import com.idn.backend.Repo.UsersRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,12 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IdnUserDetailsService implements UserDetailsService {
 
-    private final UserRepo userRepo;
+    private final UsersRepo usersRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserAuth user = userRepo.findByEmail(username)
+        Users user = usersRepo.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("details not found of the " + username));
 
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
