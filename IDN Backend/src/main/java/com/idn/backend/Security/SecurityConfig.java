@@ -17,9 +17,11 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(handler)
                         .accessDeniedHandler(handler))
-                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession").maximumSessions(1))
+                .cors(cors -> {
+                })
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/home").permitAll()
                         .requestMatchers(HttpMethod.POST, "/private/api/v1/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/public/api/v1/**").permitAll()

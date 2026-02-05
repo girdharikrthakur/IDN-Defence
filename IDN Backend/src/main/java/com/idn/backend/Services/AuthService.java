@@ -1,13 +1,15 @@
 package com.idn.backend.Services;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.UsersResponseDTO;
+import com.idn.backend.DTO.RegisterRequest;
 import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
-import com.idn.backend.Mapper.UsersMapper;
 import com.idn.backend.Model.Users;
 import com.idn.backend.Repo.UsersRepo;
 
@@ -18,30 +20,36 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 
     private final UsersRepo usersRepo;
-    private final UsersMapper usersMapper;
+    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
-    public UsersResponseDTO userSignUp(
-            String username,
-            String email,
-            String password) {
+    public void userSignUp(RegisterRequest request) throws IOException {
 
-        Optional<Users> fetchedUserByEmail = usersRepo.findByEmail(email);
-        Optional<Users> fetchedUserByUsername = usersRepo.findByUserName(username);
+        Optional<Users> fetchedUserByEmail = usersRepo.findByEmail(request.getEmail());
+        Optional<Users> fetchedUserByUsername = usersRepo.findByUserName(request.getUsername());
 
         if (fetchedUserByEmail.isPresent() | fetchedUserByUsername.isPresent()) {
 
             throw new UserAlreadyExistsException(
-                    username + "User already Exist , Try Signing in with " + email + "or " + username);
+                    request.getUsername() + "User already Exist , Try Signing in with " + request.getEmail() + "or "
+                            + request.getUsername());
         }
 
-        Users user = new Users();
-        user.setUserName(username);
-        user.setEmail(email);
-        user.setPwd(passwordEncoder.encode(password));
-        Users savedUser = usersRepo.save(user);
+        String token = UUID.randomUUID().toString();
 
-        return usersMapper.toUsersResponseDTO(savedUser);
+        Users user = new Users();
+        user.setUserName(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.getEmail());
+
+        user.setRole("user");
+        user.setEmailVerified(false);
+        user.setVerificationToken(token);
+        user.setTokenExpiry(LocalDateTime.now().plusHours(24));
+
+        usersRepo.save(user);
+
+        emailService.sendVerificationEmail(user.getEmail(), token);
 
     }
 

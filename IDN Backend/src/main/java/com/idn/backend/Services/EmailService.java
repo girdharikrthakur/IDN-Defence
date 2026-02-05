@@ -1,8 +1,15 @@
 package com.idn.backend.Services;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import java.io.IOException;
 import org.springframework.stereotype.Service;
+
+import com.google.api.client.util.Value;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 
 import lombok.RequiredArgsConstructor;
 
@@ -10,17 +17,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender javaMailSender;
+    @Value("${sendgrid.api.key}")
+    private String apiKey;
 
-    public void otpSend(String to, String otp) {
-        String subject = "Otp Veification from IDN";
-        String message = "Your otp is : " + otp + "valid for 10 min";
+    @Value("${app.verify.url}")
+    private String verifyUrl;
 
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(subject);
-        simpleMailMessage.setText(message);
-        javaMailSender.send(simpleMailMessage);
+    public void sendVerificationEmail(String toEmail, String token) throws IOException {
+        SendGrid sendGrid = new SendGrid(apiKey);
+
+        Email from = new Email("girdharikumar101@gmail.com");
+        Email to = new Email(toEmail);
+
+        String link = verifyUrl + "?token=" + token;
+
+        Content content = new Content(
+                "text/plain",
+                "Click the link to verify your email:\n" + link);
+
+        Mail mail = new Mail(from, "Email Verification", to, content);
+        Request request = new Request();
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+
+        sendGrid.api(request);
     }
 
 }

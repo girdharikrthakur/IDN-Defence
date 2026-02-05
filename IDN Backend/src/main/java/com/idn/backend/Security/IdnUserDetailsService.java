@@ -29,7 +29,7 @@ public class IdnUserDetailsService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
 
-        return new User(user.getUserName(), user.getPwd(), authorities);
+        return new User(user.getUserName(), user.getPassword(), authorities);
     }
 
 }
