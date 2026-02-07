@@ -39,4 +39,4 @@ application.yml
 .googleCredentils.json
 
 .gitignore
-.application.properties
+* .application.properties
