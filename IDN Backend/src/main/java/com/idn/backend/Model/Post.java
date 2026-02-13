@@ -1,8 +1,14 @@
 package com.idn.backend.Model;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.print.attribute.standard.Media;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -19,12 +25,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "POSTS")
 public class Post {
 
@@ -34,31 +42,36 @@ public class Post {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", length = 15000)
     private String content;
 
+    @Column(name = "imgUrl")
     private String imgUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", nullable = true)
-    @JsonBackReference
-    private Category category;
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = true)
-    @JsonBackReference
     private Author author;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private List<Category> category;
+
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    
-    private int views;
+    @OneToMany(mappedBy = "post")
+    private List<Media> mediaList = new ArrayList<>();
 
-    private LocalDateTime publishedAt;
+    @OneToMany(mappedBy = "post")
+    private List<PostView> views = new ArrayList<>();
 
-    private LocalDateTime updatedAt;
-
-    private boolean isPublished;
+    @OneToMany(mappedBy = "post")
+    private List<PostTag> postTags = new ArrayList<>();
 
 }

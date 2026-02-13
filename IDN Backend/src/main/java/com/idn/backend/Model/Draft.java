@@ -30,7 +30,7 @@ public class Draft {
 
     @JoinColumn(name = "user_id")
     @ManyToOne
-    private Users user;
+    private User user;
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime createdAt;

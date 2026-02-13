@@ -1,15 +1,12 @@
 package com.idn.backend.Model;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,16 +15,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category {
+@Table(name = "bookmarks")
+public class Bookmark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private boolean active;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @CreationTimestamp
-    private Instant createdAt;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }
