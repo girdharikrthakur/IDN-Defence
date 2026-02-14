@@ -25,5 +25,5 @@ public class UserPreference {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 }

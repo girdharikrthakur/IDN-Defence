@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.idn.backend.DTO.RegisterRequest;
 import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
-import com.idn.backend.Model.Users;
-import com.idn.backend.Repo.UsersRepo;
+import com.idn.backend.Model.Role;
+import com.idn.backend.Model.AppUser;
+import com.idn.backend.Repo.AppUserRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UsersRepo usersRepo;
+    private final AppUserRepo appUserRepo;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     public void userSignUp(RegisterRequest request) throws IOException {
 
-        Optional<Users> fetchedUserByEmail = usersRepo.findByEmail(request.getEmail());
-        Optional<Users> fetchedUserByUsername = usersRepo.findByUserName(request.getUsername());
+        Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(request.getEmail());
+        Optional<AppUser> fetchedUserByUsername = appUserRepo.findByUserName(request.getUsername());
 
         if (fetchedUserByEmail.isPresent() | fetchedUserByUsername.isPresent()) {
 
@@ -37,17 +38,17 @@ public class AuthService {
 
         String token = UUID.randomUUID().toString();
 
-        Users user = new Users();
+        AppUser user = new AppUser();
         user.setUserName(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
 
-        user.setRole("user");
+        user.setRole(Role.ROLE_USER);
         user.setEmailVerified(false);
         user.setVerificationToken(token);
         user.setTokenExpiry(LocalDateTime.now().plusHours(24));
 
-        usersRepo.save(user);
+        appUserRepo.save(user);
 
         emailService.sendVerificationEmail(user.getEmail(), token);
 

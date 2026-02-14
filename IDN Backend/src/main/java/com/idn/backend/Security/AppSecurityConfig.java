@@ -1,6 +1,8 @@
 package com.idn.backend.Security;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.idn.backend.Filter.CsrfCookieFilter;
+import com.idn.backend.Filter.JWTTokenGenerationFilter;
+import com.idn.backend.Filter.JWTTokenValidatorFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -26,11 +29,10 @@ public class AppSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSecurityHandler handler) throws Exception {
 
-        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
-
         http
                 .securityContext(contexConfi -> contexConfi.requireExplicitSave(false))
-                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .sessionManagement(
+                        sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .cors(corsConfig -> corsConfig.configurationSource(new CorsConfigurationSource() {
 
@@ -39,9 +41,10 @@ public class AppSecurityConfig {
                         CorsConfiguration config = new CorsConfiguration();
 
                         config.setAllowedOrigins(List.of("http://localhost:8080"));
-                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                        config.setAllowedHeaders(List.of("*"));
+                        config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
+                        config.setAllowedHeaders(Collections.singletonList("*"));
+                        config.setExposedHeaders(Arrays.asList("Authorization"));
                         config.setMaxAge(3600L);
                         return config;
                     }
@@ -49,6 +52,8 @@ public class AppSecurityConfig {
                 }))
                 .csrf(csrfConfig -> csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JWTTokenGenerationFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(handler)
                         .accessDeniedHandler(handler))

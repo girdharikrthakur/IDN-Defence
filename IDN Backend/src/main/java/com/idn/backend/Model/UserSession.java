@@ -33,5 +33,5 @@ public class UserSession {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 }

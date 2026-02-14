@@ -5,10 +5,9 @@ import org.mapstruct.Mapping;
 
 import com.idn.backend.DTO.UsersRequestDTO;
 import com.idn.backend.DTO.UsersResponseDTO;
-import com.idn.backend.Model.Users;
+import com.idn.backend.Model.AppUser;
 
-@Mapper(componentModel = "spring")
-public interface UsersMapper {
+public interface AppUserMapper extends BaseMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", ignore = true)
@@ -16,8 +15,8 @@ public interface UsersMapper {
     @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "verificationToken", ignore = true)
     @Mapping(target = "tokenExpiry", ignore = true)
-    Users toEntity(UsersRequestDTO dto);
+    AppUser toEntity(UsersRequestDTO dto);
 
-    UsersResponseDTO toUsersResponseDTO(Users user);
+    UsersResponseDTO toUsersResponseDTO(AppUser user);
 
 }

@@ -2,7 +2,6 @@ package com.idn.backend.Mapper;
 
 import java.util.List;
 
-import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
@@ -10,8 +9,7 @@ import com.idn.backend.DTO.DraftRequestDTO;
 import com.idn.backend.DTO.DraftResponseDTO;
 import com.idn.backend.Model.Draft;
 
-@Mapper(componentModel = "spring")
-public interface DraftMapper {
+public interface DraftMapper extends BaseMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

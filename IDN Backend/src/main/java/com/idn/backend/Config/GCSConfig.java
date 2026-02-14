@@ -24,7 +24,6 @@ public class GCSConfig {
     public Storage storage() throws IOException {
         InputStream credentialsStream;
 
-        // Handle both classpath and filesystem paths
         if (credentialsPath.startsWith("classpath:")) {
             String resourcePath = credentialsPath.replace("classpath:", "");
             credentialsStream = getClass().getResourceAsStream("/" + resourcePath);

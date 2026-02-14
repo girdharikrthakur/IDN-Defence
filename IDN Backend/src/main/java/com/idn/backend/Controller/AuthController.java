@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.DTO.RegisterRequest;
-import com.idn.backend.Model.Users;
-import com.idn.backend.Repo.UsersRepo;
+import com.idn.backend.Model.AppUser;
+import com.idn.backend.Repo.AppUserRepo;
 import com.idn.backend.Services.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
-    private final UsersRepo userRepository;
+    private final AppUserRepo userRepository;
 
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) throws Exception {
@@ -35,7 +35,7 @@ public class AuthController {
     @GetMapping("/verify")
     public String verifyEmail(@RequestParam String token) {
 
-        Users user = userRepository.findByVerificationToken(token)
+        AppUser user = userRepository.findByVerificationToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
 
         if (user.getTokenExpiry().isBefore(LocalDateTime.now())) {

@@ -26,7 +26,6 @@ public class PostService {
     private final PostRepo postRepo;
     private final PostMapper postMapper;
     private final GCSService gcsService;
-    private final CategoryRepo categoryRepo;
 
     public Post save(Post post) {
         return postRepo.save(post);
@@ -35,17 +34,7 @@ public class PostService {
     public Post savePost(String title, String content, Category category, MultipartFile file) throws IOException {
 
         String imageUrl = gcsService.uploadFile(file);
-
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-        post.setCategory(category);
-        post.setImgUrl(imageUrl);
-        post.setPublishedAt(LocalDateTime.now());
-        post.setUpdatedAt(LocalDateTime.now());
-        post.setPublished(true);
-        Post savedPost = postRepo.save(post);
-        return (savedPost);
+        return null;
 
     }
 
@@ -66,37 +55,6 @@ public class PostService {
 
         Page<Post> posts = postRepo.findAll(pageRequest);
         return posts.map(postMapper::toResponseDTO);
-
-    }
-
-    public PostResponseDTO editPost(Long id, String title, String content, Long categoryid, MultipartFile file)
-            throws IOException {
-
-        Post post = postRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
-
-        if (title != null) {
-            post.setTitle(title);
-        }
-        if (content != null) {
-            post.setContent(content);
-        }
-        if (categoryid != null) {
-            Category category = categoryRepo.findById(categoryid)
-                    .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
-            post.setCategory(category);
-        }
-        if (file != null && file.getSize() > 0) {
-            String imageUrl = gcsService.uploadFile(file);
-            post.setImgUrl(imageUrl);
-        }
-
-        post.setUpdatedAt(LocalDateTime.now());
-        post.setPublished(true);
-
-        Post savedPost = postRepo.save(post);
-
-        return postMapper.toResponseDTO(savedPost);
 
     }
 
