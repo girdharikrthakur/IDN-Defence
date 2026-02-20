@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.RegisterRequest;
+import com.idn.backend.DTO.RequestDTO.RegisterRequest;
 import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
 import com.idn.backend.Model.Role;
 import com.idn.backend.Model.AppUser;
@@ -27,13 +27,11 @@ public class AuthService {
     public void userSignUp(RegisterRequest request) throws IOException {
 
         Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(request.getEmail());
-        Optional<AppUser> fetchedUserByUsername = appUserRepo.findByUserName(request.getUsername());
 
-        if (fetchedUserByEmail.isPresent() | fetchedUserByUsername.isPresent()) {
+        if (fetchedUserByEmail.isPresent()) {
 
             throw new UserAlreadyExistsException(
-                    request.getUsername() + "User already Exist , Try Signing in with " + request.getEmail() + "or "
-                            + request.getUsername());
+                    request.getUsername() + "User already Exist , Try Signing in with " + request.getEmail());
         }
 
         String token = UUID.randomUUID().toString();

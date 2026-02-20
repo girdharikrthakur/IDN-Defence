@@ -54,4 +54,55 @@ public class GCSService {
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
 
+    public String uploadImage(MultipartFile file) throws IOException {
+
+        String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+        String extension = getExtension(file);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        Thumbnails.of(file.getInputStream())
+                .size(800, 800)
+                .outputQuality(0.7)
+                .outputFormat(extension)
+                .toOutputStream(outputStream);
+
+        byte[] compressedBytes = outputStream.toByteArray();
+
+        BlobId blobId = BlobId.of(bucketName, fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                .setContentType(file.getContentType())
+                .build();
+
+        storage.create(blobInfo, compressedBytes);
+
+        return getPublicUrl(fileName);
+    }
+
+    public String uploadVideo(MultipartFile file) throws IOException {
+
+        String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+
+        BlobId blobId = BlobId.of(bucketName, fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                .setContentType(file.getContentType())
+                .build();
+
+        storage.create(blobInfo, file.getBytes());
+
+        return getPublicUrl(fileName);
+    }
+
+    private String getExtension(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        if (name != null && name.contains(".")) {
+            return name.substring(name.lastIndexOf(".") + 1);
+        }
+        return "jpg";
+    }
+
+    private String getPublicUrl(String fileName) {
+        return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
+    }
+
 }

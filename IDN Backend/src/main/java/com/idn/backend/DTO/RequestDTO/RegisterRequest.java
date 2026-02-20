@@ -1,4 +1,4 @@
-package com.idn.backend.DTO;
+package com.idn.backend.DTO.RequestDTO;
 
 import lombok.Getter;
 import lombok.Setter;

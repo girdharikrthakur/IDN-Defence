@@ -1,4 +1,4 @@
-package com.idn.backend.DTO;
+package com.idn.backend.DTO.RequestDTO;
 
 import java.util.List;
 

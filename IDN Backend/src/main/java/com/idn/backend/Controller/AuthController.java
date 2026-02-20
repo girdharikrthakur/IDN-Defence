@@ -2,6 +2,7 @@ package com.idn.backend.Controller;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.RegisterRequest;
+import com.idn.backend.DTO.RequestDTO.RegisterRequest;
+import com.idn.backend.DTO.ResponseDTO.AuthResponse;
 import com.idn.backend.Model.AppUser;
 import com.idn.backend.Repo.AppUserRepo;
 import com.idn.backend.Services.AuthService;
@@ -27,19 +29,23 @@ public class AuthController {
     private final AppUserRepo userRepository;
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) throws Exception {
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws Exception {
+
         authService.userSignUp(request);
-        return "Registration successful. Please verify your email.";
+
+        return ResponseEntity.ok(
+                new AuthResponse("Registration successful. Please verify your email.", true));
     }
 
     @GetMapping("/verify")
-    public String verifyEmail(@RequestParam String token) {
+    public ResponseEntity<AuthResponse> verifyEmail(@RequestParam String token) {
 
         AppUser user = userRepository.findByVerificationToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
 
         if (user.getTokenExpiry().isBefore(LocalDateTime.now())) {
-            return "Verification link expired";
+            return ResponseEntity.badRequest()
+                    .body(new AuthResponse("Verification link expired", false));
         }
 
         user.setEmailVerified(true);
@@ -48,6 +54,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return "Email verified successfully";
+        return ResponseEntity.ok(
+                new AuthResponse("Email verified successfully", true));
     }
 }

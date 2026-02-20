@@ -1,4 +1,4 @@
-package com.idn.backend.DTO;
+package com.idn.backend.DTO.ResponseDTO;
 
 import java.time.LocalDateTime;
 

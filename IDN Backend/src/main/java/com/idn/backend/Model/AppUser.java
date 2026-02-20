@@ -1,11 +1,8 @@
 package com.idn.backend.Model;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "users")
-public class AppUser {
+public class AppUser extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +42,9 @@ public class AppUser {
     @Column(nullable = false)
     private Role role;
 
-    private boolean isActive;
+    private String dpUrl;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
+    private boolean isActive;
 
     private String provider; // GOOGLE, GITHUB
 

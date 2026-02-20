@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostTag {
+@Table(name = "post_tags")
+public class PostTag extends BaseEntity {
 
     @Id
     @GeneratedValue

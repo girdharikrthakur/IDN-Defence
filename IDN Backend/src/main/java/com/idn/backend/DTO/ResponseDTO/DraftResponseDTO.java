@@ -1,16 +1,21 @@
-package com.idn.backend.DTO;
+package com.idn.backend.DTO.ResponseDTO;
 
 import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
-public class CommentResponseDTO {
+public class DraftResponseDTO {
 
-    private Long id;
+    private String title;
+
     private String content;
-    private String username;
+
+    private String imageUrl;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
-    private Long parentCommentId;
+
+    private boolean isPublished;
 }
