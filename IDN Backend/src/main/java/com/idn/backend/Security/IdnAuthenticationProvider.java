@@ -7,40 +7,37 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class IdnAuthentationProvider implements AuthenticationProvider {
+public class IdnAuthenticationProvider implements AuthenticationProvider {
 
-    private final IdnUserDetailsService idnUserDetailsService;
+    private final IdnUserDetailService userDetailService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Authentication
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-            authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        String pwd = authentication.getCredentials().toString();
+        String password = authentication.getCredentials().toString();
+        UserDetails userDetails = userDetailService.loadUserByUsername(username);
 
-        UserDetails userDetails = idnUserDetailsService.loadUserByUsername(username);
-        if (passwordEncoder.matches(pwd, userDetails.getPassword())) {
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
 
-            return new UsernamePasswordAuthenticationToken(
-                    pwd,
-                    userDetails,
-                    userDetails.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+
         } else {
             throw new BadCredentialsException("Invalid Password");
         }
+
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }

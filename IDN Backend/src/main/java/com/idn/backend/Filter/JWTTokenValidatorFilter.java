@@ -30,36 +30,50 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
+
         if (jwt != null) {
+
+            if (jwt.startsWith("Bearer ")) {
+                jwt = jwt.substring(7);
+            }
+
             Environment env = getEnvironment();
+
             try {
                 if (env != null) {
-                    String secret = env.getProperty(ApplicationConstants.JWT_HEADER,
+
+                    String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
                             ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+
                     SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
-                    if (secretKey != null) {
-                        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
+                    Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
 
-                        String username = String.valueOf(claims.get("username"));
-                        String authorities = String.valueOf(claims.get("authorities"));
-                        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
-                                AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
+                    String username = String.valueOf(claims.get("username"));
+                    String authorities = String.valueOf(claims.get("authorities"));
+
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
+                            AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
 
             } catch (Exception exception) {
                 throw new BadCredentialsException("Invalid Token Recived");
             }
         }
-        filterChain.doFilter(request, response);
 
+        filterChain.doFilter(request, response);
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/user");
+
+        String path = request.getServletPath();
+
+        return path.startsWith("/public/")
+                || path.equals("/home")
+                || path.equals("/error");
     }
 
 }

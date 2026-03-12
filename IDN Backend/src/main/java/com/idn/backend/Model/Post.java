@@ -35,6 +35,9 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT", length = 15000)
     private String content;
 
+    @OneToMany(mappedBy = "post")
+    private List<Media> mediaList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private AppUser author;
@@ -47,12 +50,12 @@ public class Post extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
-    private List<Media> mediaList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "post")
     private List<PostView> views = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
     private List<PostTag> postTags = new ArrayList<>();
+
+    @Column(nullable=false)
+    private Draft status;
 
 }

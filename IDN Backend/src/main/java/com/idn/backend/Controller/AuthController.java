@@ -1,60 +1,32 @@
 package com.idn.backend.Controller;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.RequestDTO.RegisterRequest;
-import com.idn.backend.DTO.ResponseDTO.AuthResponse;
-import com.idn.backend.Model.AppUser;
-import com.idn.backend.Repo.AppUserRepo;
+import com.idn.backend.DTO.RequestDTO.RegistrationDTO;
 import com.idn.backend.Services.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/public/api/v1/signup")
+@RequestMapping("/public")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
-    private final AppUserRepo userRepository;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws Exception {
+    public ResponseEntity<String> register(@RequestBody RegistrationDTO reg) throws IOException {
 
-        authService.userSignUp(request);
+        authService.userSignUp(reg);
+        return ResponseEntity.ok("Registration successful");
 
-        return ResponseEntity.ok(
-                new AuthResponse("Registration successful. Please verify your email.", true));
-    }
-
-    @GetMapping("/verify")
-    public ResponseEntity<AuthResponse> verifyEmail(@RequestParam String token) {
-
-        AppUser user = userRepository.findByVerificationToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
-
-        if (user.getTokenExpiry().isBefore(LocalDateTime.now())) {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse("Verification link expired", false));
-        }
-
-        user.setEmailVerified(true);
-        user.setVerificationToken(null);
-        user.setTokenExpiry(null);
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok(
-                new AuthResponse("Email verified successfully", true));
     }
 }

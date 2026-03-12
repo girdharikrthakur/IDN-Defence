@@ -1,6 +1,5 @@
 package com.idn.backend.Model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "users")
-public class AppUser extends BaseEntity {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,19 +41,19 @@ public class AppUser extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    private String dpUrl;
+    // private String dpUrl;
 
-    private boolean isActive;
+    // private boolean isActive;
 
-    private String provider; // GOOGLE, GITHUB
+    // private String provider; // GOOGLE, GITHUB
 
-    private String providerId; // OAuth2 unique id
+    // private String providerId; // OAuth2 unique id
 
-    private boolean emailVerified;
+    // private boolean emailVerified;
 
-    private String verificationToken;
+    // private String verificationToken;
 
-    private LocalDateTime tokenExpiry;
+    // private Instant tokenExpiry;
 
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();

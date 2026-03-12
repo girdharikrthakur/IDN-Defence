@@ -3,10 +3,6 @@ package com.idn.backend.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +20,6 @@ public class Comment extends BaseEntity {
 
     @Column(nullable = false, length = 500)
     private String content;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

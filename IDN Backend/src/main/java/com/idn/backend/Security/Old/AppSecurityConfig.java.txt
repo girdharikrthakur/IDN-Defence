@@ -1,11 +1,9 @@
-package com.idn.backend.Security;
+package com.idn.backend.Security.Old;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,13 +15,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.idn.backend.Filter.CsrfCookieFilter;
 import com.idn.backend.Filter.JWTTokenGenerationFilter;
 import com.idn.backend.Filter.JWTTokenValidatorFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@Configuration
 public class AppSecurityConfig {
 
     @Bean
@@ -40,7 +36,6 @@ public class AppSecurityConfig {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest arg0) {
                         CorsConfiguration config = new CorsConfiguration();
 
-                        config.setAllowedOrigins(List.of("http://localhost:8080"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
@@ -50,20 +45,14 @@ public class AppSecurityConfig {
                     }
 
                 }))
-                .csrf(csrfConfig -> csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JWTTokenGenerationFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(handler)
                         .accessDeniedHandler(handler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/home").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/private/api/v1/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/public/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/public/api/v1/register").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.POST, "/public/**").permitAll()
+                        .anyRequest().permitAll())
                 .httpBasic(hbc -> hbc.authenticationEntryPoint(handler));
 
         return http.build();

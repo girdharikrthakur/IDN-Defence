@@ -12,6 +12,5 @@ public interface AppUserRepo extends JpaRepository<AppUser, Long> {
 
     Optional<AppUser> findByUserName(String userName);
 
-    Optional<AppUser> findByVerificationToken(String token);
 
 }
