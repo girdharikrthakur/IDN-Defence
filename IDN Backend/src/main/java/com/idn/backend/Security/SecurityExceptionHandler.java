@@ -21,38 +21,64 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
 
-    private final ObjectMapper objectMapper;
+        private final ObjectMapper objectMapper;
 
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response,
-            AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response,
+                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType("application/json");
-        objectMapper.writeValue(response.getOutputStream(),
-                new ApiError(
-                        Instant.now(),
-                        403,
-                        "Forbidden",
-                        "You do not have permission to access this resource",
-                        request.getRequestURI()));
+                String accept = request.getHeader("Accept");
 
-    }
+                if (accept != null && accept.contains("application/json")) {
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException, ServletException {
+                        // API request → return JSON
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.setContentType("application/json");
 
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        objectMapper.writeValue(response.getOutputStream(),
-                new ApiError(
-                        Instant.now(),
-                        401,
-                        "Unauthorized",
-                        "You do not have permission to access this resource",
-                        request.getRequestURI()));
+                        objectMapper.writeValue(response.getOutputStream(),
+                                        new ApiError(
+                                                        Instant.now(),
+                                                        403,
+                                                        "Forbidden",
+                                                        "You don't have permission to access this resource",
+                                                        request.getRequestURI()));
 
-    }
+                } else {
+
+                        // Browser request → redirect
+                        response.sendRedirect("/error/denied");
+
+                }
+
+        }
+
+        @Override
+        public void commence(HttpServletRequest request,
+                        HttpServletResponse response,
+                        AuthenticationException authException)
+                        throws IOException {
+
+                String accept = request.getHeader("Accept");
+
+                if (accept != null && accept.contains("application/json")) {
+
+                        // API request → return JSON
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.setContentType("application/json");
+
+                        objectMapper.writeValue(response.getOutputStream(),
+                                        new ApiError(
+                                                        Instant.now(),
+                                                        401,
+                                                        "Unauthorized",
+                                                        "Authentication required",
+                                                        request.getRequestURI()));
+
+                } else {
+
+                        // Browser request → redirect
+                        response.sendRedirect("/error/unauthorized");
+                }
+        }
 
 }

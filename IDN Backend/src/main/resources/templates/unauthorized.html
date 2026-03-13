@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Unauthorized</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgb(46, 46, 46);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 70px;
+            margin: 0;
+            color: #ff4d4d;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-weight: 400;
+        }
+
+        p {
+            opacity: 0.85;
+        }
+
+        .btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            background: #ff4d4d;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff1a1a;
+            transform: scale(1.05);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="icon">🔒</div>
+
+        <h1>401</h1>
+
+        <h2>Unauthorized Access</h2>
+
+        <p>You must be logged in to view this page.</p>
+
+        <a href="/login" class="btn">Login</a>
+
+    </div>
+
+</body>
+
+</html>

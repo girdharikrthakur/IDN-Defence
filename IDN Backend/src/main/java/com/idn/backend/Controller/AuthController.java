@@ -15,7 +15,6 @@ import com.idn.backend.Services.AuthService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/public")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {

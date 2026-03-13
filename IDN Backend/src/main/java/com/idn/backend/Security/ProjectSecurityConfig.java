@@ -24,14 +24,24 @@ public class ProjectSecurityConfig {
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                                                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                                                .requestMatchers("/home", "/error/denied", "/error/unauthorized",
+                                                                "/login", "/register", "/signup")
+                                                .permitAll()
                                                 .requestMatchers("/public/**").permitAll()
                                                 .requestMatchers("/private/**").authenticated()
                                                 .anyRequest().authenticated()
 
                                 )
                                 .httpBasic(Customizer.withDefaults())
-                                .formLogin(Customizer.withDefaults());
-
+                                .formLogin(flc -> flc.loginPage("/login").loginProcessingUrl("/login")
+                                                .defaultSuccessUrl("/home")
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/login")
+                                                .invalidateHttpSession(true)
+                                                .deleteCookies("JSESSIONID"));
                 return http.build();
         }
 

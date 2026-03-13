@@ -1,27 +1,29 @@
 package com.idn.backend.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.idn.backend.DTO.RequestDTO.PostRequestDTO;
 import com.idn.backend.DTO.ResponseDTO.PostResponseDTO;
 import com.idn.backend.Services.PostService;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/private/post")
 public class PostController {
 
     private final PostService postService;
+
+    PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @PostMapping()
     public ResponseEntity<PostResponseDTO> postMethodName(@RequestBody PostRequestDTO dto) {
@@ -32,8 +34,8 @@ public class PostController {
 
     @GetMapping()
     public ResponseEntity<List<PostResponseDTO>> getPosts() {
-        List<PostReponseDTO> postList=postService.getPosts();
-        return ResponseEntity.ok().body();
+        List<PostResponseDTO> postList = postService.getPosts();
+        return ResponseEntity.ok().body(postList);
     }
 
     @GetMapping("/{id}")
@@ -44,8 +46,10 @@ public class PostController {
 
     }
 
-    @
-    
+    @GetMapping("/search")
+    public ResponseEntity<List<PostResponseDTO>> searchPosts(@RequestParam String query) {
 
+        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
+    }
 
 }

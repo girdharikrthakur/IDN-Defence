@@ -45,4 +45,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ApiError> postNotFound(PostNotFoundException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
 }
