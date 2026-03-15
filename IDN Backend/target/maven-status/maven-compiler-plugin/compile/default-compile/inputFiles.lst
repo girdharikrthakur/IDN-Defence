@@ -2,9 +2,9 @@ d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Backe
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Config\CorsConfig.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Config\GCSConfig.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Controller\AuthController.java
-d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Controller\HomeController.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Controller\PostController.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Controller\UserController.java
+d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Controller\UtilController.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\DTO\RequestDTO\AuthorDTO.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\DTO\RequestDTO\CategoryRequestDTO.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\DTO\RequestDTO\CommentRequestDTO.java
@@ -21,6 +21,7 @@ d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\DTO\R
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\DTO\ResponseDTO\UsersResponseDTO.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\ExceptionHandler\ApiError.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\ExceptionHandler\GlobalExceptionHandler.java
+d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\ExceptionHandler\PostNotFoundException.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\ExceptionHandler\UserAlreadyExistsException.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\ExceptionHandler\UsernameNotFoundException.java
 d:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\Filter\CsrfCookieFilter.java

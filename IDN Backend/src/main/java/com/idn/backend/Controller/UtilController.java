@@ -5,7 +5,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.idn.backend.DTO.RequestDTO.LoginRequestDTO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class UtilController {
@@ -28,6 +33,12 @@ public class UtilController {
     @GetMapping("/login")
     public String login() {
         return "login.html";
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request) {
+
+        return ResponseEntity.ok("Login success");
     }
 
     @GetMapping("/signup")

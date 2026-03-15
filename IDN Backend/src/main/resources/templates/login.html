@@ -91,6 +91,16 @@
         .extra a:hover {
             text-decoration: underline;
         }
+
+        .error {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -99,7 +109,12 @@
     <div class="container">
         <h2>Login</h2>
 
-        <form action="/login" method="POST">
+        <!-- Spring Security error -->
+        <div th:if="${param.error}" class="error">
+            Invalid email or password
+        </div>
+
+        <form method="POST" action="/login">
 
             <div class="input-group">
                 <label>Email</label>

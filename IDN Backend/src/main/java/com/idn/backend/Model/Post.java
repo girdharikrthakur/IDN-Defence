@@ -55,7 +55,9 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<PostTag> postTags = new ArrayList<>();
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Draft status;
+
+    private boolean deleted = false;
 
 }

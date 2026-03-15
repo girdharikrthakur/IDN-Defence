@@ -23,11 +23,9 @@ public class Media extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fileName;
     private String url;
-
-    private MediaType type;
-
-    private String format;
+    private String mediaType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

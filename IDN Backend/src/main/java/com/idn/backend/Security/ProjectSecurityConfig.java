@@ -3,7 +3,7 @@ package com.idn.backend.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
+// import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,14 +28,14 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers("/home", "/error/denied", "/error/unauthorized",
                                                                 "/login", "/register", "/signup")
                                                 .permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                                 .requestMatchers("/public/**").permitAll()
                                                 .requestMatchers("/private/**").authenticated()
-                                                .anyRequest().authenticated()
-
-                                )
-                                .httpBasic(Customizer.withDefaults())
-                                .formLogin(flc -> flc.loginPage("/login").loginProcessingUrl("/login")
-                                                .defaultSuccessUrl("/home")
+                                                .anyRequest().authenticated())
+                                .formLogin(flc -> flc
+                                                .loginPage("/login")
+                                                .loginProcessingUrl("/login")
+                                                .defaultSuccessUrl("/home", true)
                                                 .permitAll())
                                 .logout(logout -> logout
                                                 .logoutUrl("/logout")

@@ -19,18 +19,20 @@
         <form id="registerForm" class="space-y-4">
             <div id="errorMessage" class="hidden bg-red-100 text-red-700 p-3 rounded-lg text-sm"></div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-600">Username</label>
-                <input type="text" name="username"
-                    class="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
-                    placeholder="Enter username" required>
-            </div>
+
 
             <div>
                 <label class="block text-sm font-medium text-gray-600">Email</label>
                 <input type="email" name="email"
                     class="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
                     placeholder="Enter email" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Username</label>
+                <input type="text" name="username"
+                    class="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+                    placeholder="Enter username" required>
             </div>
 
             <div>
@@ -79,12 +81,19 @@
             });
 
             if (response.ok) {
-                window.location.href = "/login";
+
+                errorDiv.innerText = "Signup successful! Redirecting to login...";
+                errorDiv.classList.remove("hidden");
+
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 2000); // wait 2 seconds
+
             } else {
 
-                const errorText = await response.text();
+                const data = await response.json();
 
-                errorDiv.innerText = errorText;
+                errorDiv.innerText = data.message;
                 errorDiv.classList.remove("hidden");
 
             }

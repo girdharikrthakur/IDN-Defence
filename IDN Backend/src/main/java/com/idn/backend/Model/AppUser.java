@@ -1,5 +1,6 @@
 package com.idn.backend.Model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,19 +42,19 @@ public class AppUser {
     @Column(nullable = false)
     private Role role;
 
-    // private String dpUrl;
+    private String dpUrl;
 
-    // private boolean isActive;
+    private boolean isActive;
 
-    // private String provider; // GOOGLE, GITHUB
+    private String provider; // GOOGLE, GITHUB
 
-    // private String providerId; // OAuth2 unique id
+    private String providerId; // OAuth2 unique id
 
-    // private boolean emailVerified;
+    private boolean emailVerified;
 
-    // private String verificationToken;
+    private String verificationToken;
 
-    // private Instant tokenExpiry;
+    private Instant tokenExpiry;
 
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
