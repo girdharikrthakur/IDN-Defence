@@ -3,6 +3,7 @@ package com.idn.backend.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 // import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -32,6 +33,7 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers("/public/**").permitAll()
                                                 .requestMatchers("/private/**").authenticated()
                                                 .anyRequest().authenticated())
+                                .httpBasic(Customizer.withDefaults())
                                 .formLogin(flc -> flc
                                                 .loginPage("/login")
                                                 .loginProcessingUrl("/login")

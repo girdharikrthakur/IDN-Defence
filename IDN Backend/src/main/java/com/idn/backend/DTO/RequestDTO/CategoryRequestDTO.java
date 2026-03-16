@@ -1,11 +1,10 @@
 package com.idn.backend.DTO.RequestDTO;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class CategoryRequestDTO {
+public record CategoryRequestDTO(
 
-    private Long id;
-    private String name;
+        @NotBlank(message = "Category name must not be blank") String name,
+        Boolean isActive) {
 
 }

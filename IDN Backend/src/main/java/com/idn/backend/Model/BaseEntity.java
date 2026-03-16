@@ -26,4 +26,14 @@ public class BaseEntity {
 
     private String UpdatedBy;
 
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void setUpdatedAt() {
+        this.updatedAt = Instant.now();
+    }
+
 }
