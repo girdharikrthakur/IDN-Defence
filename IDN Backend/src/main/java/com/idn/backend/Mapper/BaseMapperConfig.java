@@ -1,4 +1,4 @@
-package com.idn.backend.Mapper;
+package com.idn.backend.mapper;
 
 import org.mapstruct.MapperConfig;
 import org.mapstruct.ReportingPolicy;

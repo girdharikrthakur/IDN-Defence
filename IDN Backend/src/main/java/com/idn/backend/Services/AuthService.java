@@ -1,18 +1,16 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.RequestDTO.RegisterRequest;
-import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
-import com.idn.backend.Model.Role;
-import com.idn.backend.Model.AppUser;
-import com.idn.backend.Repo.AppUserRepo;
+import com.idn.backend.dto.request.RegistrationDTO;
+import com.idn.backend.entity.AppUser;
+import com.idn.backend.entity.Role;
+import com.idn.backend.exception.UserAlreadyExistsException;
+import com.idn.backend.repo.AppUserRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,34 +19,30 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 
     private final AppUserRepo appUserRepo;
-    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
-    public void userSignUp(RegisterRequest request) throws IOException {
+    public void userSignUp(RegistrationDTO reg) throws IOException {
 
-        Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(request.getEmail());
+        Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(reg.email());
+        Optional<AppUser> fetchedUserByUsername = appUserRepo.findByUserName(reg.userName());
 
         if (fetchedUserByEmail.isPresent()) {
 
             throw new UserAlreadyExistsException(
-                    request.getUsername() + "User already Exist , Try Signing in with " + request.getEmail());
+                    "User already Exist with email " + reg.email() + " Try Signing in with different email");
         }
 
-        String token = UUID.randomUUID().toString();
+        if (fetchedUserByUsername.isPresent()) {
 
-        AppUser user = new AppUser();
-        user.setUserName(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setEmail(request.getEmail());
-
-        user.setRole(Role.ROLE_USER);
-        user.setEmailVerified(false);
-        user.setVerificationToken(token);
-        user.setTokenExpiry(LocalDateTime.now().plusHours(24));
-
-        appUserRepo.save(user);
-
-        emailService.sendVerificationEmail(user.getEmail(), token);
+            throw new UserAlreadyExistsException(
+                    "User already Exist with username " + reg.userName() + " Try Signing in with different username");
+        }
+        AppUser newUser = new AppUser();
+        newUser.setUserName(reg.userName());
+        newUser.setEmail(reg.email());
+        newUser.setPassword(passwordEncoder.encode(reg.password()));
+        newUser.setRole(Role.ROLE_USER);
+        appUserRepo.save(newUser);
 
     }
 

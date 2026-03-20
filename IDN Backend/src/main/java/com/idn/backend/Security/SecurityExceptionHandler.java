@@ -1,0 +1,84 @@
+package com.idn.backend.security;
+
+import java.io.IOException;
+import java.time.Instant;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.idn.backend.exception.ApiError;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class SecurityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
+
+        private final ObjectMapper objectMapper;
+
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response,
+                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
+
+                String accept = request.getHeader("Accept");
+
+                if (accept != null && accept.contains("application/json")) {
+
+                        // API request → return JSON
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.setContentType("application/json");
+
+                        objectMapper.writeValue(response.getOutputStream(),
+                                        new ApiError(
+                                                        Instant.now(),
+                                                        403,
+                                                        "Forbidden",
+                                                        "You don't have permission to access this resource",
+                                                        request.getRequestURI()));
+
+                } else {
+
+                        // Browser request → redirect
+                        response.sendRedirect("/error/denied");
+
+                }
+
+        }
+
+        @Override
+        public void commence(HttpServletRequest request,
+                        HttpServletResponse response,
+                        AuthenticationException authException)
+                        throws IOException {
+
+                String accept = request.getHeader("Accept");
+
+                if (accept != null && accept.contains("application/json")) {
+
+                        // API request → return JSON
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.setContentType("application/json");
+
+                        objectMapper.writeValue(response.getOutputStream(),
+                                        new ApiError(
+                                                        Instant.now(),
+                                                        401,
+                                                        "Unauthorized",
+                                                        "Authentication required",
+                                                        request.getRequestURI()));
+
+                } else {
+
+                        // Browser request → redirect
+                        response.sendRedirect("/error/unauthorized");
+                }
+        }
+
+}
