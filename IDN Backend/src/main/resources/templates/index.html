@@ -142,12 +142,14 @@
                     credentials: "include"
                 });
 
-                if (response.ok) {
+                if (response.status === 200) {
 
                     document.getElementById("loginBtn").style.display = "none";
                     document.getElementById("signupBtn").style.display = "none";
                     document.getElementById("logoutForm").classList.remove("hidden");
 
+                } else {
+                    console.log("User not logged in");
                 }
 
             } catch (err) {

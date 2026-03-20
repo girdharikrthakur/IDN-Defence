@@ -1,4 +1,4 @@
-package com.idn.backend.Security;
+package com.idn.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

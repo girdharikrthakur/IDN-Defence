@@ -1,4 +1,4 @@
-package com.idn.backend.Controller;
+package com.idn.backend.controller;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.RequestDTO.RegistrationDTO;
-import com.idn.backend.Services.AuthService;
+import com.idn.backend.dto.request.RegistrationDTO;
+import com.idn.backend.services.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,4 +27,5 @@ public class AuthController {
         return ResponseEntity.ok("Registration successful");
 
     }
+
 }

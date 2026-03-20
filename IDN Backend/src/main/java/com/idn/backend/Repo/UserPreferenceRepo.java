@@ -1,8 +1,8 @@
-package com.idn.backend.Repo;
+package com.idn.backend.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.idn.backend.Model.UserPreference;
+import com.idn.backend.entity.UserPreference;
 
 public interface UserPreferenceRepo extends JpaRepository<UserPreference, Long> {
 

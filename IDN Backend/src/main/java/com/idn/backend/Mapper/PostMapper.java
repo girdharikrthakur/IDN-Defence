@@ -1,13 +1,13 @@
-package com.idn.backend.Mapper;
+package com.idn.backend.mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.idn.backend.DTO.RequestDTO.PostRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.PostResponseDTO;
-import com.idn.backend.Model.Post;
+import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.response.PostResponseDTO;
+import com.idn.backend.entity.Post;
 
 @Mapper(componentModel = "spring")
 public interface PostMapper {

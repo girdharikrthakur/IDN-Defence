@@ -1,4 +1,4 @@
-package com.idn.backend.Security;
+package com.idn.backend.security;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.idn.backend.Model.AppUser;
-import com.idn.backend.Repo.AppUserRepo;
+import com.idn.backend.entity.AppUser;
+import com.idn.backend.repo.AppUserRepo;
 
 import lombok.RequiredArgsConstructor;
 

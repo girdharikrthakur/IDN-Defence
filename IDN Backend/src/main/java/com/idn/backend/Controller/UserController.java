@@ -1,10 +1,10 @@
-package com.idn.backend.Controller;
+package com.idn.backend.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.ResponseDTO.UsersResponseDTO;
-import com.idn.backend.Services.AppUserService;
+import com.idn.backend.dto.response.UsersResponseDTO;
+import com.idn.backend.services.AppUserService;
 
 import lombok.RequiredArgsConstructor;
 

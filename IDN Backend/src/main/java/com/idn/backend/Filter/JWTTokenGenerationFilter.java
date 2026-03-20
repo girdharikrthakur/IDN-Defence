@@ -1,4 +1,4 @@
-package com.idn.backend.Filter;
+package com.idn.backend.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.idn.backend.Model.ApplicationConstants;
+import com.idn.backend.entity.ApplicationConstants;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

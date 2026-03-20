@@ -1,4 +1,4 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.RequestDTO.RegistrationDTO;
-import com.idn.backend.ExceptionHandler.UserAlreadyExistsException;
-import com.idn.backend.Model.Role;
-import com.idn.backend.Model.AppUser;
-import com.idn.backend.Repo.AppUserRepo;
+import com.idn.backend.dto.request.RegistrationDTO;
+import com.idn.backend.entity.AppUser;
+import com.idn.backend.entity.Role;
+import com.idn.backend.exception.UserAlreadyExistsException;
+import com.idn.backend.repo.AppUserRepo;
 
 import lombok.RequiredArgsConstructor;
 

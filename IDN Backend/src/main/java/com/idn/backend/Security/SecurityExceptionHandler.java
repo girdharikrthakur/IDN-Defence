@@ -1,4 +1,4 @@
-package com.idn.backend.Security;
+package com.idn.backend.security;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -10,7 +10,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.idn.backend.ExceptionHandler.ApiError;
+import com.idn.backend.exception.ApiError;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

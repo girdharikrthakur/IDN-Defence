@@ -1,12 +1,12 @@
-package com.idn.backend.Controller;
+package com.idn.backend.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idn.backend.DTO.RequestDTO.CategoryRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.ApiResponse;
-import com.idn.backend.DTO.ResponseDTO.CategoryResponseDTO;
-import com.idn.backend.Services.CategoryService;
+import com.idn.backend.dto.request.CategoryRequestDTO;
+import com.idn.backend.dto.response.ApiResponse;
+import com.idn.backend.dto.response.CategoryResponseDTO;
+import com.idn.backend.services.CategoryService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

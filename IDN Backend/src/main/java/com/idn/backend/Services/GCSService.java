@@ -1,4 +1,4 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

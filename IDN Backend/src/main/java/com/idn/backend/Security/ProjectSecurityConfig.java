@@ -1,4 +1,4 @@
-package com.idn.backend.Security;
+package com.idn.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                                                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                                                 .requestMatchers("/home", "/error/denied", "/error/unauthorized",
-                                                                "/login", "/register", "/signup")
+                                                                "/login", "/register", "/signup", "/api/me")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                                 .requestMatchers("/public/**").permitAll()

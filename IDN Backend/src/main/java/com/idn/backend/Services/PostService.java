@@ -1,4 +1,4 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
 
-import com.idn.backend.DTO.RequestDTO.PostRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.PostResponseDTO;
-import com.idn.backend.ExceptionHandler.PostNotFoundException;
-import com.idn.backend.Mapper.PostMapper;
-import com.idn.backend.Model.Media;
-import com.idn.backend.Model.Post;
-import com.idn.backend.Repo.PostRepo;
+import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.response.PostResponseDTO;
+import com.idn.backend.entity.Media;
+import com.idn.backend.entity.Post;
+import com.idn.backend.exception.PostNotFoundException;
+import com.idn.backend.mapper.PostMapper;
+import com.idn.backend.repo.PostRepo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,13 +1,13 @@
-package com.idn.backend.Mapper;
+package com.idn.backend.mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.idn.backend.DTO.RequestDTO.CategoryRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.CategoryResponseDTO;
-import com.idn.backend.Model.Category;
+import com.idn.backend.dto.request.CategoryRequestDTO;
+import com.idn.backend.dto.response.CategoryResponseDTO;
+import com.idn.backend.entity.Category;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
@@ -21,5 +21,6 @@ public interface CategoryMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "active", ignore = true)
     Category toCategory(CategoryRequestDTO dto);
 }

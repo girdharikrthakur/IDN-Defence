@@ -1,4 +1,4 @@
-package com.idn.backend.Config;
+package com.idn.backend.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Storage;

@@ -1,4 +1,4 @@
-package com.idn.backend.Config;
+package com.idn.backend.config;
 
 import java.util.List;
 

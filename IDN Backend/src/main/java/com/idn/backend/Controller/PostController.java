@@ -1,8 +1,8 @@
-package com.idn.backend.Controller;
+package com.idn.backend.controller;
 
-import com.idn.backend.DTO.RequestDTO.PostRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.PostResponseDTO;
-import com.idn.backend.Services.PostService;
+import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.response.PostResponseDTO;
+import com.idn.backend.services.PostService;
 
 import java.io.IOException;
 import java.util.List;

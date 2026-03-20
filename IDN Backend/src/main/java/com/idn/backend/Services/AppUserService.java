@@ -1,15 +1,15 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.ExceptionHandler.UsernameNotFoundException;
-import com.idn.backend.DTO.ResponseDTO.UsersResponseDTO;
-import com.idn.backend.Mapper.AppUserMapper;
-import com.idn.backend.Model.AppUser;
-import com.idn.backend.Repo.AppUserRepo;
+import com.idn.backend.dto.response.UsersResponseDTO;
+import com.idn.backend.entity.AppUser;
+import com.idn.backend.exception.UsernameNotFoundException;
+import com.idn.backend.mapper.AppUserMapper;
+import com.idn.backend.repo.AppUserRepo;
 
 import lombok.RequiredArgsConstructor;
 

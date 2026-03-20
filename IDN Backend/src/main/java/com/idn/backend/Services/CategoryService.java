@@ -1,4 +1,4 @@
-package com.idn.backend.Services;
+package com.idn.backend.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.idn.backend.DTO.RequestDTO.CategoryRequestDTO;
-import com.idn.backend.DTO.ResponseDTO.CategoryResponseDTO;
-import com.idn.backend.ExceptionHandler.ResourceNotFoundException;
-import com.idn.backend.Mapper.CategoryMapper;
-import com.idn.backend.Model.Category;
-import com.idn.backend.Repo.CategoryRepo;
+import com.idn.backend.dto.request.CategoryRequestDTO;
+import com.idn.backend.dto.response.CategoryResponseDTO;
+import com.idn.backend.entity.Category;
+import com.idn.backend.exception.ResourceNotFoundException;
+import com.idn.backend.mapper.CategoryMapper;
+import com.idn.backend.repo.CategoryRepo;
 
 import lombok.RequiredArgsConstructor;
 

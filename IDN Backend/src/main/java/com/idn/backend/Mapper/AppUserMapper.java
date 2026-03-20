@@ -1,11 +1,11 @@
-package com.idn.backend.Mapper;
+package com.idn.backend.mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import com.idn.backend.DTO.ResponseDTO.UsersResponseDTO;
-import com.idn.backend.Model.AppUser;
+import com.idn.backend.dto.response.UsersResponseDTO;
+import com.idn.backend.entity.AppUser;
 
 @Mapper(componentModel = "spring")
 public interface AppUserMapper {
