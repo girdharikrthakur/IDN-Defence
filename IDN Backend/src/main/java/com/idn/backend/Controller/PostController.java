@@ -2,8 +2,8 @@ package com.idn.backend.controller;
 
 import com.idn.backend.dto.request.PostRequestDTO;
 import com.idn.backend.dto.response.PostResponseDTO;
-import com.idn.backend.services.PostService;
-import com.idn.backend.services.PostViewService;
+import com.idn.backend.services.impl.PostServiceImpl;
+import com.idn.backend.services.impl.PostViewServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/private/post")
+@RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
 
-    private final PostService postService;
-    private final PostViewService postViewService;
+    private final PostServiceImpl postService;
+    private final PostViewServiceImpl postViewService;
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> postMethodName(

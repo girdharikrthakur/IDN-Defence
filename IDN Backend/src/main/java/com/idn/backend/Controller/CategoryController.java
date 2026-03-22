@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.request.CategoryRequestDTO;
 import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.CategoryResponseDTO;
-import com.idn.backend.services.CategoryService;
+import com.idn.backend.services.impl.CategoryServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
 
     @PostMapping()
     public ResponseEntity<ApiResponse<CategoryResponseDTO>> addNewCategory(@RequestBody @Valid CategoryRequestDTO dto) {

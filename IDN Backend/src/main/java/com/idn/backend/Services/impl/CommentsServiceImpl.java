@@ -1,4 +1,4 @@
-package com.idn.backend.services;
+package com.idn.backend.services.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CommentsService {
+public class CommentsServiceImpl {
 
     private final CommentRepo commentRepo;
     private final CommentMapper commentMapper;

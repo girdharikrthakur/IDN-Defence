@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.request.CommentRequestDTO;
 import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.CommentResponseDTO;
-import com.idn.backend.services.CommentsService;
+import com.idn.backend.services.impl.CommentsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/v1/comment")
 public class CommentController {
 
-    private final CommentsService commentsService;
+    private final CommentsServiceImpl commentsService;
 
     @GetMapping()
     public ResponseEntity<ApiResponse<CommentResponseDTO>> saveComment(

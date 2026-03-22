@@ -27,7 +27,8 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                                                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                                                 .requestMatchers("/home", "/error/denied", "/error/unauthorized",
-                                                                "/login", "/register", "/signup", "/api/me")
+                                                                "/login", "/register", "/signup", "/api/me",
+                                                                "/posts/**")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                                 .requestMatchers("/public/**").permitAll()

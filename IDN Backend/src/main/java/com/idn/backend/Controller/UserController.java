@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.dto.response.UsersResponseDTO;
-import com.idn.backend.services.AppUserService;
+import com.idn.backend.services.impl.AppUserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/private")
 public class UserController {
 
-    private final AppUserService appUserService;
+    private final AppUserServiceImpl appUserService;
 
     @GetMapping("/users")
     public ResponseEntity<List<UsersResponseDTO>> findAllUsers() {
