@@ -1,6 +1,7 @@
 package com.idn.backend.services;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.idn.backend.entity.Post;
 import com.idn.backend.exception.PostNotFoundException;
 import com.idn.backend.mapper.PostMapper;
 import com.idn.backend.repo.PostRepo;
+import com.idn.backend.repo.PostViewRepo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class PostService {
     private final PostRepo postRepo;
     private final PostMapper postMapper;
     private final GCSService gcsService;
+    private final PostViewRepo postViewRepo;
 
     @Transactional
     public PostResponseDTO savePost(PostRequestDTO dto, List<MultipartFile> file) throws IOException {
@@ -128,6 +131,41 @@ public class PostService {
         }
 
         throw new AccessDeniedException("You are not allowed to delete this post");
+    }
+
+    public List<PostResponseDTO> getMostViewedPosts(int limit) {
+
+        Pageable pageable = PageRequest.of(0, limit);
+
+        List<Object[]> results = postViewRepo.findMostViewedPosts(pageable);
+
+        List<Long> postIds = results.stream()
+                .map(r -> (Long) r[0])
+                .toList();
+
+        List<Post> posts = postRepo.findAllById(postIds);
+
+        return posts.stream()
+                .map(postMapper::toPostResponseDTO)
+                .toList();
+    }
+
+    public List<PostResponseDTO> getTrendingPosts(int limit) {
+
+        LocalDateTime since = LocalDateTime.now().minusDays(1);
+        Pageable pageable = PageRequest.of(0, limit);
+
+        List<Object[]> results = postViewRepo.findTrendingPosts(since, pageable);
+
+        List<Long> postIds = results.stream()
+                .map(r -> (Long) r[0])
+                .toList();
+
+        List<Post> posts = postRepo.findAllById(postIds);
+
+        return posts.stream()
+                .map(postMapper::toPostResponseDTO)
+                .toList();
     }
 
 }

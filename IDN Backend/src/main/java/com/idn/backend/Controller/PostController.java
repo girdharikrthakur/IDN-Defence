@@ -3,11 +3,16 @@ package com.idn.backend.controller;
 import com.idn.backend.dto.request.PostRequestDTO;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.services.PostService;
+import com.idn.backend.services.PostViewService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +26,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/private/post")
+@RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
-
-    PostController(PostService postService) {
-        this.postService = postService;
-    }
+    private final PostViewService postViewService;
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> postMethodName(
@@ -47,7 +50,14 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id, Authentication authentication,
+            HttpServletRequest request) {
+
+        String username = authentication != null ? authentication.getName() : "anonymous";
+        String ip = request.getRemoteAddr();
+        String sessonId = request.getSession().getId();
+
+        postViewService.registerPostView(id, username, ip, sessonId);
 
         PostResponseDTO post = postService.getPostById(id);
         return ResponseEntity.ok().body(post);
@@ -78,4 +88,15 @@ public class PostController {
         return ResponseEntity.ok("Post deleted successfully");
     }
 
+    // Most Viewed
+    @GetMapping("/posts/most-viewed")
+    public ResponseEntity<List<PostResponseDTO>> getMostViewedPosts() {
+        return ResponseEntity.ok(postService.getMostViewedPosts(10));
+    }
+
+    // Trending Post
+    @GetMapping("/posts/trending")
+    public ResponseEntity<List<PostResponseDTO>> getTrendingPosts() {
+        return ResponseEntity.ok(postService.getTrendingPosts(10));
+    }
 }

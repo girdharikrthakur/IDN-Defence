@@ -1,6 +1,6 @@
 package com.idn.backend.dto.response;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -9,8 +9,11 @@ public class CommentResponseDTO {
 
     private Long id;
     private String content;
-    private String username;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Long parentCommentId;
+
+    private Long postId;
+    private Long userId;
+
+    private Long parentId;
+
+    private List<CommentResponseDTO> replies;
 }

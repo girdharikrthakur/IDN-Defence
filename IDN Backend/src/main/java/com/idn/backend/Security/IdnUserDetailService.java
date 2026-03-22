@@ -22,13 +22,16 @@ public class IdnUserDetailService implements UserDetailsService {
     private final AppUserRepo appUserRepo;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepo.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(appUser.getRole().name()));
+        AppUser appUser = appUserRepo.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        List<GrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority(appUser.getRole().name()));
+
         return new User(
-                appUser.getEmail(),
+                appUser.getUserName(),
                 appUser.getPassword(),
                 authorities);
     }

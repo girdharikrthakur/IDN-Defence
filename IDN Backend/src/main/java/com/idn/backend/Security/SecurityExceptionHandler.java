@@ -9,13 +9,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idn.backend.exception.ApiError;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +31,6 @@ public class SecurityExceptionHandler implements AuthenticationEntryPoint, Acces
 
                 if (accept != null && accept.contains("application/json")) {
 
-                        // API request → return JSON
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         response.setContentType("application/json");
 
@@ -45,7 +44,6 @@ public class SecurityExceptionHandler implements AuthenticationEntryPoint, Acces
 
                 } else {
 
-                        // Browser request → redirect
                         response.sendRedirect("/error/denied");
 
                 }
@@ -62,7 +60,6 @@ public class SecurityExceptionHandler implements AuthenticationEntryPoint, Acces
 
                 if (accept != null && accept.contains("application/json")) {
 
-                        // API request → return JSON
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         response.setContentType("application/json");
 
@@ -76,7 +73,6 @@ public class SecurityExceptionHandler implements AuthenticationEntryPoint, Acces
 
                 } else {
 
-                        // Browser request → redirect
                         response.sendRedirect("/error/unauthorized");
                 }
         }
