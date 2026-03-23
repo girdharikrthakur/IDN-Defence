@@ -14,5 +14,6 @@ public class PostRequestDTO {
     private String content;
     private Long authorId;
     private List<Long> categoryIds;
+    private List<Long> tagIds;
     private Draft status;
 }

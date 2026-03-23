@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,14 @@ import com.idn.backend.dto.request.PostRequestDTO;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.entity.Media;
 import com.idn.backend.entity.Post;
+import com.idn.backend.entity.PostTag;
+import com.idn.backend.entity.Tag;
 import com.idn.backend.exception.PostNotFoundException;
 import com.idn.backend.mapper.PostMapper;
 import com.idn.backend.repo.PostRepo;
+import com.idn.backend.repo.PostTagRepo;
 import com.idn.backend.repo.PostViewRepo;
+import com.idn.backend.repo.TagRepo;
 import com.idn.backend.services.PostService;
 
 import jakarta.transaction.Transactional;
@@ -34,7 +39,10 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
     private final GCSServiceImpl gcsService;
     private final PostViewRepo postViewRepo;
+    private final TagRepo tagRepo;
+    private final PostTagRepo postTagRepo;
 
+    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @Transactional
     @Override
     public PostResponseDTO savePost(PostRequestDTO dto, List<MultipartFile> file) throws IOException {
@@ -44,17 +52,35 @@ public class PostServiceImpl implements PostService {
         List<Media> mediaList = new ArrayList<>();
         for (MultipartFile mFile : file) {
             String url = gcsService.uploadFile(mFile);
+
             Media media = new Media();
             media.setUrl(url);
             media.setFileName(mFile.getOriginalFilename());
             media.setMediaType(mFile.getContentType());
             media.setPost(post);
-            mediaList.add(media);
 
+            mediaList.add(media);
         }
         post.setMediaList(mediaList);
 
         Post savedPost = postRepo.save(post);
+
+        List<Tag> tags = tagRepo.findAllById(dto.getTagIds());
+
+        if (tags.size() != dto.getTagIds().size()) {
+            throw new RuntimeException("Some tags not found");
+        }
+
+        List<PostTag> postTags = new ArrayList<>();
+
+        for (Tag tag : tags) {
+            PostTag pt = new PostTag();
+            pt.setPost(savedPost);
+            pt.setTag(tag);
+            postTags.add(pt);
+        }
+
+        postTagRepo.saveAll(postTags);
 
         return postMapper.toPostResponseDTO(savedPost);
     }
@@ -90,33 +116,62 @@ public class PostServiceImpl implements PostService {
         return postMapper.toPostResponseDTOList(posts);
     }
 
+    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @Transactional
     @Override
     public PostResponseDTO updatePost(Long id, PostRequestDTO dto, List<MultipartFile> file) throws IOException {
+
         Post post = postRepo.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + id));
 
-        List<Media> mediaList = new ArrayList<>();
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
+        post.setStatus(dto.getStatus());
 
         if (file != null && !file.isEmpty()) {
+            List<Media> mediaList = new ArrayList<>();
+
             for (MultipartFile mFile : file) {
                 String url = gcsService.uploadFile(mFile);
+
                 Media media = new Media();
                 media.setUrl(url);
                 media.setFileName(mFile.getOriginalFilename());
                 media.setMediaType(mFile.getContentType());
                 media.setPost(post);
+
                 mediaList.add(media);
             }
+
+            post.getMediaList().addAll(mediaList);
         }
-        post.getMediaList().addAll(mediaList);
+
+
+        postTagRepo.deleteByPost(post);
+
+        List<Tag> tags = tagRepo.findAllById(dto.getTagIds());
+
+        if (tags.size() != dto.getTagIds().size()) {
+            throw new RuntimeException("Some tags not found");
+        }
+
+        List<PostTag> postTags = new ArrayList<>();
+
+        for (Tag tag : tags) {
+            PostTag pt = new PostTag();
+            pt.setPost(post);
+            pt.setTag(tag);
+            postTags.add(pt);
+        }
+
+        postTagRepo.saveAll(postTags);
 
         Post savedPost = postRepo.save(post);
 
         return postMapper.toPostResponseDTO(savedPost);
     }
 
-    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void deletePost(Long id) {
 
