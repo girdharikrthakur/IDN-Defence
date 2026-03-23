@@ -124,6 +124,8 @@ public class PostServiceImpl implements PostService {
         Post post = postRepo.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + id));
 
+        validatePostAccess(post);
+
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
         post.setStatus(dto.getStatus());
@@ -145,7 +147,6 @@ public class PostServiceImpl implements PostService {
 
             post.getMediaList().addAll(mediaList);
         }
-
 
         postTagRepo.deleteByPost(post);
 
@@ -230,6 +231,20 @@ public class PostServiceImpl implements PostService {
         return posts.stream()
                 .map(postMapper::toPostResponseDTO)
                 .toList();
+    }
+
+    // Helper Method
+    private void validatePostAccess(Post post) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && !post.getAuthor().getUserName().equals(username)) {
+            throw new RuntimeException("You are not allowed to modify this post");
+        }
     }
 
 }

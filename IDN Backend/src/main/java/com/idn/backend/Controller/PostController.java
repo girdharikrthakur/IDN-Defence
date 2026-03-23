@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,7 @@ public class PostController {
     private final PostServiceImpl postService;
     private final PostViewServiceImpl postViewService;
 
+    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> postMethodName(
             @RequestPart("dto") PostRequestDTO dto,
@@ -71,6 +73,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<String> updatePost(
             @PathVariable Long id,
@@ -81,6 +84,7 @@ public class PostController {
         return ResponseEntity.ok("Post Updated with id: " + savedPost.getId());
     }
 
+    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
 
