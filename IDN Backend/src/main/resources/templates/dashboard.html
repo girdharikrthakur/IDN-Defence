@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <h1 class="text-xl font-bold">Admin Dashboard</h1>
+        <form action="/logout" method="post">
+            <button class="bg-red-500 px-4 py-2 rounded">Logout</button>
+        </form>
+    </nav>
+
+    <div class="p-6">
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div class="bg-white p-4 shadow rounded">
+                <h2 class="text-gray-500">Total Posts</h2>
+                <p id="totalPosts" class="text-2xl font-bold">0</p>
+            </div>
+
+            <div class="bg-white p-4 shadow rounded">
+                <h2 class="text-gray-500">Total Views</h2>
+                <p id="totalViews" class="text-2xl font-bold">0</p>
+            </div>
+
+            <div class="bg-white p-4 shadow rounded">
+                <h2 class="text-gray-500">Total Users</h2>
+                <p id="totalUsers" class="text-2xl font-bold">0</p>
+            </div>
+
+            <div class="bg-white p-4 shadow rounded">
+                <h2 class="text-gray-500">Total Categories</h2>
+                <p id="totalCategories" class="text-2xl font-bold">0</p>
+            </div>
+        </div>
+
+        <!-- Category Stats -->
+        <div class="bg-white p-4 shadow rounded mb-6">
+            <h2 class="text-xl font-bold mb-4">Posts Per Category</h2>
+            <table class="w-full border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 border">Category</th>
+                        <th class="p-2 border">Posts</th>
+                        <th class="p-2 border">Views</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Posts Table -->
+        <div class="bg-white p-4 shadow rounded mb-6">
+            <h2 class="text-xl font-bold mb-4">All Posts</h2>
+            <table class="w-full border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 border">Title</th>
+                        <th class="p-2 border">Category</th>
+                        <th class="p-2 border">Views</th>
+                        <th class="p-2 border">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="postsTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-white p-4 shadow rounded">
+            <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-bold">Users</h2>
+                <button onclick="showAddUserForm()" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    + Add User
+                </button>
+            </div>
+
+            <table class="w-full border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 border">Username</th>
+                        <th class="p-2 border">Email</th>
+                        <th class="p-2 border">Role</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded shadow w-96">
+            <h2 class="text-xl font-bold mb-4">Add New User</h2>
+
+            <input id="newUsername" class="border p-2 w-full mb-2" placeholder="Username">
+            <input id="newEmail" class="border p-2 w-full mb-2" placeholder="Email">
+            <input id="newPassword" type="password" class="border p-2 w-full mb-2" placeholder="Password">
+
+            <select id="newRole" class="border p-2 w-full mb-4">
+                <option value="ROLE_USER">User</option>
+                <option value="ROLE_ADMIN">Admin</option>
+            </select>
+
+            <button onclick="addUser()" class="bg-green-500 text-white px-4 py-2 rounded">Create</button>
+            <button onclick="hideAddUserForm()" class="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        async function loadDashboard() {
+            const statsRes = await fetch("/api/admin/dashboard/stats", { credentials: "include" });
+            const stats = await statsRes.json();
+
+            document.getElementById("totalPosts").innerText = stats.totalPosts;
+            document.getElementById("totalViews").innerText = stats.totalViews;
+            document.getElementById("totalUsers").innerText = stats.totalUsers;
+            document.getElementById("totalCategories").innerText = stats.totalCategories;
+
+            loadCategories();
+            loadPosts();
+            loadUsers();
+        }
+
+        async function loadCategories() {
+            const res = await fetch("/admin/dashboard/category-stats", { credentials: "include" });
+            const data = await res.json();
+
+            const table = document.getElementById("categoryTable");
+            table.innerHTML = "";
+
+            data.forEach(c => {
+                table.innerHTML += `
+                    <tr>
+                        <td class="border p-2">${c.category}</td>
+                        <td class="border p-2">${c.postCount}</td>
+                        <td class="border p-2">${c.totalViews}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function loadPosts() {
+            const res = await fetch("/api/admin/posts", { credentials: "include" });
+            const posts = await res.json();
+
+            const table = document.getElementById("postsTable");
+            table.innerHTML = "";
+
+            posts.forEach(p => {
+                table.innerHTML += `
+                    <tr>
+                        <td class="border p-2">${p.title}</td>
+                        <td class="border p-2">${p.category}</td>
+                        <td class="border p-2">${p.views}</td>
+                        <td class="border p-2">
+                            <button class="bg-red-500 text-white px-2 py-1" onclick="deletePost(${p.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function loadUsers() {
+            const res = await fetch("/api/admin/users", { credentials: "include" });
+            const users = await res.json();
+
+            const table = document.getElementById("usersTable");
+            table.innerHTML = "";
+
+            users.forEach(u => {
+                table.innerHTML += `
+                    <tr>
+                        <td class="border p-2">${u.username}</td>
+                        <td class="border p-2">${u.email}</td>
+                        <td class="border p-2">${u.role}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function deletePost(id) {
+            await fetch("/api/admin/posts/" + id, {
+                method: "DELETE",
+                credentials: "include"
+            });
+            loadPosts();
+        }
+
+        function showAddUserForm() {
+            document.getElementById("addUserModal").classList.remove("hidden");
+        }
+
+        function hideAddUserForm() {
+            document.getElementById("addUserModal").classList.add("hidden");
+        }
+
+        async function addUser() {
+            const user = {
+                username: document.getElementById("newUsername").value,
+                email: document.getElementById("newEmail").value,
+                password: document.getElementById("newPassword").value,
+                role: document.getElementById("newRole").value
+            };
+
+            await fetch("/api/admin/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(user)
+            });
+
+            hideAddUserForm();
+            loadUsers();
+        }
+
+        loadDashboard();
+    </script>
+
+</body>
+
+</html>

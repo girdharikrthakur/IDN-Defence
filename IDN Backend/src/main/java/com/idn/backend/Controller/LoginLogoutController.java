@@ -14,4 +14,10 @@ public class LoginLogoutController {
     public String signup() {
         return "signup.html";
     }
+
+    @GetMapping("/dashboard")
+    public String getMethodName() {
+        return "dashboard.html";
+    }
+
 }

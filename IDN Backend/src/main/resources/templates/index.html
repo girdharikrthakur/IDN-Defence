@@ -27,6 +27,9 @@
                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Login
                 </a>
+                <a id="dashboardBtn" href="/dashboard"
+                    class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Dashboard</a>
 
                 <form id="logoutForm" action="/logout" method="post" class="hidden">
                     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
@@ -130,36 +133,61 @@
         </p>
 
     </div>
-
     <script>
-
         async function checkLogin() {
-
             try {
-
                 const response = await fetch("/api/me", {
                     method: "GET",
                     credentials: "include"
                 });
 
-                if (response.status === 200) {
+                if (response.status !== 200) {
+                    showLoggedOut();
+                    return;
+                }
 
-                    document.getElementById("loginBtn").style.display = "none";
-                    document.getElementById("signupBtn").style.display = "none";
-                    document.getElementById("logoutForm").classList.remove("hidden");
+                const data = await response.json();
 
+                if (data.loggedIn) {
+                    showLoggedIn(data.roles);
                 } else {
-                    console.log("User not logged in");
+                    showLoggedOut();
                 }
 
             } catch (err) {
-                console.log("User not logged in");
+                showLoggedOut();
             }
+        }
 
+        function showLoggedIn(roles) {
+            // Hide login/signup
+            document.getElementById("loginBtn").style.display = "none";
+            document.getElementById("signupBtn").style.display = "none";
+
+            // Show logout
+            document.getElementById("logoutForm").classList.remove("hidden");
+
+            // Dashboard only for ADMIN
+            if (roles && roles.includes("ROLE_ADMIN")) {
+                document.getElementById("dashboardBtn").style.display = "inline-block";
+            } else {
+                document.getElementById("dashboardBtn").style.display = "none";
+            }
+        }
+
+        function showLoggedOut() {
+            // Show login/signup
+            document.getElementById("loginBtn").style.display = "inline-block";
+            document.getElementById("signupBtn").style.display = "inline-block";
+
+            // Hide logout
+            document.getElementById("logoutForm").classList.add("hidden");
+
+            // Hide dashboard
+            document.getElementById("dashboardBtn").style.display = "none";
         }
 
         checkLogin();
-
     </script>
 
 </body>

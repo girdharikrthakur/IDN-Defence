@@ -30,6 +30,9 @@ public class ProjectSecurityConfig {
                                                                 "/login", "/register", "/signup", "/api/me",
                                                                 "/posts/**")
                                                 .permitAll()
+                                                .requestMatchers("/dashboard").hasRole("ADMIN")
+                                                .requestMatchers("/dashboard.html").hasRole("ADMIN")
+                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                                 .requestMatchers("/public/**").permitAll()
                                                 .requestMatchers("/private/**").authenticated()
