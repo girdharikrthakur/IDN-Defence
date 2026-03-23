@@ -23,6 +23,8 @@ public class Tag extends BaseEntity {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     @OneToMany(mappedBy = "tag")
     private List<PostTag> postTags = new ArrayList<>();
 }
