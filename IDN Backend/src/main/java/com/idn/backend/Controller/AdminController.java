@@ -31,7 +31,7 @@ public class AdminController {
         return dashboardService.getStats();
     }
 
-    @GetMapping("/dashboard/category-stats")
+    @GetMapping("/dashboard//category-stats")
     public List<CategoryStatsDTO> getCategoryStats() {
         return dashboardService.getCategoryStats();
     }

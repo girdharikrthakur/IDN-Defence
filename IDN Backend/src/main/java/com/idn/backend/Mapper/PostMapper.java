@@ -28,6 +28,7 @@ public interface PostMapper {
 
     @Mapping(target = "authorName", ignore = true)
     @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "tagIds", ignore = true)
     PostResponseDTO toPostResponseDTO(Post post);
 
     List<PostResponseDTO> toPostResponseDTOList(List<Post> posts);
