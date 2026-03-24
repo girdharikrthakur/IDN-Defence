@@ -4,36 +4,29 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Setter
 @MappedSuperclass
 public class BaseEntity {
-
-    @CreationTimestamp
+    @CreatedDate
     @Column(updatable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private Instant updatedAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
+    @CreatedBy
     @Column(updatable = false)
-    private String CreatedBy;
+    private String createdBy;
 
-    private String UpdatedBy;
-
-    @PrePersist
-    public void setCreatedAt() {
-        this.createdAt = Instant.now();
-    }
-
-    @PreUpdate
-    public void setUpdatedAt() {
-        this.updatedAt = Instant.now();
-    }
+    @LastModifiedBy
+    private String updatedBy;
 
 }

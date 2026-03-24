@@ -1,10 +1,18 @@
-HELP.md
+# ===============================
+# Maven / Build
+# ===============================
 target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===============================
+# IDEs
+# ===============================
+
+## STS ##
 .apt_generated
 .classpath
 .factorypath
@@ -13,13 +21,16 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+## IntelliJ ##
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+## VS Code ##
+.vscode/
+
+## NetBeans ##
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -29,14 +40,30 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-*.vscode/
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
 
+# ===============================
+# Logs
+# ===============================
+*.log
+
+# ===============================
+# Environment / Secrets
+# ===============================
 application.properties
-googleCredentils.json
 application.yml
-# Ignore credentials
-.googleCredentils.json
+*.env
+*.json
 
-.gitignore
-* .application.properties
+# Allow example configs (optional)
+!application-example.properties
+!application-example.yml
+
+# ===============================
+# Misc
+# ===============================
+HELP.md

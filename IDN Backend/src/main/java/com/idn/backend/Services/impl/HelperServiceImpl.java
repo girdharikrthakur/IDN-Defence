@@ -1,0 +1,26 @@
+package com.idn.backend.services.impl;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import com.idn.backend.entity.AppUser;
+import com.idn.backend.repo.AppUserRepo;
+import com.idn.backend.services.HelperServices;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class HelperServiceImpl implements HelperServices {
+
+    private final AppUserRepo appUserRepo;
+
+    public AppUser getCurrentUser() {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        return appUserRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+}

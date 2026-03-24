@@ -1,5 +1,7 @@
 package com.idn.backend.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,16 +12,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "page_visits")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "page_visits")
 public class PageVisit extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long PageViewCount;
+    private String page;
 
+    private String ipAddress;
+
+    private String username;
+
+    private LocalDate visitDate;
 }

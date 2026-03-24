@@ -1,20 +1,29 @@
 package com.idn.backend.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import java.util.Map;
+
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("api")
 public class UtilController {
-    @GetMapping("/api/me")
-    public ResponseEntity<?> currentUser(Authentication auth) {
 
-        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
-            return ResponseEntity.status(401).build();
+    @GetMapping("/me")
+    public Map<String, Object> getCurrentUser(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            return Map.of("loggedIn", false);
         }
 
-        return ResponseEntity.ok(auth.getName());
+        return Map.of(
+                "loggedIn", true,
+                "username", auth.getName(),
+                "roles", auth.getAuthorities()
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toList());
     }
 }

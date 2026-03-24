@@ -27,8 +27,12 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                                                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                                                 .requestMatchers("/home", "/error/denied", "/error/unauthorized",
-                                                                "/login", "/register", "/signup", "/api/me")
+                                                                "/login", "/register", "/signup", "/api/me",
+                                                                "/posts/**")
                                                 .permitAll()
+                                                .requestMatchers("/dashboard").hasRole("ADMIN")
+                                                .requestMatchers("/dashboard.html").hasRole("ADMIN")
+                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                                 .requestMatchers("/public/**").permitAll()
                                                 .requestMatchers("/private/**").authenticated()

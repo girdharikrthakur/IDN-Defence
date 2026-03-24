@@ -22,6 +22,8 @@ public class PostResponseDTO {
 
     private List<String> categories;
 
+    private List<Long> tagIds;
+
     private Draft status;
 
 }
