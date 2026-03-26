@@ -8,7 +8,6 @@ com\idn\backend\services\impl\PostViewServiceImpl.class
 com\idn\backend\services\PostViewService.class
 com\idn\backend\controller\UserController.class
 com\idn\backend\repo\CommentRepo.class
-com\idn\backend\repo\PostRepo.class
 com\idn\backend\exception\UserAlreadyExistsException.class
 com\idn\backend\config\AuditorConfig.class
 com\idn\backend\entity\PageVisit.class

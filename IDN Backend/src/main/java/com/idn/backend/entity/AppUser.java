@@ -56,7 +56,7 @@ public class AppUser {
 
     private Instant tokenExpiry;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")

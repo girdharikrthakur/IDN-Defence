@@ -50,4 +50,5 @@ public class AdminController {
     public List<UserDTO> getUsers() {
         return dashboardService.getUsers();
     }
+
 }

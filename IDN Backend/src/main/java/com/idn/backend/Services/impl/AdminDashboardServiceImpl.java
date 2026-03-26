@@ -8,6 +8,7 @@ import com.idn.backend.dto.CategoryStatsDTO;
 import com.idn.backend.dto.DashboardStatsDTO;
 import com.idn.backend.dto.PostDTO;
 import com.idn.backend.dto.UserDTO;
+
 import com.idn.backend.repo.AppUserRepo;
 import com.idn.backend.repo.CategoryRepo;
 import com.idn.backend.repo.PostRepo;
@@ -41,6 +42,8 @@ public class AdminDashboardServiceImpl {
     }
 
     public List<UserDTO> getUsers() {
+
         return userRepository.getAllUsers();
     }
+
 }

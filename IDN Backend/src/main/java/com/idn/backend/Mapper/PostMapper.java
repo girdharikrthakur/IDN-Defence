@@ -13,7 +13,7 @@ import com.idn.backend.entity.Post;
 public interface PostMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "mediaList", ignore = true)
     @Mapping(target = "comments", ignore = true)

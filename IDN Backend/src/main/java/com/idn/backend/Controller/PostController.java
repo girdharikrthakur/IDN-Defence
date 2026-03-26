@@ -103,4 +103,5 @@ public class PostController {
     public ResponseEntity<List<PostResponseDTO>> getTrendingPosts() {
         return ResponseEntity.ok(postService.getTrendingPosts(10));
     }
+
 }

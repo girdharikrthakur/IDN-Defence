@@ -186,7 +186,7 @@ public class PostServiceImpl implements PostService {
                 .stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
-        if (isAdmin || post.getAuthor().getUserName().equals(username)) {
+        if (isAdmin || post.getUser().getUserName().equals(username)) {
 
             post.setDeleted(true);
             postRepo.save(post);
@@ -242,7 +242,7 @@ public class PostServiceImpl implements PostService {
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 
-        if (!isAdmin && !post.getAuthor().getUserName().equals(username)) {
+        if (!isAdmin && !post.getUser().getUserName().equals(username)) {
             throw new RuntimeException("You are not allowed to modify this post");
         }
     }

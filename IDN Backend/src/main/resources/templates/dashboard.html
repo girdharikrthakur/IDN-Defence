@@ -89,6 +89,7 @@
                         <th class="p-2 border">Username</th>
                         <th class="p-2 border">Email</th>
                         <th class="p-2 border">Role</th>
+                        <th class="p-2 border">No of Post</th>
                     </tr>
                 </thead>
                 <tbody id="usersTable"></tbody>
@@ -180,9 +181,10 @@
             users.forEach(u => {
                 table.innerHTML += `
                     <tr>
-                        <td class="border p-2">${u.username}</td>
+                        <td class="border p-2">${u.userName}</td>
                         <td class="border p-2">${u.email}</td>
                         <td class="border p-2">${u.role}</td>
+                        <td class="border p-2">${u.postCount}</td>
                     </tr>
                 `;
             });

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.idn.backend.dto.CategoryStatsDTO;
 import com.idn.backend.dto.PostDTO;
@@ -47,14 +48,17 @@ public interface PostRepo extends JpaRepository<Post, Long> {
                 SELECT new com.idn.backend.dto.PostDTO(
                     p.id,
                     p.title,
-                    p.author.email,
+                    p.user.email,
                     COUNT(v)
                 )
                 FROM Post p
                 LEFT JOIN PostView v ON v.post = p
                 WHERE p.deleted = false
-                GROUP BY p.id, p.title, p.author.email
+                GROUP BY p.id, p.title, p.user.email
             """)
     List<PostDTO> getAllPosts();
+
+    @Query("SELECT COUNT(p) FROM Post p WHERE p.user.id = :userId")
+    long countPostsByUserId(@Param("userId") Long userId);
 
 }

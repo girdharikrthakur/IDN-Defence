@@ -39,8 +39,8 @@ public class Post extends BaseEntity {
     private List<Media> mediaList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private AppUser author;
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
     @ManyToMany
     @JoinTable(name = "post_categories", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))

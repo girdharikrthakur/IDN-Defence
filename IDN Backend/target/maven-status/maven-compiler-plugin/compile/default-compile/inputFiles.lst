@@ -37,6 +37,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\r
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\UsersResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\TagDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\UserDTO.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\UserProfileDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\entity\ApplicationConstants.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\entity\AppUser.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\entity\BaseEntity.java
