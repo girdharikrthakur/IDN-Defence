@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.idn.backend.entity.ApplicationConstants;
@@ -22,8 +23,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
+@Component
+@RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
+
+    private final Environment env;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -36,8 +42,6 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
             if (jwt.startsWith("Bearer ")) {
                 jwt = jwt.substring(7);
             }
-
-            Environment env = getEnvironment();
 
             try {
                 if (env != null) {
@@ -72,7 +76,9 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
 
         return path.startsWith("/public/")
+                || path.startsWith("/auth/")
                 || path.equals("/home")
+                || path.equals("/login")
                 || path.equals("/error");
     }
 

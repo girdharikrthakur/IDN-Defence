@@ -19,21 +19,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IdnUserDetailService implements UserDetailsService {
 
-    private final AppUserRepo appUserRepo;
+        private final AppUserRepo appUserRepo;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        AppUser appUser = appUserRepo.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+                AppUser appUser = appUserRepo.findByEmail(username)
+                                .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        List<GrantedAuthority> authorities = List.of(
-                new SimpleGrantedAuthority(appUser.getRole().name()));
+                List<GrantedAuthority> authorities = List.of(
+                                new SimpleGrantedAuthority(appUser.getRole().name()));
 
-        return new User(
-                appUser.getUserName(),
-                appUser.getPassword(),
-                authorities);
-    }
+                return new User(
+                                appUser.getEmail(),
+                                appUser.getPassword(),
+                                authorities);
+        }
 
 }

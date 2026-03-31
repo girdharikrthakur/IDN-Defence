@@ -31,11 +31,10 @@
                     class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Dashboard</a>
 
-                <form id="logoutForm" action="/logout" method="post" class="hidden">
-                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Logout
-                    </button>
-                </form>
+                <button id="logoutBtn" onclick="logout()"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded hidden">
+                    Logout
+                </button>
 
             </div>
 
@@ -134,11 +133,29 @@
 
     </div>
     <script>
+
+        // ✅ Get token
+        function getToken() {
+            return localStorage.getItem("jwt");
+        }
+
+        // ✅ Check login using JWT
         async function checkLogin() {
+
+            const token = getToken();
+
+            // ❌ No token → logged out
+            if (!token) {
+                showLoggedOut();
+                return;
+            }
+
             try {
                 const response = await fetch("/api/me", {
                     method: "GET",
-                    credentials: "include"
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
                 });
 
                 if (response.status !== 200) {
@@ -148,11 +165,7 @@
 
                 const data = await response.json();
 
-                if (data.loggedIn) {
-                    showLoggedIn(data.roles);
-                } else {
-                    showLoggedOut();
-                }
+                showLoggedIn(data.roles);
 
             } catch (err) {
                 showLoggedOut();
@@ -160,14 +173,13 @@
         }
 
         function showLoggedIn(roles) {
-            // Hide login/signup
+
             document.getElementById("loginBtn").style.display = "none";
             document.getElementById("signupBtn").style.display = "none";
 
-            // Show logout
-            document.getElementById("logoutForm").classList.remove("hidden");
+            document.getElementById("logoutBtn").style.display = "inline-block";
 
-            // Dashboard only for ADMIN
+            // ✅ Show dashboard only for ADMIN
             if (roles && roles.includes("ROLE_ADMIN")) {
                 document.getElementById("dashboardBtn").style.display = "inline-block";
             } else {
@@ -176,18 +188,22 @@
         }
 
         function showLoggedOut() {
-            // Show login/signup
+
             document.getElementById("loginBtn").style.display = "inline-block";
             document.getElementById("signupBtn").style.display = "inline-block";
 
-            // Hide logout
-            document.getElementById("logoutForm").classList.add("hidden");
-
-            // Hide dashboard
+            document.getElementById("logoutBtn").style.display = "none";
             document.getElementById("dashboardBtn").style.display = "none";
         }
 
+        // ✅ JWT logout
+        function logout() {
+            localStorage.removeItem("jwt");
+            window.location.href = "/home";
+        }
+
         checkLogin();
+
     </script>
 
 </body>

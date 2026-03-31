@@ -13,9 +13,7 @@
     <!-- Navbar -->
     <nav class="bg-blue-600 p-4 text-white flex justify-between">
         <h1 class="text-xl font-bold">Admin Dashboard</h1>
-        <form action="/logout" method="post">
-            <button class="bg-red-500 px-4 py-2 rounded">Logout</button>
-        </form>
+        <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded">Logout</button>
     </nav>
 
     <div class="p-6">
@@ -118,9 +116,45 @@
     </div>
 
     <script>
+
+        // ✅ Helper: Get JWT
+        function getToken() {
+            return localStorage.getItem("jwt");
+        }
+
+        // ✅ Helper: Fetch with JWT
+        async function fetchWithAuth(url, options = {}) {
+            const token = getToken();
+
+            if (!token) {
+                alert("Not logged in!");
+                window.location.href = "/login.html";
+                return;
+            }
+
+            const headers = {
+                "Authorization": "Bearer " + token,
+                ...(options.headers || {})
+            };
+
+            const response = await fetch(url, {
+                ...options,
+                headers
+            });
+
+            if (response.status === 401) {
+                alert("Session expired. Please login again.");
+                logout();
+            }
+
+            return response;
+        }
+
+        // =========================
+
         async function loadDashboard() {
-            const statsRes = await fetch("/api/admin/dashboard/stats", { credentials: "include" });
-            const stats = await statsRes.json();
+            const res = await fetchWithAuth("/api/admin/dashboard/stats");
+            const stats = await res.json();
 
             document.getElementById("totalPosts").innerText = stats.totalPosts;
             document.getElementById("totalViews").innerText = stats.totalViews;
@@ -133,7 +167,7 @@
         }
 
         async function loadCategories() {
-            const res = await fetch("/admin/dashboard/category-stats", { credentials: "include" });
+            const res = await fetchWithAuth("/admin/dashboard/category-stats");
             const data = await res.json();
 
             const table = document.getElementById("categoryTable");
@@ -151,7 +185,7 @@
         }
 
         async function loadPosts() {
-            const res = await fetch("/api/admin/posts", { credentials: "include" });
+            const res = await fetchWithAuth("/api/admin/posts");
             const posts = await res.json();
 
             const table = document.getElementById("postsTable");
@@ -172,7 +206,7 @@
         }
 
         async function loadUsers() {
-            const res = await fetch("/api/admin/users", { credentials: "include" });
+            const res = await fetchWithAuth("/api/admin/users");
             const users = await res.json();
 
             const table = document.getElementById("usersTable");
@@ -191,9 +225,8 @@
         }
 
         async function deletePost(id) {
-            await fetch("/api/admin/posts/" + id, {
-                method: "DELETE",
-                credentials: "include"
+            await fetchWithAuth("/api/admin/posts/" + id, {
+                method: "DELETE"
             });
             loadPosts();
         }
@@ -214,10 +247,9 @@
                 role: document.getElementById("newRole").value
             };
 
-            await fetch("/api/admin/users", {
+            await fetchWithAuth("/api/admin/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify(user)
             });
 
@@ -225,7 +257,13 @@
             loadUsers();
         }
 
+        function logout() {
+            localStorage.removeItem("jwt");
+            window.location.href = "/login";
+        }
+
         loadDashboard();
+
     </script>
 
 </body>

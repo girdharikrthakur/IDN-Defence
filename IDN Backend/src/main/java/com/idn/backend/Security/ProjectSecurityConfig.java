@@ -1,53 +1,102 @@
 package com.idn.backend.security;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
-// import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import com.idn.backend.filter.CsrfCookieFilter;
+import com.idn.backend.filter.JWTTokenValidatorFilter;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
+@EnableWebSecurity
+@Profile("default")
+@RequiredArgsConstructor
 public class ProjectSecurityConfig {
+
+        private final JWTTokenValidatorFilter jwtTokenValidatorFilter;
+        private final CsrfCookieFilter csrfCookieFilter;
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http,
                         SecurityExceptionHandler securityExceptionHandler)
                         throws Exception {
 
-                http
+                http.cors(config -> config.configurationSource(new CorsConfigurationSource() {
+
+                        @Override
+                        public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                                CorsConfiguration config = new CorsConfiguration();
+                                config.setAllowedOrigins(List.of("http://localhost:8082"));
+                                config.setAllowedMethods(Collections.singletonList("*"));
+                                config.setAllowedHeaders(Collections.singletonList("*"));
+                                config.setExposedHeaders(List.of("Authorization"));
+                                config.setAllowCredentials(true);
+                                config.setMaxAge(3600L);
+                                return config;
+                        }
+
+                }))
                                 .exceptionHandling(ex -> ex
                                                 .authenticationEntryPoint(securityExceptionHandler)
                                                 .accessDeniedHandler(securityExceptionHandler))
                                 .csrf(csrf -> csrf.disable())
+                                .addFilterAfter(csrfCookieFilter, BasicAuthenticationFilter.class)
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtTokenValidatorFilter, BasicAuthenticationFilter.class)
+                                // .addFilterAfter(jwtTokenGenerationFilter, BasicAuthenticationFilter.class)
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                                                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                                                .requestMatchers("/home", "/error/denied", "/error/unauthorized",
-                                                                "/login", "/register", "/signup", "/api/me",
-                                                                "/posts/**")
+
+                                                // ✅ Public endpoints (UI + auth)
+                                                .requestMatchers(
+                                                                "/login",
+                                                                "/signup",
+                                                                "/login.html",
+                                                                "/dashboard",
+                                                                "/dashboard.html",
+                                                                "/auth/**",
+                                                                "/css/**",
+                                                                "/js/**",
+                                                                "/home",
+                                                                "/error/**",
+                                                                "/public/**",
+                                                                "/api.me")
                                                 .permitAll()
-                                                .requestMatchers("/dashboard").hasRole("ADMIN")
-                                                .requestMatchers("/dashboard.html").hasRole("ADMIN")
-                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                                .requestMatchers("/public/**").permitAll()
-                                                .requestMatchers("/private/**").authenticated()
-                                                .anyRequest().authenticated())
-                                .httpBasic(Customizer.withDefaults())
-                                .formLogin(flc -> flc
-                                                .loginPage("/login")
-                                                .loginProcessingUrl("/login")
-                                                .defaultSuccessUrl("/home", true)
-                                                .permitAll())
-                                .logout(logout -> logout
-                                                .logoutUrl("/logout")
-                                                .logoutSuccessUrl("/login")
-                                                .invalidateHttpSession(true)
-                                                .deleteCookies("JSESSIONID"));
+
+                                                // ✅ Admin APIs
+                                                .requestMatchers("/api/admin/**")
+                                                .hasRole("ADMIN")
+
+                                                // ✅ Authenticated APIs
+                                                .requestMatchers("/api/**", "/private/**").authenticated()
+
+                                                // ✅ Allow preflight (CORS)
+                                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+
+                                                // ✅ Everything else
+                                                .anyRequest().authenticated());
+
                 return http.build();
         }
 
@@ -56,4 +105,9 @@ public class ProjectSecurityConfig {
                 return PasswordEncoderFactories.createDelegatingPasswordEncoder();
         }
 
+        @Bean
+        public AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
+        }
 }

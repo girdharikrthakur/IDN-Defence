@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.idn.backend.dto.request.UserLoginRequestDTO;
 import com.idn.backend.dto.response.UsersResponseDTO;
 import com.idn.backend.entity.AppUser;
 import com.idn.backend.exception.UsernameNotFoundException;
@@ -35,6 +36,17 @@ public class AppUserServiceImpl implements AppUserService {
             throw new UsernameNotFoundException("User not found with id: " + id);
         }
         return appUserMapper.toAppUserResponseDTO(userOptional.get());
+    }
+
+    public void login(UserLoginRequestDTO entity) {
+        Optional<AppUser> userOptional = appUserRepo.findByEmail(entity.email());
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with email: " + entity.email());
+        }
+        AppUser user = userOptional.get();
+        if (!user.getPassword().equals(entity.password())) {
+            throw new UsernameNotFoundException("Invalid password for email: " + entity.email());
+        }
     }
 
 }
