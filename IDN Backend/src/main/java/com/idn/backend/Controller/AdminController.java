@@ -2,6 +2,7 @@ package com.idn.backend.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,26 +27,31 @@ public class AdminController {
     private final AdminDashboardServiceImpl dashboardService;
     private final PostRepo postRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/dashboard/stats")
     public DashboardStatsDTO getStats() {
         return dashboardService.getStats();
     }
 
-    @GetMapping("/dashboard//category-stats")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/dashboard/category-stats")
     public List<CategoryStatsDTO> getCategoryStats() {
         return dashboardService.getCategoryStats();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/posts")
     public List<PostDTO> getPosts() {
         return dashboardService.getPosts();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/posts/{id}")
     public void deletePost(@PathVariable Long id) {
         postRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public List<UserDTO> getUsers() {
         return dashboardService.getUsers();

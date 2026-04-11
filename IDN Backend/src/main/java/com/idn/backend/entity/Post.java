@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -23,7 +24,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "posts")
+@Table(name = "posts",
+indexes = {
+@Index(name = "idx_posts_created_at", columnList = "created_at DESC"),
+@Index(name = "idx_posts_likes", columnList = "likes DESC"),
+@Index(name = "idx_posts_views", columnList = "views DESC"),
+@Index(name = "idx_posts_created_id", columnList = "created_at DESC, id DESC")}
+)
 public class Post extends BaseEntity {
 
     @Id

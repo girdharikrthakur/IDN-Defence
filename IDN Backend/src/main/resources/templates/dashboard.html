@@ -114,46 +114,74 @@
             <button onclick="hideAddUserForm()" class="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
         </div>
     </div>
-
     <script>
 
-        // ✅ Helper: Get JWT
+        // ✅ Extract token from OAuth URL (VERY IMPORTANT)
+        (function saveTokenFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const accessToken = params.get("access");
+
+            if (accessToken) {
+                console.log("Saving token from URL...");
+                localStorage.setItem("accessToken", accessToken);
+
+                // Clean URL (remove token from URL)
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        })();
+
+
+        // ✅ Get JWT
         function getToken() {
-            return localStorage.getItem("jwt");
+            return localStorage.getItem("accessToken");
         }
 
-        // ✅ Helper: Fetch with JWT
+
+        // ✅ Fetch with JWT (SAFE VERSION)
         async function fetchWithAuth(url, options = {}) {
             const token = getToken();
+
+            console.log("Using token:", token);
 
             if (!token) {
                 alert("Not logged in!");
                 window.location.href = "/login.html";
-                return;
+                return null;
             }
-
-            const headers = {
-                "Authorization": "Bearer " + token,
-                ...(options.headers || {})
-            };
 
             const response = await fetch(url, {
                 ...options,
-                headers
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    ...(options.headers || {})
+                }
             });
 
-            if (response.status === 401) {
-                alert("Session expired. Please login again.");
+            if (response.status === 401 || response.status === 403) {
+                alert("Session expired or unauthorized!");
                 logout();
+                return null;
+            }
+
+            if (!response.ok) {
+                console.error("API ERROR:", response.status);
+                return null;
             }
 
             return response;
         }
 
+
+        // =========================
+        // ✅ DASHBOARD FUNCTIONS
         // =========================
 
         async function loadDashboard() {
             const res = await fetchWithAuth("/api/admin/dashboard/stats");
+
+            if (!res) return;
+
             const stats = await res.json();
 
             document.getElementById("totalPosts").innerText = stats.totalPosts;
@@ -166,8 +194,13 @@
             loadUsers();
         }
 
+
+        // ✅ FIXED URL
         async function loadCategories() {
-            const res = await fetchWithAuth("/admin/dashboard/category-stats");
+            const res = await fetchWithAuth("/api/admin/dashboard/category-stats");
+
+            if (!res) return;
+
             const data = await res.json();
 
             const table = document.getElementById("categoryTable");
@@ -175,17 +208,21 @@
 
             data.forEach(c => {
                 table.innerHTML += `
-                    <tr>
-                        <td class="border p-2">${c.category}</td>
-                        <td class="border p-2">${c.postCount}</td>
-                        <td class="border p-2">${c.totalViews}</td>
-                    </tr>
-                `;
+            <tr>
+                <td class="border p-2">${c.category}</td>
+                <td class="border p-2">${c.postCount}</td>
+                <td class="border p-2">${c.totalViews}</td>
+            </tr>
+        `;
             });
         }
 
+
         async function loadPosts() {
             const res = await fetchWithAuth("/api/admin/posts");
+
+            if (!res) return;
+
             const posts = await res.json();
 
             const table = document.getElementById("postsTable");
@@ -193,20 +230,24 @@
 
             posts.forEach(p => {
                 table.innerHTML += `
-                    <tr>
-                        <td class="border p-2">${p.title}</td>
-                        <td class="border p-2">${p.category}</td>
-                        <td class="border p-2">${p.views}</td>
-                        <td class="border p-2">
-                            <button class="bg-red-500 text-white px-2 py-1" onclick="deletePost(${p.id})">Delete</button>
-                        </td>
-                    </tr>
-                `;
+            <tr>
+                <td class="border p-2">${p.title}</td>
+                <td class="border p-2">${p.category}</td>
+                <td class="border p-2">${p.views}</td>
+                <td class="border p-2">
+                    <button class="bg-red-500 text-white px-2 py-1" onclick="deletePost(${p.id})">Delete</button>
+                </td>
+            </tr>
+        `;
             });
         }
 
+
         async function loadUsers() {
             const res = await fetchWithAuth("/api/admin/users");
+
+            if (!res) return;
+
             const users = await res.json();
 
             const table = document.getElementById("usersTable");
@@ -214,22 +255,29 @@
 
             users.forEach(u => {
                 table.innerHTML += `
-                    <tr>
-                        <td class="border p-2">${u.userName}</td>
-                        <td class="border p-2">${u.email}</td>
-                        <td class="border p-2">${u.role}</td>
-                        <td class="border p-2">${u.postCount}</td>
-                    </tr>
-                `;
+            <tr>
+                <td class="border p-2">${u.userName}</td>
+                <td class="border p-2">${u.email}</td>
+                <td class="border p-2">${u.role}</td>
+                <td class="border p-2">${u.postCount}</td>
+            </tr>
+        `;
             });
         }
+
+
+        // =========================
+        // ✅ ACTIONS
+        // =========================
 
         async function deletePost(id) {
             await fetchWithAuth("/api/admin/posts/" + id, {
                 method: "DELETE"
             });
+
             loadPosts();
         }
+
 
         function showAddUserForm() {
             document.getElementById("addUserModal").classList.remove("hidden");
@@ -238,6 +286,7 @@
         function hideAddUserForm() {
             document.getElementById("addUserModal").classList.add("hidden");
         }
+
 
         async function addUser() {
             const user = {
@@ -249,7 +298,6 @@
 
             await fetchWithAuth("/api/admin/users", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(user)
             });
 
@@ -257,10 +305,20 @@
             loadUsers();
         }
 
+
+        // =========================
+        // ✅ LOGOUT
+        // =========================
+
         function logout() {
-            localStorage.removeItem("jwt");
-            window.location.href = "/login";
+            localStorage.removeItem("accessToken");
+            window.location.href = "/login.html";
         }
+
+
+        // =========================
+        // ✅ INIT
+        // =========================
 
         loadDashboard();
 

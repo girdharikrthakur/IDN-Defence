@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ public class BookmarkControler {
 
     private final BookmarkServiceImpl bookmarkService;
 
+    @PreAuthorize("hasAnyRole('USER','AUTHOR','ADMIN')")
     @PostMapping()
     public ResponseEntity<ApiResponse<BookmarkDTO>> saveBookmark(@RequestBody BookmarkDTO dto) {
 
@@ -34,6 +36,7 @@ public class BookmarkControler {
 
     }
 
+    @PreAuthorize("hasAnyRole('USER','AUTHOR','ADMIN')")
     @GetMapping()
     public ResponseEntity<ApiResponse<Page<BookmarkDTO>>> getBookmarks(Pageable pageable) {
 
@@ -42,6 +45,7 @@ public class BookmarkControler {
         return ResponseEntity.ok().body(response);
     }
 
+    @PreAuthorize("hasAnyRole('USER','AUTHOR','ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<BookmarkDTO>> deleteBookmark(Long id) {
         BookmarkDTO deletedBookmark = bookmarkService.deleteBookmark(id);

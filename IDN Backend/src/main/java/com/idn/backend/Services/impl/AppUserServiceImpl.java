@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.idn.backend.dto.request.UserLoginRequestDTO;
+import com.idn.backend.dto.request.UsersRequestDTO;
 import com.idn.backend.dto.response.UsersResponseDTO;
 import com.idn.backend.entity.AppUser;
+import com.idn.backend.entity.Role;
 import com.idn.backend.exception.UsernameNotFoundException;
 import com.idn.backend.mapper.AppUserMapper;
 import com.idn.backend.repo.AppUserRepo;
@@ -47,6 +49,26 @@ public class AppUserServiceImpl implements AppUserService {
         if (!user.getPassword().equals(entity.password())) {
             throw new UsernameNotFoundException("Invalid password for email: " + entity.email());
         }
+    }
+
+    public UsersResponseDTO saveUser(UsersRequestDTO entity) {
+        appUserRepo.findByEmail(entity.email()).ifPresent(u -> {
+            throw new UsernameNotFoundException("User already exists with email: " + entity.email());
+        });
+
+        appUserRepo.findByUserName(entity.userName()).ifPresent(u -> {
+            throw new UsernameNotFoundException("User already exists with username: " + entity.userName());
+        });
+        AppUser user = new AppUser();
+        user.setEmail(entity.email());
+        user.setUserName(entity.userName());
+        user.setPassword(entity.password());
+        user.setRole(entity.role());
+        user.setActive(true);
+        user.setEnabled(true);
+        user.setEmailVerified(true);
+        AppUser savedUser = appUserRepo.save(user);
+        return appUserMapper.toAppUserResponseDTO(savedUser);
     }
 
 }

@@ -50,11 +50,19 @@ public class AppUser {
 
     private String providerId; // OAuth2 unique id
 
+    private boolean enabled;
+
     private boolean emailVerified;
 
-    private String verificationToken;
+    private String emailVerificationToken;
 
     private Instant tokenExpiry;
+
+    private int failedAttempts;
+
+    private boolean locked;
+
+    private Instant lockTime;
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();

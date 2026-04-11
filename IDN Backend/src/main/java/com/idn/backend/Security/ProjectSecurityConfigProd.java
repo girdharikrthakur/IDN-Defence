@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -64,31 +63,35 @@ public class ProjectSecurityConfigProd {
                                 // .addFilterAfter(jwtTokenGenerationFilter, BasicAuthenticationFilter.class)
                                 .authorizeHttpRequests(auth -> auth
 
-                                                // ✅ Public endpoints (UI + auth)
+                                                // Public endpoints (UI + auth)
                                                 .requestMatchers(
                                                                 "/login",
                                                                 "/signup",
+                                                                "/login.html",
                                                                 "/dashboard",
                                                                 "/dashboard.html",
-                                                                "/login.html",
                                                                 "/auth/**",
                                                                 "/css/**",
                                                                 "/js/**",
                                                                 "/home",
                                                                 "/error/**",
-                                                                "/public/**")
+                                                                "/public/**",
+                                                                "/api.me")
                                                 .permitAll()
 
-                                                // ✅ Admin APIs
-                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                                // Admin APIs
+                                                .requestMatchers("/api/admin/**")
+                                                .hasRole("ADMIN")
 
-                                                // ✅ Authenticated APIs
+                                                // Post APIs
+                                                .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/posts/**").authenticated()
+                                                .requestMatchers(HttpMethod.PUT, "/posts/**").authenticated()
+                                                .requestMatchers(HttpMethod.DELETE, "/posts/**").authenticated()
+
+                                                // Authenticated APIs
                                                 .requestMatchers("/api/**", "/private/**").authenticated()
-
-                                                // ✅ Allow preflight (CORS)
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-
-                                                // ✅ Everything else
                                                 .anyRequest().authenticated());
 
                 return http.build();
@@ -100,16 +103,8 @@ public class ProjectSecurityConfigProd {
         }
 
         @Bean
-        public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-                        PasswordEncoder passwordEncoder)
-                        throws Exception {
-
-                IdnAuthenticationProvider authProvider = new IdnAuthenticationProvider(userDetailsService,
-                                passwordEncoder);
-                ProviderManager providerManager = new ProviderManager(authProvider);
-                providerManager.setEraseCredentialsAfterAuthentication(false);
-                return providerManager;
-
+        public AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
         }
-
 }

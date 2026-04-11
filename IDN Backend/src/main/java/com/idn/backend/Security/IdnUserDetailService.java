@@ -1,11 +1,7 @@
 package com.idn.backend.security;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,18 +18,11 @@ public class IdnUserDetailService implements UserDetailsService {
         private final AppUserRepo appUserRepo;
 
         @Override
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String username) {
+                AppUser user = appUserRepo.findByEmail(username)
+                                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-                AppUser appUser = appUserRepo.findByEmail(username)
-                                .orElseThrow(() -> new UsernameNotFoundException(username));
-
-                List<GrantedAuthority> authorities = List.of(
-                                new SimpleGrantedAuthority(appUser.getRole().name()));
-
-                return new User(
-                                appUser.getEmail(),
-                                appUser.getPassword(),
-                                authorities);
+                return new AppUserPrincipal(user);
         }
 
 }

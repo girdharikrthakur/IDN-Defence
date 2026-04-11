@@ -53,11 +53,11 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
                     Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
 
-                    String username = String.valueOf(claims.get("username"));
-                    String authorities = String.valueOf(claims.get("authorities"));
+                    String username = claims.getSubject(); // ✅ correct
+                    String role = claims.get("role", String.class); // ROLE_ADMIN
 
                     Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
-                            AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+                            AuthorityUtils.commaSeparatedStringToAuthorityList(role));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

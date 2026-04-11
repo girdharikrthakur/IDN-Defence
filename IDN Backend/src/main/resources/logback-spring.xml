@@ -6,12 +6,12 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="WARN"/>
-    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.hibernate" level="ERROR"/>
     <logger name="org.springframework.boot" level="WARN"/>
-    <logger name="com.yourpackage" level="DEBUG"/>
+    <logger name="com.yourpackage" level="WARN"/>
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
     </root>
 

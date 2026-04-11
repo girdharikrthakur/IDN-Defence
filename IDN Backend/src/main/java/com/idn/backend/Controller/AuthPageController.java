@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginLogoutController {
+public class AuthPageController {
 
     @GetMapping("/login")
     public String login() {
@@ -20,5 +20,7 @@ public class LoginLogoutController {
     public String getMethodName() {
         return "dashboard.html";
     }
+
+    
 
 }

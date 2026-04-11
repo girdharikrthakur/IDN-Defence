@@ -101,6 +101,19 @@
             margin-bottom: 15px;
             text-align: center;
         }
+
+        .oauthbutton {
+            width: 100px;
+            height: 45px;
+            color: white;
+            background-color: #555;
+            border-radius: 15px;
+
+        }
+
+        .social_login {
+            margin: 20px;
+        }
     </style>
 </head>
 
@@ -129,6 +142,15 @@
             <button class="login-btn" type="submit">Login</button>
 
         </form>
+
+        <div class="social_login">
+            <p>Login with</p>
+
+            <button class="oauthbutton" onclick="window.location.href='/oauth2/authorization/google'">Google</button>
+            <button class="oauthbutton" onclick="window.location.href='/oauth2/authorization/github'">GitHub</button>
+
+        </div>
+
     </div>
 
     <script>
@@ -157,9 +179,11 @@
 
                 // ✅ Get JWT from header
                 const token = response.headers.get("Authorization");
+                const refreshToken = response.headers.get("refreshToken");
 
                 // ✅ Store token
-                localStorage.setItem("jwt", token);
+                localStorage.setItem("accessToken", token);
+                localStorage.setItem("refreshToken", refreshToken);
 
                 alert("Login successful");
 

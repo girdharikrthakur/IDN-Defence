@@ -3,6 +3,7 @@ package com.idn.backend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class TagController {
 
     private final TagService tagService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ResponseEntity<ApiResponse<TagDTO>> saveTag(@RequestBody TagDTO dto) {
         TagDTO savedTag = tagService.saveTag(dto);
@@ -32,6 +34,7 @@ public class TagController {
         return ResponseEntity.ok().body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyRole('USER','AUTHOR','ADMIN')")
     @GetMapping()
     public ResponseEntity<ApiResponse<List<TagDTO>>> getAllTags() {
         List<TagDTO> tagList = tagService.getAllTags();
@@ -39,6 +42,7 @@ public class TagController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping()
     public ResponseEntity<ApiResponse<TagDTO>> deleteTag(Long id) {
         TagDTO tag = tagService.deleteTag(id);

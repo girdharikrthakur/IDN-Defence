@@ -110,8 +110,7 @@ This project aims to build a **News Website** featuring a **Home Page**, **Admin
 This project is not licensed for public use.
 All rights are reserved by the author.
 
-No part of this code may be used, copied, modified, or distributed without explicit permission. [LICENSE](LICENSE) file for details.
-
+No part of this code may be used, copied, modified, or distributed without explicit permission.
 
 
 ---

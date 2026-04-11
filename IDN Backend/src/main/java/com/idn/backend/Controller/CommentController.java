@@ -11,6 +11,7 @@ import com.idn.backend.services.impl.CommentsServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ public class CommentController {
 
     private final CommentsServiceImpl commentsService;
 
+    @PreAuthorize("hasAnyRole('USER','AUTHOR','ADMIN')")
     @GetMapping()
     public ResponseEntity<ApiResponse<CommentResponseDTO>> saveComment(
             Authentication authentication,
