@@ -3,6 +3,8 @@ package com.idn.backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.idn.backend.dto.request.UsersRequestDTO;
+import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.UsersResponseDTO;
 import com.idn.backend.services.impl.AppUserServiceImpl;
 
@@ -26,10 +28,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("add")
-    public String postMethodName(@RequestBody String entity) {
-        // TODO: process POST request
+    public ResponseEntity<ApiResponse<UsersResponseDTO>> postMethodName(@RequestBody UsersRequestDTO entity) {
 
-        return entity;
+        UsersResponseDTO savedUser = appUserService.saveUser(entity);
+
+        return ResponseEntity.ok(new ApiResponse<>("User added successfully", savedUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

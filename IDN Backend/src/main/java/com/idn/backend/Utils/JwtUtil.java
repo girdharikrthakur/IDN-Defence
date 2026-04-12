@@ -64,6 +64,15 @@ public class JwtUtil {
                 .getPayload();
     }
 
+    // Extract Claims
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
     // Extract Username
     public String extractUsername(String token) {
         return extractAllClaims(token).get("username", String.class);
@@ -85,12 +94,4 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    // Extract Claims
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
 }

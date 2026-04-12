@@ -9,7 +9,6 @@ import com.idn.backend.dto.request.UserLoginRequestDTO;
 import com.idn.backend.dto.request.UsersRequestDTO;
 import com.idn.backend.dto.response.UsersResponseDTO;
 import com.idn.backend.entity.AppUser;
-import com.idn.backend.entity.Role;
 import com.idn.backend.exception.UsernameNotFoundException;
 import com.idn.backend.mapper.AppUserMapper;
 import com.idn.backend.repo.AppUserRepo;
