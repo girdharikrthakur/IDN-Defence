@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import com.idn.backend.entity.AppUser;
 import com.idn.backend.entity.Role;
 import com.idn.backend.exception.UserAlreadyExistsException;
 import com.idn.backend.repo.AppUserRepo;
-import com.idn.backend.services.AuthService;
+import com.idn.backend.service.AuthService;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

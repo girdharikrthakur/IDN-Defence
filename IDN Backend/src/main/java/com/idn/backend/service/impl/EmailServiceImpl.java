@@ -1,11 +1,11 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Value;
-import com.idn.backend.services.EmailService;
+import com.idn.backend.service.EmailService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.SendGrid;

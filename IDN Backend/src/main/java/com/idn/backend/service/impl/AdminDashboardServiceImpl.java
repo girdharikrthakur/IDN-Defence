@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.util.List;
 

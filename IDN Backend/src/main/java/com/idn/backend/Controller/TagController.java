@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.dto.TagDTO;
 import com.idn.backend.dto.response.ApiResponse;
-import com.idn.backend.services.TagService;
+import com.idn.backend.service.TagService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import com.idn.backend.entity.AppUser;
 import com.idn.backend.exception.UsernameNotFoundException;
 import com.idn.backend.mapper.AppUserMapper;
 import com.idn.backend.repo.AppUserRepo;
-import com.idn.backend.services.AppUserService;
+import com.idn.backend.service.AppUserService;
 
 import lombok.RequiredArgsConstructor;
 

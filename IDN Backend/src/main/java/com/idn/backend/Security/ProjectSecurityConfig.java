@@ -27,7 +27,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.idn.backend.filter.CsrfCookieFilter;
 import com.idn.backend.filter.JWTTokenValidatorFilter;
-import com.idn.backend.services.impl.OAuth2SuccessHandler;
+import com.idn.backend.service.impl.OAuth2SuccessHandler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -88,13 +88,13 @@ public class ProjectSecurityConfig {
                                                                 "/home.html",
                                                                 "/error/**",
                                                                 "/public/**",
-                                                                "/api/me",
                                                                 "/oauth2/**")
                                                 .permitAll()
 
                                                 // Admin APIs
                                                 .requestMatchers("/api/admin/**")
                                                 .hasRole("ADMIN")
+                                                .requestMatchers("/api/me").authenticated()
 
                                                 // Post APIs
                                                 .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()

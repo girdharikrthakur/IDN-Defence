@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.request.UsersRequestDTO;
 import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.UsersResponseDTO;
-import com.idn.backend.services.impl.AppUserServiceImpl;
+import com.idn.backend.service.impl.AppUserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

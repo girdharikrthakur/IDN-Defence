@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.request.CategoryRequestDTO;
 import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.CategoryResponseDTO;
-import com.idn.backend.services.impl.CategoryServiceImpl;
+import com.idn.backend.service.impl.CategoryServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

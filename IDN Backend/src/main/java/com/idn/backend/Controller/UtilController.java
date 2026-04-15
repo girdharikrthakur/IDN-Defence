@@ -3,7 +3,6 @@ package com.idn.backend.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +16,18 @@ public class UtilController {
     @GetMapping("/me")
     public Map<String, Object> getCurrentUser(Authentication auth) {
 
+        // ✅ Check authentication properly
         if (auth == null || !auth.isAuthenticated()
-                || auth instanceof AnonymousAuthenticationToken) {
-            return Map.of("loggedIn", false);
+                || auth.getPrincipal().equals("anonymousUser")) {
+
+            return Map.of(
+                    "loggedIn", false,
+                    "username", null,
+                    "roles", List.of(),
+                    "isAdmin", false);
         }
 
+        // ✅ Extract roles safely
         List<String> roles = auth.getAuthorities() == null
                 ? List.of()
                 : auth.getAuthorities()
@@ -29,6 +35,7 @@ public class UtilController {
                         .map(GrantedAuthority::getAuthority)
                         .toList();
 
+        // ✅ Check admin role
         boolean isAdmin = roles.contains("ROLE_ADMIN");
 
         return Map.of(

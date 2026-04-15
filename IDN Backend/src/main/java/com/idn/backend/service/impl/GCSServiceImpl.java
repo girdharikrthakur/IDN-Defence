@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
-import com.idn.backend.services.GCSService;
+import com.idn.backend.service.GCSService;
 
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;

@@ -1,4 +1,5 @@
-package com.idn.backend.services;
+package com.idn.backend.service;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

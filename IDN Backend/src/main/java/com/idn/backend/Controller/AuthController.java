@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.dto.request.RegistrationDTO;
 import com.idn.backend.dto.response.TokenResponse;
-import com.idn.backend.services.impl.AuthServiceImpl;
-import com.idn.backend.services.impl.SessionService;
+import com.idn.backend.service.impl.AuthServiceImpl;
+import com.idn.backend.service.impl.SessionService;
 import com.idn.backend.dto.request.LoginRequestDTO;
 import com.idn.backend.dto.request.OAuthCompleteRequest;
 

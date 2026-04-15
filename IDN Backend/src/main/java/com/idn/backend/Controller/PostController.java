@@ -2,8 +2,8 @@ package com.idn.backend.controller;
 
 import com.idn.backend.dto.request.PostRequestDTO;
 import com.idn.backend.dto.response.PostResponseDTO;
-import com.idn.backend.services.impl.PostServiceImpl;
-import com.idn.backend.services.impl.PostViewServiceImpl;
+import com.idn.backend.service.impl.PostServiceImpl;
+import com.idn.backend.service.impl.PostViewServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

@@ -34,7 +34,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("userId", user.getId())
-                .claim("role", user.getRole())
+                .claim("role", user.getRole().name())
                 .claim("type", "ACCESS")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_EXP))
@@ -75,7 +75,7 @@ public class JwtUtil {
 
     // Extract Username
     public String extractUsername(String token) {
-        return extractAllClaims(token).get("username", String.class);
+        return extractAllClaims(token).getSubject();
     }
 
     // Extract Authorities

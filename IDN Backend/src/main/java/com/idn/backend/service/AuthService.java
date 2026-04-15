@@ -1,4 +1,5 @@
-package com.idn.backend.services;
+package com.idn.backend.service;
+
 
 import com.idn.backend.dto.request.RegistrationDTO;
 

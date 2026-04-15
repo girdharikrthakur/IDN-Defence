@@ -1,91 +1,42 @@
 import data from "../assets/data.json";
 import NewsCard from "../components/NewsCard";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [article, setArticle] = useState(null);
-  const [mostViewed, setMostViewed] = useState(null);
-
-  useEffect(() => {
-    fetch("https://api.example.com/most-viewed")
-      .then((res) => res.json())
-      .then((data) => setArticle(data)) // single object
-      .catch((err) => console.error(err));
-
-    fetch("https://api.example.com/most-viewed")
-      .then((res) => res.json())
-      .then((data) => setMostViewed(data))
-      .catch((err) => console.error(err));
-  }, []);
-
+  const navigate = useNavigate();
   return (
     <>
-      <div className="flex w-ful bg-amber-50">
-        <div className="flex justify-center p-6 mix-h-100">
-          {article && (
-            <div className="w-80 border p-4 rounded shadow bg-gray-200">
-              <img
-                src={article.imageUrl}
-                alt={article.title}
-                className="w-full h-40 object-cover rounded"
-              />
-
-              <h2 className="font-bold mt-2">{article.title}</h2>
-              <p className="text-sm text-gray-600">{article.heading}</p>
-
-              <div className="flex justify-between mt-2 text-sm">
-                <span>❤️ {article.likes}</span>
-                <span>{article.author}</span>
-              </div>
-
-              <p className="text-xs text-gray-400 mt-1">
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-          )}
+      <div
+        onClick={() => navigate(`/article/${data[0].id}`)}
+        className="flex flex-wrap gap-4 mt-20 px-4"
+      >
+        {/* LEFT BIG CARD */}
+        <div className="w-full md:w-[48%] h-[400px] bg-gray-100 shadow rounded overflow-hidden">
+          <img src={data[0].imageUrl} className="w-full h-60 object-cover" />
+          <div className="p-4">
+            <h2 className="text-xl font-bold">{data[0].title}</h2>
+            <h1 className="text-gray-600 mt-2">{data[0].heading}</h1>
+          </div>
         </div>
 
-        <div className="flex justify-center p-6 min-h-100">
-          {mostViewed && (
-            <div className="w-80 border p-4 rounded shadow">
-              <img
-                src={mostViewed.imageUrl}
-                alt={mostViewed.title}
-                className="w-full h-40 object-cover rounded"
-              />
-
-              <h2 className="font-bold mt-2">{mostViewed.title}</h2>
-              <p className="text-sm text-gray-600">{mostViewed.heading}</p>
-
-              <div className="flex justify-between mt-2 text-sm">
-                <span>❤️ {mostViewed.likes}</span>
-                <span>{mostViewed.author}</span>
-              </div>
-
-              <p className="text-xs text-gray-400 mt-1">
-                {new Date(mostViewed.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-          )}
+        {/* RIGHT SECTION (4 CARDS) */}
+        <div className="w-full md:w-[48%] h-[400px] grid grid-cols-2 gap-3">
+          {data.slice(1, 5).map((item) => (
+            <NewsCard key={item.id} {...item} />
+          ))}
         </div>
       </div>
 
-      <div className="mt-8">
-        <div className=" flex flex-row gap-4 flex-wrap justify-center  min-w-100">
+      {/* Lower Card */}
+      <div className="mt-8 px-4">
+        <div className="flex flex-wrap gap-4 justify-center">
           {data.slice(0, 6).map((item) => (
-            <NewsCard
-              key={item.id}
-              title={item.title}
-              heading={item.heading}
-              imageUrl={item.imageUrl}
-              views={item.views}
-              author={item.author}
-              createdAt={item.createdAt}
-            />
+            <NewsCard key={item.id} {...item} />
           ))}
         </div>
       </div>
     </>
   );
 }
+
 export default Home;

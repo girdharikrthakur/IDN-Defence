@@ -15,7 +15,7 @@ import com.idn.backend.dto.DashboardStatsDTO;
 import com.idn.backend.dto.PostDTO;
 import com.idn.backend.dto.UserDTO;
 import com.idn.backend.repo.PostRepo;
-import com.idn.backend.services.impl.AdminDashboardServiceImpl;
+import com.idn.backend.service.impl.AdminDashboardServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

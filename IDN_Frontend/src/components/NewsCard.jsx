@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function NewsCard({
+  id,
   title,
   heading,
   imageUrl,
@@ -6,8 +9,12 @@ export default function NewsCard({
   author,
   createdAt,
 }) {
+  const navigate = useNavigate();
   return (
-    <div className="m-4 p-4 rounded shadow-md  min-w-100 max-w-100 min-h-75">
+    <div
+      onClick={() => navigate(`/article/${id}`)}
+      className="m-4 p-4 rounded shadow-md 5"
+    >
       <img
         src={imageUrl}
         alt={title}

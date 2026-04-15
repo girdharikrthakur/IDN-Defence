@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.idn.backend.dto.BookmarkDTO;
 import com.idn.backend.dto.response.ApiResponse;
-import com.idn.backend.services.impl.BookmarkServiceImpl;
+import com.idn.backend.service.impl.BookmarkServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

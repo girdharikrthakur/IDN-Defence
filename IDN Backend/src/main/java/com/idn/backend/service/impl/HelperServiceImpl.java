@@ -1,11 +1,11 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.idn.backend.entity.AppUser;
 import com.idn.backend.repo.AppUserRepo;
-import com.idn.backend.services.HelperServices;
+import com.idn.backend.service.HelperServices;
 
 import lombok.RequiredArgsConstructor;
 

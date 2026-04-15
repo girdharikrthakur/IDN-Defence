@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import com.idn.backend.repo.PostRepo;
 import com.idn.backend.repo.PostTagRepo;
 import com.idn.backend.repo.PostViewRepo;
 import com.idn.backend.repo.TagRepo;
-import com.idn.backend.services.PostService;
+import com.idn.backend.service.PostService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

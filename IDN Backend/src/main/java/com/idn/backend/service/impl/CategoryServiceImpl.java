@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import com.idn.backend.entity.Category;
 import com.idn.backend.exception.ResourceNotFoundException;
 import com.idn.backend.mapper.CategoryMapper;
 import com.idn.backend.repo.CategoryRepo;
-import com.idn.backend.services.CategoryService;
+import com.idn.backend.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 

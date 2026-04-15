@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -29,41 +27,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
-    private final Environment env;
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
         String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
 
-        if (jwt != null) {
+        if (jwt != null && jwt.startsWith("Bearer ")) {
 
-            if (jwt.startsWith("Bearer ")) {
-                jwt = jwt.substring(7);
-            }
+            jwt = jwt.substring(7);
 
             try {
-                if (env != null) {
+                String secret = ApplicationConstants.JWT_SECRET_DEFAULT_VALUE;
+                SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
-                    String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
-                            ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+                Claims claims = Jwts.parser()
+                        .verifyWith(secretKey)
+                        .build()
+                        .parseSignedClaims(jwt)
+                        .getPayload();
 
-                    SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+                String username = claims.getSubject();
+                String role = claims.get("role", String.class);
 
-                    Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
+                var authorities = role != null
+                        ? AuthorityUtils.commaSeparatedStringToAuthorityList(role)
+                        : AuthorityUtils.NO_AUTHORITIES;
 
-                    String username = claims.getSubject(); // ✅ correct
-                    String role = claims.get("role", String.class); // ROLE_ADMIN
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
-                            AuthorityUtils.commaSeparatedStringToAuthorityList(role));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-
-            } catch (Exception exception) {
-                throw new BadCredentialsException("Invalid Token Recived");
+            } catch (Exception ex) {
+                SecurityContextHolder.clearContext();
             }
         }
 

@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,7 @@ import com.idn.backend.entity.AppUser;
 import com.idn.backend.entity.Bookmark;
 import com.idn.backend.mapper.BookmarkMapper;
 import com.idn.backend.repo.BookmarkRepo;
-import com.idn.backend.services.BookmarkService;
+import com.idn.backend.service.BookmarkService;
 
 import lombok.RequiredArgsConstructor;
 

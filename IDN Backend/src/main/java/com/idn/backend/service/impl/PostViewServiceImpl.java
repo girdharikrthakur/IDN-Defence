@@ -1,4 +1,4 @@
-package com.idn.backend.services.impl;
+package com.idn.backend.service.impl;
 
 import java.time.LocalDate;
 
@@ -8,7 +8,7 @@ import com.idn.backend.entity.Post;
 import com.idn.backend.entity.PostView;
 import com.idn.backend.repo.PostRepo;
 import com.idn.backend.repo.PostViewRepo;
-import com.idn.backend.services.PostViewService;
+import com.idn.backend.service.PostViewService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

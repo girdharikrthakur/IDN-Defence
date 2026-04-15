@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.request.CommentRequestDTO;
 import com.idn.backend.dto.response.ApiResponse;
 import com.idn.backend.dto.response.CommentResponseDTO;
-import com.idn.backend.services.impl.CommentsServiceImpl;
+import com.idn.backend.service.impl.CommentsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
