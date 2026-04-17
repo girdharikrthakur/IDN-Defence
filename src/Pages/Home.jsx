@@ -1,5 +1,5 @@
 import data from "../assets/data.json";
-import NewsCard from "../components/NewsCard.jsx";
+import NewsCard from "../Components/NewsCard.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
