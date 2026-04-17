@@ -7,7 +7,7 @@ import SignUp from "./Pages/SignUp.jsx";
 import CompleteRegistration from "./Pages/CompleteRegistration.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
 import ArticlePage from "./Pages/ArticlePage.jsx";
-import Layout from "./components/Layout.jsx";
+import Layout from "./Components/Layout.jsx";
 
 function App() {
   return (
