@@ -3,6 +3,7 @@ package com.idn.backend.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.ContactDTO;
 import com.idn.backend.entity.Contact;
@@ -12,12 +13,14 @@ import com.idn.backend.repo.ContactRepo;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ContactService {
 
     private final ContactRepo contactRepo;
     private final ContactMapper contactMapper;
 
+    @Transactional
     public ContactDTO saveMessage(ContactDTO dto) {
 
         Contact message = contactMapper.toEntity(dto);

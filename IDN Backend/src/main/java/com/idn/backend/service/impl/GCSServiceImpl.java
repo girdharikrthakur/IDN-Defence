@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.cloud.storage.BlobId;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class GCSServiceImpl implements GCSService {
 
@@ -24,6 +26,7 @@ public class GCSServiceImpl implements GCSService {
 
     private final Storage storage;
 
+    @Transactional
     public String uploadFile(MultipartFile file) throws IOException {
         String originalFileName = file.getOriginalFilename();
         String extension = "";
@@ -56,6 +59,7 @@ public class GCSServiceImpl implements GCSService {
     }
 
     @Override
+    @Transactional
     public String uploadImage(MultipartFile file) throws IOException {
 
         String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
@@ -81,6 +85,7 @@ public class GCSServiceImpl implements GCSService {
         return getPublicUrl(fileName);
     }
 
+    @Transactional
     public String uploadVideo(MultipartFile file) throws IOException {
 
         String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();

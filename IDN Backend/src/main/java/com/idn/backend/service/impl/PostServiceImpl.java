@@ -11,10 +11,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
 
 import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.entity.Media;
 import com.idn.backend.entity.Post;
@@ -28,10 +30,10 @@ import com.idn.backend.repo.PostViewRepo;
 import com.idn.backend.repo.TagRepo;
 import com.idn.backend.service.PostService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -85,10 +87,11 @@ public class PostServiceImpl implements PostService {
         return postMapper.toPostResponseDTO(savedPost);
     }
 
+    // Get All the Posts with Pagination
     @Override
-    public List<PostResponseDTO> getPosts(Long cursor, int limit) {
+    public CursorPageResponse<PostResponseDTO> getPosts(Long cursor, int limit) {
 
-        Pageable pageable = PageRequest.of(0, limit);
+        Pageable pageable = PageRequest.of(0, limit + 1);
 
         List<Post> posts;
 
@@ -98,9 +101,22 @@ public class PostServiceImpl implements PostService {
             posts = postRepo.findByDeletedFalseAndIdLessThanOrderByIdDesc(cursor, pageable);
         }
 
-        return postMapper.toPostResponseDTOList(posts);
+        boolean hasMore = posts.size() > limit;
+
+        if (hasMore) {
+            posts = posts.subList(0, limit);
+        }
+
+        List<PostResponseDTO> postDTOs = postMapper.toPostResponseDTOList(posts);
+
+        Long nextCursor = posts.isEmpty()
+                ? null
+                : posts.get(posts.size() - 1).getId();
+
+        return new CursorPageResponse<PostResponseDTO>(postDTOs, nextCursor, hasMore);
     }
 
+    // Get post by id for public view (only non-deleted posts)
     @Override
     public PostResponseDTO getPostById(Long id) {
 
@@ -110,12 +126,14 @@ public class PostServiceImpl implements PostService {
         return postMapper.toPostResponseDTO(post);
     }
 
+    // Search posts by title or content
     @Override
     public List<PostResponseDTO> searchPosts(String query) {
         List<Post> posts = postRepo.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query, query);
         return postMapper.toPostResponseDTOList(posts);
     }
 
+    // Update post (only author or admin can update)
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @Transactional
     @Override
@@ -172,7 +190,9 @@ public class PostServiceImpl implements PostService {
         return postMapper.toPostResponseDTO(savedPost);
     }
 
+    // Delete post (only author or admin can delete) - Soft Delete
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
     @Override
     public void deletePost(Long id) {
 
@@ -196,6 +216,7 @@ public class PostServiceImpl implements PostService {
         throw new AccessDeniedException("You are not allowed to delete this post");
     }
 
+    // Get most viewed posts in last 24 hours
     @Override
     public List<PostResponseDTO> getMostViewedPosts(int limit) {
 
@@ -214,6 +235,7 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
+    // Get trending posts (most views + recent) in last 24 hours
     @Override
     public List<PostResponseDTO> getTrendingPosts(int limit) {
 
@@ -233,7 +255,8 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
-    // Helper Method
+    // Helper Method for validating if the current user is the author of the post or
+    // an admin
     private void validatePostAccess(Post post) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

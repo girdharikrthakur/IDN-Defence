@@ -12,7 +12,7 @@ import Layout from "./components/Layout";
 function App() {
   return (
     <>
-      <div>
+      <div className="bg-gray-100">
         <Routes>
           <Route element={<Layout />}>
             <Route path="/article/:id" element={<ArticlePage />} />

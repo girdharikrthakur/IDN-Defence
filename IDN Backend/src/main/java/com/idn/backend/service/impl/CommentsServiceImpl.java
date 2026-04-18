@@ -1,6 +1,7 @@
 package com.idn.backend.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.request.CommentRequestDTO;
 import com.idn.backend.dto.response.CommentResponseDTO;
@@ -16,6 +17,7 @@ import com.idn.backend.repo.PostRepo;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentsServiceImpl {
 
@@ -24,6 +26,7 @@ public class CommentsServiceImpl {
     private final PostRepo postRepo;
     private final AppUserRepo appUserRepo;
 
+    @Transactional
     public CommentResponseDTO saveComment(CommentRequestDTO req, String email) {
 
         AppUser user = appUserRepo.findByEmail(email)

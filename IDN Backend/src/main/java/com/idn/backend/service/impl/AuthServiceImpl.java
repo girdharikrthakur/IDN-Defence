@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.Utils.JwtUtil;
 import com.idn.backend.dto.request.RegistrationDTO;
@@ -18,6 +19,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
@@ -27,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void userSignUp(RegistrationDTO reg) {
 
         Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(reg.email());
@@ -52,6 +55,8 @@ public class AuthServiceImpl implements AuthService {
         sessionService.createSession(newUser);
     }
 
+    // User Login with email and password
+    @Transactional
     public TokenResponse login(String email,
             String password) {
         AppUser user = appUserRepo.findByEmail(email)
@@ -64,6 +69,9 @@ public class AuthServiceImpl implements AuthService {
         return sessionService.createSession(user);
     }
 
+    // Complete OAuth flow by accepting the temporary token, username and password
+    // to create a new user and return JWT
+    @Transactional
     public TokenResponse completeOAuth(String token, String username, String password) {
 
         if (token == null || token.isBlank()) {
@@ -75,14 +83,15 @@ public class AuthServiceImpl implements AuthService {
         if (!"OAUTH_TEMP".equals(claims.get("type"))) {
             throw new RuntimeException("Invalid Token");
         }
-
-        String email = claims.getSubject();
+        String provider = tokenService.extractProvider(token);
+        String email = tokenService.extractEmail(token);
 
         AppUser newUser = new AppUser();
 
         newUser.setEmail(email);
         newUser.setUserName(username);
         newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setProvider(provider);
         newUser.setRole(Role.ROLE_USER);
         newUser.setEmailVerified(true);
         newUser.setEnabled(true);

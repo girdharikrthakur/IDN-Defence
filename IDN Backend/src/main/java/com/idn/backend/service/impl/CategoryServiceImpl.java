@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.request.CategoryRequestDTO;
 import com.idn.backend.dto.response.CategoryResponseDTO;
@@ -17,6 +18,7 @@ import com.idn.backend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
@@ -24,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
+    @Transactional
     public CategoryResponseDTO addNewCategory(CategoryRequestDTO dto) {
         Category category = categoryMapper.toCategory(dto);
         Category savedCategory = categoryRepo.save(category);
@@ -49,6 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO dto) {
         Optional<Category> existingCategory = categoryRepo.findByIdAndActiveTrue(id);
         if (existingCategory.isPresent()) {
@@ -62,6 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryResponseDTO deleteCategory(Long id) {
 
         Category category = categoryRepo.findByIdAndActiveTrue(id)

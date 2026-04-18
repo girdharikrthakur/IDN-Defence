@@ -38,6 +38,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\r
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CategoryResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CommentResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\ContactResponseDTO.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CursorPageResponse.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\DraftResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\PostResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\TokenResponse.java

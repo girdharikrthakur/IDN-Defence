@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.BookmarkDTO;
 import com.idn.backend.entity.AppUser;
@@ -15,6 +16,7 @@ import com.idn.backend.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
 
@@ -24,6 +26,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN','USER')")
     @Override
+    @Transactional
     public BookmarkDTO saveBookmark(BookmarkDTO dto) {
 
         Bookmark bookmark = bookmarkMapper.toEntity(dto);
@@ -44,6 +47,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN','USER')")
     @Override
+    @Transactional
     public BookmarkDTO deleteBookmark(Long id) {
 
         AppUser user = helperServices.getCurrentUser();

@@ -3,6 +3,7 @@ package com.idn.backend.service.impl;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.entity.Post;
 import com.idn.backend.entity.PostView;
@@ -10,10 +11,10 @@ import com.idn.backend.repo.PostRepo;
 import com.idn.backend.repo.PostViewRepo;
 import com.idn.backend.service.PostViewService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PostViewServiceImpl implements PostViewService {
 

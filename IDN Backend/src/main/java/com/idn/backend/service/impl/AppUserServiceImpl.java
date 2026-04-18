@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.request.UserLoginRequestDTO;
 import com.idn.backend.dto.request.UsersRequestDTO;
@@ -17,6 +18,7 @@ import com.idn.backend.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AppUserServiceImpl implements AppUserService {
 
@@ -39,6 +41,7 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserMapper.toAppUserResponseDTO(userOptional.get());
     }
 
+    @Transactional
     public void login(UserLoginRequestDTO entity) {
         Optional<AppUser> userOptional = appUserRepo.findByEmail(entity.email());
         if (userOptional.isEmpty()) {
@@ -50,6 +53,7 @@ public class AppUserServiceImpl implements AppUserService {
         }
     }
 
+    @Transactional
     public UsersResponseDTO saveUser(UsersRequestDTO entity) {
         appUserRepo.findByEmail(entity.email()).ifPresent(u -> {
             throw new UsernameNotFoundException("User already exists with email: " + entity.email());

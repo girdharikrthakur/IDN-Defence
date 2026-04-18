@@ -52,7 +52,7 @@ public class AppUserPrincipal implements UserDetails {
     }
 
     public String getProvider() {
-        return appUser.getProvider(); // GOOGLE / LOCAL
+        return appUser.getProvider();
     }
 
 }

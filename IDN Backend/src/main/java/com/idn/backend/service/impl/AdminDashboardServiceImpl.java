@@ -3,6 +3,7 @@ package com.idn.backend.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.dto.CategoryStatsDTO;
 import com.idn.backend.dto.DashboardStatsDTO;
@@ -16,6 +17,7 @@ import com.idn.backend.repo.PostRepo;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AdminDashboardServiceImpl {
 

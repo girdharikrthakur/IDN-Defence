@@ -20,7 +20,9 @@ public interface PostRepo extends JpaRepository<Post, Long> {
 
     List<Post> findByDeletedFalseOrderByIdDesc(Pageable pageable);
 
-    List<Post> findByDeletedFalseAndIdLessThanOrderByIdDesc(Long cursor, Pageable pageable);
+    List<Post> findByDeletedFalseAndIdLessThanOrderByIdDesc(
+            Long cursor,
+            Pageable pageable);
 
     // Admin Dashboard APIs
 

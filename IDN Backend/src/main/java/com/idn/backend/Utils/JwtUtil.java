@@ -28,7 +28,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
-    // ACCESS TOKEN (for API calls)
+    // Access Token with user details and role, expires in 15 mins
 
     public String generateAccessToken(AppUser user) {
         return Jwts.builder()
@@ -42,12 +42,14 @@ public class JwtUtil {
                 .compact();
     }
 
-    // TEMP TOKEN (Used To register OAuth user)
+    // Temporary Token for OAuth users with email, name and provider details,
+    // expires in 10 mins
 
-    public String generateTempToken(String email, String name) {
+    public String generateTempToken(String email, String name, String provider) {
         return Jwts.builder()
                 .subject(email)
                 .claim("name", name)
+                .claim("provider", provider)
                 .claim("type", "OAUTH_TEMP")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + TEMP_EXP))
@@ -55,7 +57,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Token Validation
+    // Token validation for both Access and Temp tokens, returns claims if valid
     public Claims validateToken(String token) {
         return Jwts.parser()
                 .verifyWith(getKey())
@@ -64,7 +66,9 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    // Extract Claims
+    // Extract all claims without validating expiration (used for extracting details
+    // from temp token during OAuth completion)
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getKey())
@@ -73,25 +77,40 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    // Extract Username
-    public String extractUsername(String token) {
+    // Helper methods to extract specific claims
+
+    public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
     }
 
-    // Extract Authorities
-    public String extractAuthorities(String token) {
-        return extractAllClaims(token).get("authorities", String.class);
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
     }
 
-    // Validate Token
-    public boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public String extractProvider(String token) {
+        return extractAllClaims(token).get("provider", String.class);
     }
 
-    // Check Expiration
+    public String extractType(String token) {
+        return extractAllClaims(token).get("type", String.class);
+    }
+
+    // Validate if token is valid and belongs to the given email (used for securing
+    // temp token endpoints)
+
+    public boolean isTokenValid(String token, String email) {
+        return extractEmail(token).equals(email) && !isTokenExpired(token);
+    }
+
+    public boolean isAccessToken(String token) {
+        return "ACCESS".equals(extractType(token));
+    }
+
+    public boolean isTempToken(String token) {
+        return "OAUTH_TEMP".equals(extractType(token));
+    }
+
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
-
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.Utils.JwtUtil;
 import com.idn.backend.dto.response.TokenResponse;
@@ -17,6 +18,7 @@ import com.idn.backend.repo.UserSessionRepo;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SessionService {
 
@@ -25,6 +27,7 @@ public class SessionService {
 
     private final long REFRESH_DAYS = 1000 * 60 * 7;
 
+    @Transactional
     public TokenResponse createSession(AppUser user) {
 
         String accessToken = tokenService.generateAccessToken(user);
@@ -41,6 +44,7 @@ public class SessionService {
 
     }
 
+    @Transactional
     public TokenResponse refresh(String token) {
 
         UserSession session = repo.findByRefreshToken(token)
@@ -56,6 +60,7 @@ public class SessionService {
 
     }
 
+    @Transactional
     private void revokeAll(AppUser user) {
         List<UserSession> sessionList = repo.findByUser(user);
         sessionList.forEach(s -> s.setRevoked(true));

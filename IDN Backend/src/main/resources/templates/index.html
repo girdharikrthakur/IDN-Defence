@@ -32,7 +32,7 @@
                     Dashboard</a>
 
                 <button id="logoutBtn" onclick="logout()"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded hidden">
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     Logout
                 </button>
 
@@ -134,7 +134,35 @@
     </div>
 
     <script>
-     
+
+        async function checkUser() {
+            try {
+                const response = await fetch("http://127.0.0.1:8080/api/me", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                    }
+                });
+
+                const data = await response.json();
+
+                const dashBtn = document.getElementById("dashboardBtn");
+
+                // ✅ Check admin
+                if (data.loggedIn && data.isAdmin) {
+                    dashBtn.classList.remove("hidden"); // SHOW
+                } else {
+                    dashBtn.classList.add("hidden"); // HIDE
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        // call on page load
+        checkUser();
+
     </script>
 
 </body>

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.idn.backend.Utils.JwtUtil;
 import com.idn.backend.entity.AppUser;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -50,7 +52,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
         } else {
-            String tempToken = tokenService.generateTempToken(email, name);
+            String provider = oAuthUser.getAttribute("provider");
+            String tempToken = tokenService.generateTempToken(email, name, provider);
 
             String redirectUrl = "http://localhost:5173/complete-registration?token=" + tempToken;
 

@@ -3,6 +3,7 @@ package com.idn.backend.service.impl;
 import java.io.IOException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.api.client.util.Value;
 import com.idn.backend.service.EmailService;
@@ -16,6 +17,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
@@ -26,6 +28,7 @@ public class EmailServiceImpl implements EmailService {
     private String verifyUrl;
 
     @Override
+    @Transactional
     public void sendVerificationEmail(String toEmail, String token) throws IOException {
         SendGrid sendGrid = new SendGrid(apiKey);
 

@@ -1,6 +1,7 @@
 package com.idn.backend.controller;
 
 import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.service.impl.PostServiceImpl;
 import com.idn.backend.service.impl.PostViewServiceImpl;
@@ -33,6 +34,7 @@ public class PostController {
     private final PostServiceImpl postService;
     private final PostViewServiceImpl postViewService;
 
+    // Create new post (only AUTHOR or ADMIN can create)
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> postMethodName(
@@ -43,14 +45,16 @@ public class PostController {
         return ResponseEntity.ok("Post Created with id: " + savedPost.getId());
     }
 
+    // Get all posts with cursor-based pagination
     @GetMapping
-    public ResponseEntity<List<PostResponseDTO>> getPosts(
+    public ResponseEntity<CursorPageResponse<PostResponseDTO>> getPosts(
             @RequestParam(required = false) Long cursor,
             @RequestParam(defaultValue = "10") int limit) {
 
         return ResponseEntity.ok(postService.getPosts(cursor, limit));
     }
 
+    // Get post by ID and register view
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id, Authentication authentication,
             HttpServletRequest request) {
@@ -66,6 +70,7 @@ public class PostController {
 
     }
 
+    // Search posts by title or content
     @GetMapping("/search")
     public ResponseEntity<List<PostResponseDTO>> searchPosts(@RequestParam String query) {
 
@@ -73,6 +78,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    // Update post (only author or admin can update)
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<String> updatePost(
@@ -84,6 +90,7 @@ public class PostController {
         return ResponseEntity.ok("Post Updated with id: " + savedPost.getId());
     }
 
+    // Soft delete post (only author or admin can delete)
     @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {

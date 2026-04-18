@@ -13,7 +13,7 @@ export default function NewsCard({
   return (
     <div
       onClick={() => navigate(`/article/${id}`)}
-      className="m-4 p-4 rounded shadow-md 5"
+      className="m-4 p-4 rounded min-w-[400px] bg-white"
     >
       <img
         src={imageUrl}
