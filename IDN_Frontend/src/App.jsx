@@ -1,13 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import CompleteRegistration from "./pages/CompleteRegistration";
-import Dashboard from "./pages/Dashboard";
-import ArticlePage from "./pages/ArticlePage";
-import Layout from "./components/Layout";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import CompleteRegistration from "./pages/CompleteRegistration.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import ArticlePage from "./pages/ArticlePage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
+import Layout from "./Components/Layout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               path="/complete-registration"
               element={<CompleteRegistration />}
             />
+            <Route path="/category/:category" element={<CategoryPage />} />
           </Route>
         </Routes>
       </div>

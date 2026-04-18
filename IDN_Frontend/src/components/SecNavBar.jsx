@@ -1,15 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function SecNavBar() {
+  const location = useLocation();
+
+  const categories = [
+    { name: "Army", value: "army" },
+    { name: "Navy", value: "navy" },
+    { name: "Air Force", value: "airforce" },
+    { name: "Space", value: "space" },
+    { name: "India", value: "india" },
+    { name: "World", value: "world" },
+  ];
+
   return (
     <>
       <div className="mt-15 p-2 flex flex-wrap gap-8 justify-center bg-white text-gray-700">
-        <Link to="/Army">Army</Link>
-        <Link to="/navy">Navy</Link>
-        <Link to="/airforce">Air Force</Link>
-        <Link to="/space">Space</Link>
-        <Link to="/india">India</Link>
-        <Link to="/world">World</Link>
+        {categories.map((cat) => (
+          <Link
+            key={cat.value}
+            to={`/category/${cat.value}`}
+            className={
+              location.pathname === `/category/${cat.value}`
+                ? "font-bold text-gray-700"
+                : ""
+            }
+          >
+            {cat.name}
+          </Link>
+        ))}
       </div>
     </>
   );

@@ -1,57 +1,54 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import api from "../api/axios"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 function SignUp() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
     userName: "",
     password: "",
-  })
+  });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSignup = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      await api.post("/auth/register", form)
-      alert("Signup successful 🚀")
-      navigate("/login")
+      await api.post("/auth/register", form);
+      alert("Signup successful ");
+      navigate("/login");
     } catch (error) {
-      console.error(error)
-      alert("Signup failed ❌")
+      console.error(error);
+      alert("Signup failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  // 🔐 OAuth Redirects
+  // OAuth Redirects
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google"
-  }
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
 
   const handleGithubLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github"
-  }
+    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 space-y-4">
-        
         <h2 className="text-2xl font-bold text-center">Create Account</h2>
 
         {/* FORM */}
         <form onSubmit={handleSignup} className="space-y-4">
-
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
@@ -65,18 +62,18 @@ function SignUp() {
             />
           </div>
 
-            <div>
+          <div>
             <label className="block text-sm font-medium">Username</label>
             <input
-                type="text"  // ✅ FIX (not "username")
-                name="username"
-                placeholder="Enter Username"
-                value={form.username}  // ✅ FIX
-                onChange={handleChange}
-                required
-                className="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="text"
+              name="username"
+              placeholder="Enter Username"
+              value={form.username}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            </div>
+          </div>
 
           <div>
             <label className="block text-sm font-medium">Password</label>
@@ -109,21 +106,19 @@ function SignUp() {
 
         {/* SOCIAL LOGIN */}
         <div className="space-y-2">
-          
           <button
             onClick={handleGoogleLogin}
             className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
           >
-            🔵 Continue with Google
+            <img src="" alt="google logo" /> Continue with Google
           </button>
 
           <button
             onClick={handleGithubLogin}
             className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
           >
-            ⚫ Continue with GitHub
+            <img src="" alt="github logo" /> Continue with GitHub
           </button>
-
         </div>
 
         {/* LOGIN LINK */}
@@ -133,10 +128,9 @@ function SignUp() {
             Login
           </Link>
         </p>
-
       </div>
     </div>
-  )
+  );
 }
 
-export default SignUp
+export default SignUp;
