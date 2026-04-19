@@ -8,8 +8,8 @@ import CompleteRegistration from "./pages/CompleteRegistration.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
-import Layout from "./Components/Layout";
-import OAuthSuccess from "./Components/oauth-success.jsx";
+import Layout from "./components/Layout.jsx";
+import OAuthSuccess from "./components/oauth-success.jsx";
 
 function App() {
   return (
