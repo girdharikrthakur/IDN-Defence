@@ -28,3 +28,7 @@ export const getPostById = (id) => {
 export const getUsers = () => {
   return api.get("/api/admin/users");
 };
+
+export const addUser = () => {
+  return api.post("/api/admin/adduser");
+};

@@ -16,6 +16,7 @@ import com.idn.backend.repo.AppUserRepo;
 import com.idn.backend.service.AuthService;
 
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void userSignUp(RegistrationDTO reg) {
+    public void userSignUp(RegistrationDTO reg, HttpServletRequest request) {
 
         Optional<AppUser> fetchedUserByEmail = appUserRepo.findByEmail(reg.email());
         Optional<AppUser> fetchedUserByUsername = appUserRepo.findByUserName(reg.userName());
@@ -52,13 +53,12 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(passwordEncoder.encode(reg.password()));
         newUser.setRole(Role.ROLE_USER);
         appUserRepo.save(newUser);
-        sessionService.createSession(newUser);
+        sessionService.createSession(newUser, request);
     }
 
     // User Login with email and password
     @Transactional
-    public TokenResponse login(String email,
-            String password) {
+    public TokenResponse login(String email, String password, HttpServletRequest request) {
         AppUser user = appUserRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -66,13 +66,13 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return sessionService.createSession(user);
+        return sessionService.createSession(user, request);
     }
 
     // Complete OAuth flow by accepting the temporary token, username and password
     // to create a new user and return JWT
     @Transactional
-    public TokenResponse completeOAuth(String token, String username, String password) {
+    public TokenResponse completeOAuth(String token, String username, String password, HttpServletRequest request) {
 
         if (token == null || token.isBlank()) {
             throw new RuntimeException("Token is missing");
@@ -85,9 +85,10 @@ public class AuthServiceImpl implements AuthService {
         }
         String provider = tokenService.extractProvider(token);
         String email = tokenService.extractEmail(token);
+        String dpUrl=tokenService.extractDpUrl(token);
 
         AppUser newUser = new AppUser();
-
+        newUser.setDpUrl(dpUrl);
         newUser.setEmail(email);
         newUser.setUserName(username);
         newUser.setPassword(passwordEncoder.encode(password));
@@ -99,7 +100,12 @@ public class AuthServiceImpl implements AuthService {
 
         appUserRepo.save(newUser);
 
-        return sessionService.createSession(newUser);
+        return sessionService.createSession(newUser, request);
+    }
+
+    public void logout(String refreshToken, HttpServletRequest request) {
+        sessionService.refresh(refreshToken, request);
+
     }
 
 }

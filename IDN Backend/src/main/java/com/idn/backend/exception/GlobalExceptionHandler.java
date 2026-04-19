@@ -47,7 +47,19 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ApiError> userNotFound(UsernameNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<ApiError> userNameNotFound(UsernameNotFoundException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI());
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiError> userNotFound(UserNotFoundException ex, HttpServletRequest request) {
         ApiError apiError = new ApiError(
                 Instant.now(),
                 HttpStatus.NOT_FOUND.value(),

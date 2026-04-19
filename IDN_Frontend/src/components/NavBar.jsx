@@ -1,47 +1,54 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 function Navbar({ toggle }) {
   const [user, setUser] = useState({
+    isAdmin: false,
     loggedIn: false,
     username: null,
     roles: [],
-    isAdmin: false,
+    dpUrl: "",
   });
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Fetch user
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await axios.get("/api/me", {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-        },
+
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      const res = await fetch("http://localhost:8080/api/me", {
+        method: "GET",
+        headers,
       });
 
-      setUser(res.data);
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+
+      const data = await res.json();
+      console.log("USER:", data);
+      setUser(data);
     } catch (err) {
-      console.error(err);
+      console.error("ERROR:", err.message);
 
       setUser({
+        isAdmin: false,
         loggedIn: false,
         username: null,
         roles: [],
-        isAdmin: false,
+        dpUrl: null,
       });
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    console.log("useEffect triggered");
     fetchUser();
-  }, [location.pathname]); // 🔥 IMPORTANT
+  }, [location.pathname]);
 
-  // ✅ Logout
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setUser({
@@ -50,7 +57,7 @@ function Navbar({ toggle }) {
       roles: [],
       isAdmin: false,
     });
-    navigate("/home");
+    navigate("/");
   };
 
   const isDashboardPage = location.pathname === "/dashboard";
@@ -72,7 +79,6 @@ function Navbar({ toggle }) {
         {/* RIGHT */}
         <div className="flex p-4 text-white justify-end w-[50%]">
           <nav className="flex gap-4 items-center">
-            {/* ✅ Dashboard */}
             {user.loggedIn && user.isAdmin && !isDashboardPage && (
               <Link
                 to="/dashboard"
@@ -82,7 +88,6 @@ function Navbar({ toggle }) {
               </Link>
             )}
 
-            {/* ✅ NOT logged in */}
             {!user.loggedIn && (
               <>
                 <Link
@@ -96,17 +101,23 @@ function Navbar({ toggle }) {
               </>
             )}
 
-            {/* ✅ Logged in */}
             {user.loggedIn && (
               <>
-                <span className="text-sm text-gray-300">{user.username}</span>
-
                 <button
                   onClick={handleLogout}
                   className="bg-red-600 h-8 px-3 rounded-sm"
                 >
                   Logout
                 </button>
+                <span className="text-sm font-bold text-gray-300">
+                  {user.username}
+                </span>
+
+                <img
+                  src={user.dpUrl}
+                  alt="no dp"
+                  className="w-[30px] h-[30px] rounded-full object-cover"
+                />
               </>
             )}
           </nav>

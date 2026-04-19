@@ -3,6 +3,7 @@ package com.idn.backend.repo;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,8 @@ public interface PostRepo extends JpaRepository<Post, Long> {
     Optional<Post> findByIdAndDeletedFalse(Long id);
 
     List<Post> findByDeletedFalseOrderByIdDesc(Pageable pageable);
+
+    Page<Post> findByCategory(String category, Pageable pageable);
 
     List<Post> findByDeletedFalseAndIdLessThanOrderByIdDesc(
             Long cursor,

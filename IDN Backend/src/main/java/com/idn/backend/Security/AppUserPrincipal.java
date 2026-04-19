@@ -21,10 +21,6 @@ public class AppUserPrincipal implements UserDetails {
         return List.of(new SimpleGrantedAuthority(appUser.getRole().name()));
     }
 
-    public String getUserName() {
-        return appUser.getUserName();
-    }
-
     @Override
     public String getPassword() {
         return appUser.getPassword();
@@ -33,7 +29,7 @@ public class AppUserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return appUser.getEmail();
+        return appUser.getUserName();
 
     }
 

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import Layout from "./Components/Layout";
+import OAuthSuccess from "./Components/oauth-success.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               element={<CompleteRegistration />}
             />
             <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/oauth-success" element={<OAuthSuccess />} />
           </Route>
         </Routes>
       </div>

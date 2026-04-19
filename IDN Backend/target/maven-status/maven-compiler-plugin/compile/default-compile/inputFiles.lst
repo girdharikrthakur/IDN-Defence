@@ -71,6 +71,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\excep
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\exception\ResourceNotFoundException.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\exception\UserAlreadyExistsException.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\exception\UsernameNotFoundException.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\exception\UserNotFoundException.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\filter\CsrfCookieFilter.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\filter\JWTTokenValidatorFilter.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\mapper\AppUserMapper.java
@@ -125,6 +126,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\servi
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\GCSServiceImpl.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\HelperServiceImpl.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\OAuth2SuccessHandler.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\OAuthService.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\PostServiceImpl.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\PostViewServiceImpl.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\impl\SessionService.java

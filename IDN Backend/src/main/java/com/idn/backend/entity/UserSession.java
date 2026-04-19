@@ -24,7 +24,7 @@ import lombok.Setter;
         @Index(name = "idx_refresh_token", columnList = "refreshToken"),
         @Index(name = "idx_user_id", columnList = "user_id")
 }, name = "user_sessions")
-public class UserSession extends BaseEntity {
+public class UserSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

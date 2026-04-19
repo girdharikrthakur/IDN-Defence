@@ -56,7 +56,7 @@ function CompleteRegistration() {
           <input
             type="text"
             name="username"
-            placeholder="User Name"
+            placeholder="Username"
             onChange={handleChange}
             required
             className="w-full border p-2 rounded"

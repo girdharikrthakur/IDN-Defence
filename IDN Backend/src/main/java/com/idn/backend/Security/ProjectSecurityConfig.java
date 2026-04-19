@@ -26,6 +26,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import com.idn.backend.filter.CsrfCookieFilter;
 import com.idn.backend.filter.JWTTokenValidatorFilter;
 import com.idn.backend.service.impl.OAuth2SuccessHandler;
+import com.idn.backend.service.impl.OAuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -96,6 +97,7 @@ public class ProjectSecurityConfig {
                                                                 "/css/**",
                                                                 "/js/**",
                                                                 "/home",
+                                                                "/api/me",
                                                                 "/home.html",
                                                                 "/error/**",
                                                                 "/public/**",
@@ -105,7 +107,6 @@ public class ProjectSecurityConfig {
                                                 // Admin APIs
                                                 .requestMatchers("/api/admin/**")
                                                 .hasRole("ADMIN")
-                                                .requestMatchers("/api/me").authenticated()
 
                                                 // Post APIs
                                                 .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
@@ -120,7 +121,9 @@ public class ProjectSecurityConfig {
                                 .formLogin(Customizer.withDefaults())
                                 .oauth2Login(oauth -> oauth
                                                 .loginPage("/login")
-                                                .successHandler(oAuth2SuccessHandler));
+                                                .successHandler(oAuth2SuccessHandler)
+                                                .userInfoEndpoint(userInfo -> userInfo
+                                                                .userService(new OAuthService())));
 
                 return http.build();
         }

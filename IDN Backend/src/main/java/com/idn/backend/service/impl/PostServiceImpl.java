@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -268,6 +269,13 @@ public class PostServiceImpl implements PostService {
         if (!isAdmin && !post.getUser().getUserName().equals(username)) {
             throw new RuntimeException("You are not allowed to modify this post");
         }
+    }
+
+    //
+
+    public Page<PostResponseDTO> getNewsByCategory(String category, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepo.findByCategory(category, pageable).map(postMapper::toPostResponseDTO);
     }
 
 }

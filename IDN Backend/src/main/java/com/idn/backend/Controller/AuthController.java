@@ -14,6 +14,9 @@ import com.idn.backend.dto.request.RegistrationDTO;
 import com.idn.backend.dto.response.TokenResponse;
 import com.idn.backend.service.impl.AuthServiceImpl;
 import com.idn.backend.service.impl.SessionService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.idn.backend.dto.request.LoginRequestDTO;
 import com.idn.backend.dto.request.OAuthCompleteRequest;
 
@@ -29,27 +32,27 @@ public class AuthController {
     private final SessionService sessionService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegistrationDTO reg) throws IOException {
+    public ResponseEntity<String> register(@RequestBody RegistrationDTO reg, HttpServletRequest request)
+            throws IOException {
 
-        authService.userSignUp(reg);
+        authService.userSignUp(reg, request);
         return ResponseEntity.ok("Registration successful");
 
     }
 
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody LoginRequestDTO req) {
-        return authService.login(req.email(), req.password());
+    public TokenResponse login(@RequestBody LoginRequestDTO req, HttpServletRequest request) {
+        return authService.login(req.email(), req.password(), request);
     }
 
     @PostMapping("/refresh")
-    public TokenResponse refresh(@RequestBody Map<String, String> req) {
-        return sessionService.refresh(req.get("refreshToken"));
-
+    public TokenResponse refresh(@RequestBody Map<String, String> req, HttpServletRequest request) {
+        return sessionService.refresh(req.get("refreshToken"), request);
     }
 
     @PostMapping("/complete")
-    public TokenResponse complete(@RequestBody OAuthCompleteRequest req) {
-        return authService.completeOAuth(req.token(), req.username(), req.password());
+    public TokenResponse complete(@RequestBody OAuthCompleteRequest req, HttpServletRequest request) {
+        return authService.completeOAuth(req.token(), req.username(), req.password(), request);
     }
 
 }

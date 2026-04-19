@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -111,4 +112,12 @@ public class PostController {
         return ResponseEntity.ok(postService.getTrendingPosts(10));
     }
 
+    // Post by Category
+    @GetMapping("/news")
+    public ResponseEntity<Page<PostResponseDTO>> getNewsByCategory(
+            @RequestParam String category,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return ResponseEntity.ok(postService.getNewsByCategory(category, page, size));
+    }
 }

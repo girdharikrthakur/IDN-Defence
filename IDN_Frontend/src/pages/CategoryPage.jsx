@@ -19,6 +19,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     fetchNews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page]);
 
   const fetchNews = async () => {
@@ -27,10 +28,11 @@ const CategoryPage = () => {
       setError(null);
 
       const res = await axios.get(
-        `http://localhost:8080/news?category=${category}&page=${page}&size=5`,
+        `http://localhost:8080/posts/news?category=${category}&page=${page}&size=5`,
       );
 
       setNews(res.data.content);
+      console.log(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
       console.error(err);

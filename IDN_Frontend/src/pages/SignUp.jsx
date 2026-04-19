@@ -66,7 +66,7 @@ function SignUp() {
             <label className="block text-sm font-medium">Username</label>
             <input
               type="text"
-              name="username"
+              name="userName"
               placeholder="Enter Username"
               value={form.username}
               onChange={handleChange}

@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idn.backend.dto.CategoryStatsDTO;
 import com.idn.backend.dto.DashboardStatsDTO;
 import com.idn.backend.dto.UserDTO;
+import com.idn.backend.dto.request.AdminUserRegistrationDTO;
+import com.idn.backend.dto.request.RegistrationDTO;
 import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.service.impl.AdminDashboardServiceImpl;
 import com.idn.backend.service.impl.PostServiceImpl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -64,6 +69,15 @@ public class AdminController {
     @GetMapping("/users")
     public List<UserDTO> getUsers() {
         return dashboardService.getUsers();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/adduser")
+    public ResponseEntity<String> addUser(@RequestBody AdminUserRegistrationDTO reg, HttpServletRequest request) {
+
+        dashboardService.addUser(reg, request);
+        return ResponseEntity.ok("User added successfully");
+
     }
 
 }

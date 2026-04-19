@@ -42,6 +42,9 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT", length = 15000)
     private String content;
 
+    @Column(nullable = false)
+    private String category;
+
     @OneToMany(mappedBy = "post")
     private List<Media> mediaList = new ArrayList<>();
 
