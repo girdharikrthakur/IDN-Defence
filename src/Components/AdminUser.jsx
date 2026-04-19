@@ -24,9 +24,9 @@ export default function AdminUser() {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
-      <div className="bg-white shadow rounded p-6">
-        <h2 className="text-xl font-bold mb-4">Users</h2>
+    <div className="bg-gray-100 min-h-screen p-3 sm:p-6">
+      <div className="bg-white shadow rounded p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-bold mb-4">Users</h2>
 
         {loading && users.length === 0 ? (
           <p className="text-center">Loading...</p>
@@ -36,31 +36,32 @@ export default function AdminUser() {
             <p className="text-sm text-gray-500">Create new User</p>
           </div>
         ) : (
-          <div className="w-full">
-            <table className="w-full border border-gray-200">
+          // ✅ Responsive wrapper
+          <div className="w-full overflow-x-auto">
+            <table className="min-w-[600px] w-full border border-gray-200 text-xs sm:text-sm">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="px-4 py-2 border w-16">ID</th>
-                  <th className="px-4 py-2 border w-48">Username</th>
-                  <th className="px-4 py-2 border w-64">Email</th>
-                  <th className="px-4 py-2 border w-32">Role</th>
+                  <th className="px-2 sm:px-4 py-2 border">ID</th>
+                  <th className="px-2 sm:px-4 py-2 border">Username</th>
+                  <th className="px-2 sm:px-4 py-2 border">Email</th>
+                  <th className="px-2 sm:px-4 py-2 border">Role</th>
                 </tr>
               </thead>
 
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id} className="text-center">
-                    <td className="px-4 py-2 border">{user.id}</td>
+                    <td className="px-2 sm:px-4 py-2 border">{user.id}</td>
 
-                    <td className="px-4 py-2 border">
+                    <td className="px-2 sm:px-4 py-2 border">
                       {user.userName || "N/A"}
                     </td>
 
-                    <td className="px-4 py-2 border whitespace-nowrap">
+                    <td className="px-2 sm:px-4 py-2 border break-all">
                       {user.email}
                     </td>
 
-                    <td className="px-4 py-2 border">
+                    <td className="px-2 sm:px-4 py-2 border">
                       {user.role.replace("ROLE_", "")}
                     </td>
                   </tr>

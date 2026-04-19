@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Sidebar from "./SideBar.jsx";
-import Navbar from "./NavBar.jsx";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer.jsx";
-import SecNavBar from "./SecNavBar.jsx";
+import Footer from "./Footer";
+import SecNavBar from "./SecNavBar";
 
 function Layout() {
   const [isOpen, setIsOpen] = useState(false);

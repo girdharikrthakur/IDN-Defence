@@ -1,5 +1,5 @@
-import AdminUser from "../Components/AdminUser.jsx";
-import PostCard from "../Components/PostCard.jsx";
+import AdminUser from "../components/AdminUser";
+import PostCard from "../components/PostCard";
 
 export default function Dashboard() {
   return (
