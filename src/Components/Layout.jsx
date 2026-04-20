@@ -11,16 +11,17 @@ function Layout() {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
+
       <Navbar toggle={toggle} />
       <SecNavBar />
       <Sidebar isOpen={isOpen} toggle={toggle} />
-
-      <div className="p-4">
+      <div className="flex-1">
         <Outlet />
       </div>
       <Footer />
-    </>
+
+    </div>
   );
 }
 

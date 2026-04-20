@@ -12,6 +12,7 @@ function SignUp() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,6 +21,7 @@ function SignUp() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg("");
 
     try {
       await api.post("/auth/register", form);
@@ -27,7 +29,7 @@ function SignUp() {
       navigate("/login");
     } catch (error) {
       console.error(error);
-      alert("Signup failed");
+      setErrorMsg("Signup failed ❌");
     } finally {
       setLoading(false);
     }
@@ -43,12 +45,18 @@ function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="w-full flex justify-center items-center bg-gray-100 py-2">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 space-y-4">
+        
         <h2 className="text-2xl font-bold text-center">Create Account</h2>
+
+        {errorMsg && (
+          <p className="text-red-500 text-sm text-center">{errorMsg}</p>
+        )}
 
         {/* FORM */}
         <form onSubmit={handleSignup} className="space-y-4">
+          
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
@@ -68,7 +76,7 @@ function SignUp() {
               type="text"
               name="userName"
               placeholder="Enter Username"
-              value={form.username}
+              value={form.userName} 
               onChange={handleChange}
               required
               className="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -105,19 +113,29 @@ function SignUp() {
         </div>
 
         {/* SOCIAL LOGIN */}
-        <div className="space-y-2">
+        <div className="mt-6 flex gap-4 justify-center items-center">
           <button
             onClick={handleGoogleLogin}
-            className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-gray-100"
           >
-            <img src="" alt="google logo" /> Continue with Google
+            <img
+              width="40"
+              height="40"
+              src="https://img.icons8.com/color/480/google-logo.png"
+              alt="google-logo"
+            />
           </button>
 
           <button
             onClick={handleGithubLogin}
-            className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-gray-100"
           >
-            <img src="" alt="github logo" /> Continue with GitHub
+            <img
+              width="40"
+              height="40"
+              src="https://img.icons8.com/ios-filled/50/github.png"
+              alt="github"
+            />
           </button>
         </div>
 

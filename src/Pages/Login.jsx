@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 function Login() {
@@ -49,7 +49,7 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="p-8 space-y-4 flex justify-center items-center min-h-full bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-[400px]">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <p id="error"></p>
@@ -83,28 +83,40 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-          >
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
+        {/* Divider */}
+        <div className="flex items-center gap-2 mt-8">
+          <hr className="flex-1" />
+          <span className="text-sm text-gray-500">OR</span>
+          <hr className="flex-1" />
+        </div>
+
         {/* SOCIAL LOGIN */}
-        <div className="space-y-2">
+        <div className="mt-10 flex gap-4 justify-center items-center">
           <button
             onClick={handleGoogleLogin}
-            className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
-          >
-            <img src="" alt="google logo" /> Continue with Google
+            className="w-half rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
+            <img width="40" height="40" src="https://img.icons8.com/color/480/google-logo.png" alt="google-logo"/>
           </button>
 
           <button
             onClick={handleGithubLogin}
-            className="w-full border py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
-          >
-            <img src="" alt="github logo" /> Continue with GitHub
+            className="w-half rounded-lg flex items-center justify-center hover:bg-gray-100">
+           <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/github.png" alt="github"/>
           </button>
         </div>
+
+
+<p className="text-center text-sm p-4">
+  Don't have and Account <Link 
+  className="text-blue-600 hover:text-blue-800"
+  to="/signup">Sign Up</Link>
+</p>
+
       </div>
     </div>
   );
