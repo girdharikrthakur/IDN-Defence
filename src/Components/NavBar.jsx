@@ -1,5 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SearchModal from "./SearchModal.jsx";
+import { Search } from "lucide-react";
 
 function Navbar({ toggle }) {
   const [user, setUser] = useState({
@@ -9,6 +11,8 @@ function Navbar({ toggle }) {
     roles: [],
     dpUrl: "",
   });
+
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,7 +81,16 @@ function Navbar({ toggle }) {
         </div>
 
         {/* RIGHT */}
-        <div className="flex p-4 text-white justify-end w-[50%]">
+        <div className="flex p-4 text-white justify-end w-[50%] gap-2">
+          <div className="flex justify-between items-center shadow">
+            {/* 🔍 Icon */}
+            <button onClick={() => setOpen(true)}>
+              <Search className="w-6 h-6" />
+            </button>
+
+            {/* 🔍 Modal */}
+            <SearchModal open={open} onClose={() => setOpen(false)} />
+          </div>
           <nav className="flex gap-4 items-center">
             {user.loggedIn && user.isAdmin && !isDashboardPage && (
               <Link

@@ -17,3 +17,12 @@ export const mostViewdPost = (data) => {
 export const trendingPost = (data) => {
   api.get("/posts/trending", data);
 };
+
+export const search = (keyword, category) => {
+  return api.get("/posts/search", {
+    params: {
+      keyword,
+      category,
+    },
+  });
+};

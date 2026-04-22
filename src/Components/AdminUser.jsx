@@ -24,7 +24,7 @@ export default function AdminUser() {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-3 sm:p-6">
+    <div className="bg-gray- p-3 sm:p-6 bg-gray-600">
       <div className="bg-white shadow rounded p-4 sm:p-6">
         <h2 className="text-lg sm:text-xl font-bold mb-4">Users</h2>
 

@@ -30,9 +30,9 @@ function Login() {
       console.error("Login error:", error);
 
       if (error.response) {
-        document.getElementById("error").innerHTML;
+        document.getElementById("error").innerHTML = "Login error";
       } else {
-        alert("Server not reachable ❌");
+        document.getElementById("error").innerHTML = "server not reachable";
       }
     } finally {
       setLoading(false);
@@ -83,7 +83,8 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
@@ -99,24 +100,35 @@ function Login() {
         <div className="mt-10 flex gap-4 justify-center items-center">
           <button
             onClick={handleGoogleLogin}
-            className="w-half rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100">
-            <img width="40" height="40" src="https://img.icons8.com/color/480/google-logo.png" alt="google-logo"/>
+            className="w-half rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100"
+          >
+            <img
+              width="40"
+              height="40"
+              src="https://img.icons8.com/color/480/google-logo.png"
+              alt="google-logo"
+            />
           </button>
 
           <button
             onClick={handleGithubLogin}
-            className="w-half rounded-lg flex items-center justify-center hover:bg-gray-100">
-           <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/github.png" alt="github"/>
+            className="w-half rounded-lg flex items-center justify-center hover:bg-gray-100"
+          >
+            <img
+              width="40"
+              height="40"
+              src="https://img.icons8.com/ios-filled/50/github.png"
+              alt="github"
+            />
           </button>
         </div>
 
-
-<p className="text-center text-sm p-4">
-  Don't have and Account <Link 
-  className="text-blue-600 hover:text-blue-800"
-  to="/signup">Sign Up</Link>
-</p>
-
+        <p className="text-center text-sm p-4">
+          Don't have and Account{" "}
+          <Link className="text-blue-600 hover:text-blue-800" to="/signup">
+            Sign Up
+          </Link>
+        </p>
       </div>
     </div>
   );
