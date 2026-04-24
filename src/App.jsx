@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import ArticlePage from "./pages/ArticlePage";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Signup from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
-import Contact from "./pages/Contact";
-import CompleteRegistration from "./pages/CompleteRegistration";
-import CategoryPage from "./pages/CategoryPage";
+import Layout from "./components/Layout.jsx";
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import CompleteRegistration from "./pages/CompleteRegistration.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import ArticlePage from "./pages/ArticlePage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
+import Contact from "./pages/Contact.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 import OAuthSuccess from "./components/OAuthSuccess";
-import Search from "./pages/SearchPage";
 
 function App() {
   return (
