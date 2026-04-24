@@ -12,7 +12,6 @@ function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-
       <Navbar toggle={toggle} />
       <SecNavBar />
       <Sidebar isOpen={isOpen} toggle={toggle} />
@@ -20,7 +19,6 @@ function Layout() {
         <Outlet />
       </div>
       <Footer />
-
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function Contact() {
     try {
       const res = await saveMessage(form);
       console.log(res.data);
-      // navigate("/");
+      navigate("/contact");
     } catch (error) {
       setError(error);
       setError("Something went wrong");

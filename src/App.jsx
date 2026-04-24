@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import Layout from "./components/Layout.jsx";
-import OAuthSuccess from "./components/oauth-success.jsx";
+import OAuthSuccess from "./components/OAuthSuccess.jsx";
 import Contact from "./pages/Contact.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 
@@ -18,9 +18,9 @@ function App() {
     <>
       <div className="bg-gray-100">
         <Routes>
-          <Route element={<Layout />}>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
             <Route path="/article/:id" element={<ArticlePage />} />
-            <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -31,7 +31,7 @@ function App() {
               element={<CompleteRegistration />}
             />
             <Route path="/category/:category" element={<CategoryPage />} />
-            <Route path="/oauth-success" element={<OAuthSuccess />} />
+            <Route path="/oauthsuccess" element={<OAuthSuccess />} />
             <Route path="/search" element={<SearchPage />} />
           </Route>
         </Routes>
