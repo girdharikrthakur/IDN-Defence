@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveMessage } from "../api/contact.jsx";
+import { saveMessage } from "../api/contact";
 export default function Contact() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", message: "" });

@@ -1,4 +1,16 @@
 import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import ArticlePage from "./pages/ArticlePage";
+import About from "./pages/About";
+import Login from "./pages/Login";
+import Signup from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
+import Contact from "./pages/Contact";
+import CompleteRegistration from "./pages/CompleteRegistration";
+import CategoryPage from "./pages/CategoryPage";
+import OAuthSuccess from "./components/OAuthSuccess";
+import Search from "./pages/SearchPage";
 
 function App() {
   return (
@@ -19,7 +31,7 @@ function App() {
             />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/oauthsuccess" element={<OAuthSuccess />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/search" element={<Search />} />
           </Route>
         </Routes>
       </div>
