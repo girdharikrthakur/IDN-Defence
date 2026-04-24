@@ -47,7 +47,6 @@ function SignUp() {
   return (
     <div className="w-full flex justify-center items-center bg-gray-100 py-2">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 space-y-4">
-        
         <h2 className="text-2xl font-bold text-center">Create Account</h2>
 
         {errorMsg && (
@@ -56,7 +55,6 @@ function SignUp() {
 
         {/* FORM */}
         <form onSubmit={handleSignup} className="space-y-4">
-          
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
@@ -76,7 +74,7 @@ function SignUp() {
               type="text"
               name="userName"
               placeholder="Enter Username"
-              value={form.userName} 
+              value={form.userName}
               onChange={handleChange}
               required
               className="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

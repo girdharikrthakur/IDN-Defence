@@ -1,5 +1,5 @@
 import data from "../assets/data.json";
-import NewsCard from "../components/NewsCard";
+import NewsCard from "../components/NewsCard.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useEffectEvent } from "react";
 
