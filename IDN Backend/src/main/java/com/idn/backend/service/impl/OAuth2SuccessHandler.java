@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -30,21 +31,42 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             HttpServletResponse response,
             Authentication authentication) throws IOException {
 
-        OAuth2User oAuthUser = (OAuth2User) authentication.getPrincipal();
-
-        String name = oAuthUser.getAttribute("name");
-        String email = oAuthUser.getAttribute("email");
-        String login = oAuthUser.getAttribute("login"); // GitHub username
-        String avatar = oAuthUser.getAttribute("avatar_url");
+        Object principal = authentication.getPrincipal();
 
         String provider = ((OAuth2AuthenticationToken) authentication)
                 .getAuthorizedClientRegistrationId();
 
-        String providerId = oAuthUser.getAttribute("id").toString();
+        String name = null;
+        String email = null;
+        String login = null;
+        String avatar = null;
+        String picture = null;
+        String providerId = null;
+
+        // GOOGLE (OIDC)
+        if ("google".equals(provider) && principal instanceof OidcUser oidcUser) {
+
+            name = (String) oidcUser.getClaims().get("name");
+            email = (String) oidcUser.getClaims().get("email");
+            picture = (String) oidcUser.getClaims().get("picture");
+
+            providerId = String.valueOf(oidcUser.getClaims().get("sub"));
+        }
+
+        // GITHUB (OAuth2)
+        else if ("github".equals(provider) && principal instanceof OAuth2User oAuthUser) {
+
+            name = (String) oAuthUser.getAttribute("name");
+            email = (String) oAuthUser.getAttribute("email");
+            login = (String) oAuthUser.getAttribute("login");
+            avatar = (String) oAuthUser.getAttribute("avatar_url");
+
+            providerId = String.valueOf(oAuthUser.getAttribute("id"));
+        }
 
         // fallback for GitHub email
         if (email == null) {
-            email = provider + "_" + providerId + "@oauth.com";
+            email = provider + "_" + providerId.toString() + "@oauth.com";
         }
 
         Optional<AppUser> optionalUser = userRepo.findByEmail(email);
@@ -68,7 +90,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     provider,
                     providerId,
                     login,
-                    avatar);
+                    avatar,
+                    picture);
 
             String redirectUrl = "http://localhost:5173/complete-registration?token=" + tempToken;
 

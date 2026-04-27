@@ -8,8 +8,11 @@ import CompleteRegistration from "./pages/CompleteRegistration.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
-import Layout from "./Components/Layout";
-import OAuthSuccess from "./Components/oauth-success.jsx";
+import Layout from "./components/Layout.jsx";
+import OAuthSuccess from "./components/oauth-success.jsx";
+import Contact from "./pages/Contact.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
+import NewsEditor from "./pages/NewsEditor.jsx";
 
 function App() {
   return (
@@ -23,12 +26,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="/complete-registration"
               element={<CompleteRegistration />}
             />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/oauth-success" element={<OAuthSuccess />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/editor" element={<NewsEditor />} />
           </Route>
         </Routes>
       </div>

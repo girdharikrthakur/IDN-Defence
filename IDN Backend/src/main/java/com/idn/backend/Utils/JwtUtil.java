@@ -46,7 +46,7 @@ public class JwtUtil {
     // expires in 10 mins
 
     public String generateTempToken(String email, String name, String provider, String providerId, String login,
-            String avatar) {
+            String avatar, String picture) {
 
         return Jwts.builder()
                 .subject(email)
@@ -55,6 +55,7 @@ public class JwtUtil {
                 .claim("providerId", providerId)
                 .claim("login", login)
                 .claim("avatar", avatar)
+                .claim("picture", picture)
                 .claim("type", "OAUTH_TEMP")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + TEMP_EXP))
@@ -121,5 +122,13 @@ public class JwtUtil {
 
     public String extractDpUrl(String token) {
         return extractAllClaims(token).get("avatar", String.class);
+    }
+
+    public String extractProviderId(String token) {
+        return extractAllClaims(token).get("providerId", String.class);
+    }
+
+    public String extractDpUrlGoogle(String token) {
+        return extractAllClaims(token).get("picture", String.class);
     }
 }

@@ -3,9 +3,11 @@ package com.idn.backend.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.request.PostSearchRequest;
 import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 
@@ -17,7 +19,8 @@ public interface PostService {
 
     public PostResponseDTO getPostById(Long id);
 
-    public List<PostResponseDTO> searchPosts(String query);
+    public Page<PostResponseDTO> searchPosts(PostSearchRequest req, int page, int size, String sortBy,
+            String direction);
 
     public PostResponseDTO updatePost(Long id, PostRequestDTO dto, List<MultipartFile> file) throws IOException;
 

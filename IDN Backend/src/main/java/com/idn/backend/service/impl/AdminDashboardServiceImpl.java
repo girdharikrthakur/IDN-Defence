@@ -11,9 +11,7 @@ import com.idn.backend.dto.DashboardStatsDTO;
 import com.idn.backend.dto.PostDTO;
 import com.idn.backend.dto.UserDTO;
 import com.idn.backend.dto.request.AdminUserRegistrationDTO;
-import com.idn.backend.dto.request.RegistrationDTO;
 import com.idn.backend.entity.AppUser;
-import com.idn.backend.entity.Role;
 import com.idn.backend.exception.UserAlreadyExistsException;
 import com.idn.backend.repo.AppUserRepo;
 import com.idn.backend.repo.CategoryRepo;
@@ -50,7 +48,7 @@ public class AdminDashboardServiceImpl {
 
     public List<UserDTO> getUsers() {
 
-        return userRepository.getAllUsers();
+        return userRepository.findAllNonUserWithPostCount();
     }
 
     @Transactional

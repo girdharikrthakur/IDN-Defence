@@ -85,7 +85,9 @@ public class AuthServiceImpl implements AuthService {
         }
         String provider = tokenService.extractProvider(token);
         String email = tokenService.extractEmail(token);
-        String dpUrl=tokenService.extractDpUrl(token);
+        String dpUrl = tokenService.extractDpUrl(token)==null ? tokenService.extractDpUrlGoogle(token) : tokenService.extractDpUrl(token);
+
+        String providerId = tokenService.extractProviderId(token);
 
         AppUser newUser = new AppUser();
         newUser.setDpUrl(dpUrl);
@@ -93,6 +95,7 @@ public class AuthServiceImpl implements AuthService {
         newUser.setUserName(username);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setProvider(provider);
+        newUser.setProviderId(providerId);
         newUser.setRole(Role.ROLE_USER);
         newUser.setEmailVerified(true);
         newUser.setEnabled(true);

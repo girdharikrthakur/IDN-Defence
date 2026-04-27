@@ -15,10 +15,10 @@ function Sidebar({ isOpen, toggle }) {
           <Link to="/">IDN</Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
         </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
+          <li>
+          <Link to="/about">About</Link>
         </li>
       </ul>
     </div>

@@ -25,6 +25,8 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import com.idn.backend.filter.CsrfCookieFilter;
 import com.idn.backend.filter.JWTTokenValidatorFilter;
+import com.idn.backend.filter.RateLimitFilter;
+import com.idn.backend.service.impl.CustomOidcUserService;
 import com.idn.backend.service.impl.OAuth2SuccessHandler;
 import com.idn.backend.service.impl.OAuthService;
 
@@ -38,7 +40,9 @@ public class ProjectSecurityConfig {
 
         private final JWTTokenValidatorFilter jwtTokenValidatorFilter;
         private final CsrfCookieFilter csrfCookieFilter;
-
+        private final RateLimitFilter rateLimitFilter;
+        private final OAuthService oAuthService;
+        private final CustomOidcUserService oidcUserService;
         private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
         @Bean
@@ -82,6 +86,7 @@ public class ProjectSecurityConfig {
                                 .addFilterAfter(csrfCookieFilter, BasicAuthenticationFilter.class)
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                                 .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
                                 // .addFilterAfter(jwtTokenGenerationFilter, BasicAuthenticationFilter.class)
                                 .authorizeHttpRequests(auth -> auth
@@ -113,9 +118,10 @@ public class ProjectSecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/posts/**").authenticated()
                                                 .requestMatchers(HttpMethod.PUT, "/posts/**").authenticated()
                                                 .requestMatchers(HttpMethod.DELETE, "/posts/**").authenticated()
+                                                .requestMatchers(HttpMethod.GET, "/contact").hasRole("ADMIN")
 
                                                 // Authenticated APIs
-                                                .requestMatchers("/api/**", "/private/**").authenticated()
+                                                .requestMatchers("/private/**").authenticated()
                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                                                 .anyRequest().authenticated())
                                 .formLogin(Customizer.withDefaults())
@@ -123,7 +129,8 @@ public class ProjectSecurityConfig {
                                                 .loginPage("/login")
                                                 .successHandler(oAuth2SuccessHandler)
                                                 .userInfoEndpoint(userInfo -> userInfo
-                                                                .userService(new OAuthService())));
+                                                                .userService(oAuthService)
+                                                                .oidcUserService(oidcUserService)));
 
                 return http.build();
         }
@@ -131,20 +138,29 @@ public class ProjectSecurityConfig {
         @Bean
         public ClientRegistrationRepository clientRegistrationRepository() {
                 ClientRegistration github = githubClientRegistration();
-                // ClientRegistration google = googleClientRegistration();
+                ClientRegistration google = googleClientRegistration();
                 // ClientRegistration facebook = facebookClientRegistration();
 
-                return new InMemoryClientRegistrationRepository(github);
+                return new InMemoryClientRegistrationRepository(github, google);
 
         }
 
         private ClientRegistration githubClientRegistration() {
                 return CommonOAuth2Provider.GITHUB
                                 .getBuilder("github")
-                                .clientId("Ov23liiFl9mhHvJhVpH2")
-                                .clientSecret("3a4c19e9c5e4bd4a9ae67b7d29056552581fa9b0")
+                                .clientId("Github-Client-ID")
+                                .clientSecret("Client-Secret")
                                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                                 .scope("read:user", "user:email")
+                                .build();
+        }
+
+        private ClientRegistration googleClientRegistration() {
+                return CommonOAuth2Provider.GOOGLE
+                                .getBuilder("google")
+                                .clientId("Your-Google-Client-ID")
+                                .clientSecret("Your-Client-Secret")
+                                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                                 .build();
         }
 

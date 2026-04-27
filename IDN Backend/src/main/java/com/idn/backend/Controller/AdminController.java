@@ -16,7 +16,6 @@ import com.idn.backend.dto.CategoryStatsDTO;
 import com.idn.backend.dto.DashboardStatsDTO;
 import com.idn.backend.dto.UserDTO;
 import com.idn.backend.dto.request.AdminUserRegistrationDTO;
-import com.idn.backend.dto.request.RegistrationDTO;
 import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.service.impl.AdminDashboardServiceImpl;

@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,18 +16,32 @@ public class OAuthService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        // ✅ Print all attributes
-        Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        System.err.println("OAuth Attributes");
+        System.out.println("PROVIDER: " +
+                userRequest.getClientRegistration().getRegistrationId());
 
-        attributes.forEach((key, value) -> {
-            System.out.println(key + " : " + value);
+        System.out.println("OAuth Attributes START");
 
-        });
+        // 🔥 Handle Google (OIDC)
+        if (oAuth2User instanceof OidcUser oidcUser) {
 
-        System.err.println("OAuth Attributes ends");
+            Map<String, Object> claims = oidcUser.getClaims();
+
+            claims.forEach((key, value) -> {
+                System.out.println(key + " : " + value);
+            });
+
+        } else {
+            // 🔥 Handle GitHub, etc.
+            Map<String, Object> attributes = oAuth2User.getAttributes();
+
+            attributes.forEach((key, value) -> {
+                System.out.println(key + " : " + value);
+            });
+        }
+
+        System.out.println("OAuth Attributes END");
+
         return oAuth2User;
     }
-
 }

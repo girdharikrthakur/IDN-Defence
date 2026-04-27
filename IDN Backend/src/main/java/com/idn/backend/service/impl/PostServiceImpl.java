@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.request.PostSearchRequest;
 import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.entity.Media;
@@ -30,6 +33,7 @@ import com.idn.backend.repo.PostTagRepo;
 import com.idn.backend.repo.PostViewRepo;
 import com.idn.backend.repo.TagRepo;
 import com.idn.backend.service.PostService;
+import com.idn.backend.specification.PostSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -129,9 +133,25 @@ public class PostServiceImpl implements PostService {
 
     // Search posts by title or content
     @Override
-    public List<PostResponseDTO> searchPosts(String query) {
-        List<Post> posts = postRepo.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query, query);
-        return postMapper.toPostResponseDTOList(posts);
+    public Page<PostResponseDTO> searchPosts(
+            PostSearchRequest req,
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
+
+        // Sorting
+        Sort sort = direction.equalsIgnoreCase("DESC")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Specification
+
+        Specification<Post> spec = PostSpecification.search(req);
+        return postRepo.findAll(spec, pageable).map(postMapper::toPostResponseDTO);
+
     }
 
     // Update post (only author or admin can update)

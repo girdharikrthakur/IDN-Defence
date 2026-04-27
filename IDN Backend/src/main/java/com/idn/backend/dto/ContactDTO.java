@@ -2,7 +2,8 @@ package com.idn.backend.dto;
 
 public record ContactDTO(
 
-        String email,
-        String message) {
+                String name,
+                String email,
+                String message) {
 
 }

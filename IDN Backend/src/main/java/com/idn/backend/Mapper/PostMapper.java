@@ -24,6 +24,7 @@ public interface PostMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "category", ignore = true)
     Post toPost(PostRequestDTO dto);
 
     @Mapping(target = "authorName", ignore = true)

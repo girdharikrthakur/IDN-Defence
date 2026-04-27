@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../api/adminApis";
-import CreateUserForm from "../components/CreateUserForm";
 
 export default function AdminUser() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const loadUser = async () => {
+    if (loading) return;
     setLoading(true);
+
     try {
       const res = await getUsers();
       setUsers(res.data);
@@ -24,21 +24,10 @@ export default function AdminUser() {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-3 sm:p-6">
+    <div className="bg-gray- p-3 sm:p-6 bg-gray-600">
       <div className="bg-white shadow rounded p-4 sm:p-6">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg sm:text-xl font-bold">Users</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-4">Users</h2>
 
-          <button
-            className="bg-gray-400 hover:bg-gray-600 text-white px-4 py-2 rounded"
-            onClick={() => setShowModal(true)}
-          >
-            ➕ Add User
-          </button>
-        </div>
-
-        {/* Loading */}
         {loading && users.length === 0 ? (
           <p className="text-center">Loading...</p>
         ) : Array.isArray(users) && users.length === 0 ? (
@@ -47,9 +36,9 @@ export default function AdminUser() {
             <p className="text-sm text-gray-500">Create new User</p>
           </div>
         ) : (
+          // ✅ Responsive wrapper
           <div className="w-full overflow-x-auto">
             <table className="min-w-[600px] w-full border border-gray-200 text-xs sm:text-sm">
-              {/* Table Head */}
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-2 sm:px-4 py-2 border">ID</th>
@@ -59,7 +48,6 @@ export default function AdminUser() {
                 </tr>
               </thead>
 
-              {/* Table Body */}
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id} className="text-center">
@@ -74,7 +62,7 @@ export default function AdminUser() {
                     </td>
 
                     <td className="px-2 sm:px-4 py-2 border">
-                      {user.role ? user.role.replace("ROLE_", "") : "N/A"}
+                      {user.role.replace("ROLE_", "")}
                     </td>
                   </tr>
                 ))}
@@ -83,14 +71,6 @@ export default function AdminUser() {
           </div>
         )}
       </div>
-
-      {/* 🔥 Modal OUTSIDE main container */}
-      {showModal && (
-        <CreateUserForm
-          onClose={() => setShowModal(false)}
-          onSuccess={loadUser}
-        />
-      )}
     </div>
   );
 }

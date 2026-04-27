@@ -1,6 +1,7 @@
 package com.idn.backend.controller;
 
 import com.idn.backend.dto.request.PostRequestDTO;
+import com.idn.backend.dto.request.PostSearchRequest;
 import com.idn.backend.dto.response.CursorPageResponse;
 import com.idn.backend.dto.response.PostResponseDTO;
 import com.idn.backend.service.impl.PostServiceImpl;
@@ -73,10 +74,14 @@ public class PostController {
 
     // Search posts by title or content
     @GetMapping("/search")
-    public ResponseEntity<List<PostResponseDTO>> searchPosts(@RequestParam String query) {
+    public Page<PostResponseDTO> search(
+            PostSearchRequest req,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
 
-        List<PostResponseDTO> posts = postService.searchPosts(query);
-        return ResponseEntity.ok(posts);
+        return postService.searchPosts(req, page, size, sortBy, direction);
     }
 
     // Update post (only author or admin can update)
