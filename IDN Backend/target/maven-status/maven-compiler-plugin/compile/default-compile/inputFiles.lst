@@ -104,6 +104,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\secur
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\IdnAuthenticationProvider.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\IdnUserDetailService.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\ProjectSecurityConfig.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\ProjectSecurityConfigLocal.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\ProjectSecurityConfigProd.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\security\SecurityExceptionHandler.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\service\AdminDashboardService.java

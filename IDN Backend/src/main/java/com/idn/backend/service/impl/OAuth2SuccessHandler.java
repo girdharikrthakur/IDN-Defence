@@ -46,22 +46,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // GOOGLE (OIDC)
         if ("google".equals(provider) && principal instanceof OidcUser oidcUser) {
 
-            name = (String) oidcUser.getClaims().get("name");
-            email = (String) oidcUser.getClaims().get("email");
-            picture = (String) oidcUser.getClaims().get("picture");
+            name = String.valueOf(oidcUser.getClaims().get("name"));
+            email = String.valueOf(oidcUser.getClaims().get("email"));
+            picture = String.valueOf(oidcUser.getClaims().get("picture"));
 
             providerId = String.valueOf(oidcUser.getClaims().get("sub"));
-        }
+        } else if ("github".equals(provider) && principal instanceof OAuth2User oAuthUser) {
 
-        // GITHUB (OAuth2)
-        else if ("github".equals(provider) && principal instanceof OAuth2User oAuthUser) {
-
-            name = (String) oAuthUser.getAttribute("name");
-            email = (String) oAuthUser.getAttribute("email");
-            login = (String) oAuthUser.getAttribute("login");
-            avatar = (String) oAuthUser.getAttribute("avatar_url");
-
-            providerId = String.valueOf(oAuthUser.getAttribute("id"));
+            name = oAuthUser.getAttribute("name");
+            email = oAuthUser.getAttribute("email");
+            login = oAuthUser.getAttribute("login");
+            avatar = oAuthUser.getAttribute("avatar_url");
+            providerId = oAuthUser.getAttribute("id").toString();
         }
 
         // fallback for GitHub email
