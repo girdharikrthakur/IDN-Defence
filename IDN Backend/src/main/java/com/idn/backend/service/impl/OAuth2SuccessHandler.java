@@ -58,6 +58,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             login = oAuthUser.getAttribute("login");
             avatar = oAuthUser.getAttribute("avatar_url");
             providerId = oAuthUser.getAttribute("id").toString();
+        } else if ("facebook".equals(provider) && principal instanceof OAuth2User oAuthUser) {
+
+            name = oAuthUser.getAttribute("name");
+            email = oAuthUser.getAttribute("email");
+            login = oAuthUser.getAttribute("login");
+            providerId = oAuthUser.getAttribute("id").toString();
+            avatar = oAuthUser.getAttribute("pcture");
         }
 
         // fallback for GitHub email

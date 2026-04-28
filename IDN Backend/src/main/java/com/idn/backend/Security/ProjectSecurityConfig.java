@@ -139,7 +139,7 @@ public class ProjectSecurityConfig {
         public ClientRegistrationRepository clientRegistrationRepository() {
                 ClientRegistration github = githubClientRegistration();
                 ClientRegistration google = googleClientRegistration();
-                // ClientRegistration facebook = facebookClientRegistration();
+                ClientRegistration facebook = facebookClientRegistration();
 
                 return new InMemoryClientRegistrationRepository(github, google);
 
@@ -161,6 +161,16 @@ public class ProjectSecurityConfig {
                                 .clientId("Your-Google-Client-ID")
                                 .clientSecret("Your-Client-Secret")
                                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
+                                .build();
+        }
+
+        private ClientRegistration facebookClientRegistration() {
+                return CommonOAuth2Provider.FACEBOOK
+                                .getBuilder("facebook")
+                                .clientId("Facebook-Client-ID")
+                                .clientSecret("Your-Cient-Secret")
+                                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
+                                .scope("email", "public_profile")
                                 .build();
         }
 
