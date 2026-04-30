@@ -34,10 +34,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegistrationDTO reg, HttpServletRequest request)
             throws IOException {
-
         authService.userSignUp(reg, request);
         return ResponseEntity.ok("Registration successful");
-
     }
 
     @PostMapping("/login")

@@ -1,28 +1,37 @@
 import { useState } from "react";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
-import SecNavBar from "./SecNavBar";
 
-function Layout() {
-  const [isOpen, setIsOpen] = useState(false);
+// Components
+import Navbar from "./NavBar.jsx";
+import SecNavBar from "./SecNavBar.jsx";
+import Sidebar from "./SideBar.jsx";
+import Footer from "./Footer.jsx";
 
-  const toggle = () => setIsOpen(!isOpen);
+const Layout = () => {
+  // 1. More descriptive state variable names
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // 2. Safer state update using the previous state (prev)
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen">
+      {/* 3. Grouping navigation elements inside a semantic <header> */}
+      <header>
+        <Navbar toggle={toggleSidebar} />
+        <SecNavBar />
+      </header>
 
-      <Navbar toggle={toggle} />
-      <SecNavBar />
-      <Sidebar isOpen={isOpen} toggle={toggle} />
-      <div className="flex-1">
+      <Sidebar isOpen={isSidebarOpen} toggle={toggleSidebar} />
+
+      {/* 4. Using the semantic <main> tag instead of a <div> */}
+      <main className="flex-1">
         <Outlet />
-      </div>
-      <Footer />
+      </main>
 
+      <Footer />
     </div>
   );
-}
+};
 
 export default Layout;

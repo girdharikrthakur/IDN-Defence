@@ -45,12 +45,7 @@ public class RateLimitFilter implements Filter {
         String method = req.getMethod();
         String path = req.getRequestURI();
 
-        if (!path.startsWith("/me")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        if (path.startsWith("/me") || path.startsWith("/oauth2")) {
+        if (path.startsWith("/me") || path.startsWith("/oauth2") || path.startsWith("/comment")) {
             chain.doFilter(request, response);
             return;
         }

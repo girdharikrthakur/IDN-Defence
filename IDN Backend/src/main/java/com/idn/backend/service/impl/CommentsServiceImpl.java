@@ -1,16 +1,16 @@
 package com.idn.backend.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.idn.backend.dto.request.CommentRequestDTO;
-import com.idn.backend.dto.response.CommentResponseDTO;
-import com.idn.backend.entity.AppUser;
+import com.idn.backend.dto.request.CommentRequest;
+import com.idn.backend.dto.response.CommentDTO;
 import com.idn.backend.entity.Comment;
 import com.idn.backend.entity.Post;
 import com.idn.backend.exception.PostNotFoundException;
 import com.idn.backend.mapper.CommentMapper;
-import com.idn.backend.repo.AppUserRepo;
 import com.idn.backend.repo.CommentRepo;
 import com.idn.backend.repo.PostRepo;
 
@@ -24,38 +24,54 @@ public class CommentsServiceImpl {
     private final CommentRepo commentRepo;
     private final CommentMapper commentMapper;
     private final PostRepo postRepo;
-    private final AppUserRepo appUserRepo;
 
-    @Transactional
-    public CommentResponseDTO saveComment(CommentRequestDTO req, String email) {
+    public CommentDTO createComment(CommentRequest request, String email) {
 
-        AppUser user = appUserRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Post post = postRepo.findById(request.postId())
+                .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        String username = user.getUserName();
+        Comment comment = commentMapper.toEntity(request);
 
-        Post post;
-        Comment parent = null;
+        comment.setPost(post);
 
-        if (req.getParentId() != null) {
-            parent = commentRepo.findById(req.getParentId())
-                    .orElseThrow(() -> new RuntimeException("Parent not found"));
+        if (request.parentId() != null) {
 
-            post = parent.getPost();
-        } else {
-            post = postRepo.findById(req.getPostId())
-                    .orElseThrow(() -> new PostNotFoundException("Post not found"));
+            Comment parent = commentRepo.findById(request.parentId())
+                    .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+
+            comment.setParent(parent);
         }
 
-        Comment comment = new Comment();
-        comment.setContent(req.getContent());
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setParent(parent);
-        comment.setCreatedBy(username);
-        Comment savedComment = commentRepo.save(comment);
+        Comment saved = commentRepo.save(comment);
 
-        return commentMapper.toResponse(savedComment);
+        return commentMapper.toResponse(saved);
+    }
+
+    public List<CommentDTO> getCommentByPostId(Long postId) {
+
+        Post post = postRepo.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
+
+        List<Comment> comments = commentRepo.findByPostIdAndParentIsNull(postId);
+
+        if (comments.isEmpty()) {
+            throw new RuntimeException("No comments found");
+        }
+
+        return comments.stream()
+                .map(commentMapper::toResponse)
+                .toList();
+    }
+
+    public List<CommentDTO> findAllParentComment() {
+        List<Comment> comments = commentRepo.findByParentNull();
+        if (comments.isEmpty()) {
+            throw new RuntimeException("No comment found");
+        }
+        return comments.stream()
+                .map(commentMapper::toResponse)
+                .toList();
+
     }
 
 }

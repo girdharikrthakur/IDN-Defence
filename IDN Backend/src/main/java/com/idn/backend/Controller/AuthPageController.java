@@ -1,9 +1,9 @@
 package com.idn.backend.controller;
 
-import org.springframework.stereotype.Controller;
+// import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+// @Controller
 public class AuthPageController {
 
     @GetMapping("/login")
@@ -20,7 +20,5 @@ public class AuthPageController {
     public String getMethodName() {
         return "dashboard.html";
     }
-
-    
 
 }

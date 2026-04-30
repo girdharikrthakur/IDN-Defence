@@ -49,7 +49,6 @@ public class PostServiceImpl implements PostService {
     private final TagRepo tagRepo;
     private final PostTagRepo postTagRepo;
 
-    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @Transactional
     @Override
     public PostResponseDTO savePost(PostRequestDTO dto, List<MultipartFile> file) throws IOException {

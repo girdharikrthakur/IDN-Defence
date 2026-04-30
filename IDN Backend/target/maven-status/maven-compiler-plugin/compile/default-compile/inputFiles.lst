@@ -23,6 +23,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\P
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\AdminUserRegistrationDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\AuthorDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\CategoryRequestDTO.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\CommentRequest.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\CommentRequestDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\CompleteRequestDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\request\ContactRequestDTO.java
@@ -38,7 +39,7 @@ D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\r
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\ApiResponse.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\AuthResponse.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CategoryResponseDTO.java
-D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CommentResponseDTO.java
+D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CommentDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\ContactResponseDTO.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\CursorPageResponse.java
 D:\Personal Projects\IDN Defence\IDN Backend\src\main\java\com\idn\backend\dto\response\DraftResponseDTO.java

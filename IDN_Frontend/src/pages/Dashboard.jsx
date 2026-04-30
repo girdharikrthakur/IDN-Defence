@@ -1,6 +1,6 @@
-import AdminUser from "../components/AdminUser";
-import PostCard from "../components/PostCard";
-import ContactMessages from "../components/ContactList";
+import AdminUser from "../components/AdminUser.jsx";
+import PostCard from "../components/PostCard.jsx";
+import ContactMessages from "../components/ContactList.jsx";
 
 export default function Dashboard() {
   return (

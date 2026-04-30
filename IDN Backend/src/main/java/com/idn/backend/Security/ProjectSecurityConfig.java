@@ -52,29 +52,29 @@ public class ProjectSecurityConfig {
                 http.cors(config -> config.configurationSource(request -> {
                         CorsConfiguration configCors = new CorsConfiguration();
 
-                        // ✅ Allowed Origins
+                        // Allowed Origins
                         configCors.setAllowedOrigins(List.of(
                                         "http://localhost:8080",
                                         "http://localhost:5173",
                                         "http://127.0.0.1:8080/",
                                         "http://127.0.0.1:5173"));
 
-                        // ✅ Allowed Methods (FIXED)
+                        // Allowed Methods (FIXED)
                         configCors.setAllowedMethods(List.of(
                                         "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-                        // ✅ Allowed Headers (better than "*")
+                        // Allowed Headers (better than "*")
                         configCors.setAllowedHeaders(List.of(
                                         "Authorization",
                                         "Content-Type"));
 
-                        // ✅ Expose headers
+                        // Expose headers
                         configCors.setExposedHeaders(List.of("Authorization"));
 
-                        // ✅ Allow credentials
+                        // Allow credentials
                         configCors.setAllowCredentials(true);
 
-                        // ✅ Cache duration
+                        // Cache duration
                         configCors.setMaxAge(3600L);
 
                         return configCors;
@@ -116,8 +116,10 @@ public class ProjectSecurityConfig {
                                                 // Post APIs
                                                 .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/posts/**").authenticated()
-                                                .requestMatchers(HttpMethod.PUT, "/posts/**").authenticated()
-                                                .requestMatchers(HttpMethod.DELETE, "/posts/**").authenticated()
+                                                .requestMatchers(HttpMethod.PUT, "/posts/**")
+                                                .hasAnyRole("AUTHOR", "ADMIN")
+                                                .requestMatchers(HttpMethod.DELETE, "/posts/**")
+                                                .hasAnyRole("AUTHOR", "ADMIN")
                                                 .requestMatchers(HttpMethod.GET, "/contact").hasRole("ADMIN")
 
                                                 // Authenticated APIs

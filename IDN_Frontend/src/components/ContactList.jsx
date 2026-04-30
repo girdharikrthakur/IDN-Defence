@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchContact } from "../api/contact.js";
-import ContactMessage from "../components/ContactMessage";
+import { fetchContact } from "../api/contact";
+import ContactMessage from "../components/ContactMessage.jsx";
 
 export default function ContactList() {
   const [messages, setMessages] = useState([]);
@@ -27,7 +27,6 @@ export default function ContactList() {
         [index]: nextCursor,
       }));
 
-      // ✅ store hasMore per page
       setHasMoreMap((prev) => ({
         ...prev,
         [index]: hasMore,

@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal.jsx";
-import { Search } from "lucide-react";
+import api from "../api/axios.js";
 
 function Navbar({ toggle }) {
   const [user, setUser] = useState({
@@ -18,33 +18,17 @@ function Navbar({ toggle }) {
   const location = useLocation();
 
   const fetchUser = async () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      return; // 
+    }
+
     try {
-      const token = localStorage.getItem("accessToken");
-
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-      const res = await fetch("http://localhost:8080/api/me", {
-        method: "GET",
-        headers,
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch user");
-      }
-
-      const data = await res.json();
-      console.log("USER:", data);
-      setUser(data);
+      const res = await api.get("/me");
+      setUser(res.data);
     } catch (err) {
-      console.error("ERROR:", err.message);
-
-      setUser({
-        isAdmin: false,
-        loggedIn: false,
-        username: null,
-        roles: [],
-        dpUrl: null,
-      });
+      console.error(err);
     }
   };
 
@@ -55,6 +39,7 @@ function Navbar({ toggle }) {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     setUser({
       loggedIn: false,
       username: null,
@@ -75,8 +60,8 @@ function Navbar({ toggle }) {
             ☰
           </button>
 
-          <Link className="font-black text-2xl text-center" to="/">
-            IDN
+          <Link className="font-black font-inter text-3xl text-center" to="/">
+            idn
           </Link>
         </div>
 
@@ -85,7 +70,7 @@ function Navbar({ toggle }) {
           <div className="flex justify-between items-center shadow">
             {/* 🔍 Icon */}
             <button onClick={() => setOpen(true)}>
-              <Search className="w-6 h-6" />
+              <SearchModal className="w-6 h-6" />
             </button>
 
             {/* 🔍 Modal */}

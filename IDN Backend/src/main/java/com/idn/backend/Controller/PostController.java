@@ -37,7 +37,6 @@ public class PostController {
     private final PostViewServiceImpl postViewService;
 
     // Create new post (only AUTHOR or ADMIN can create)
-    @PreAuthorize("hasAnyRole('AUTHOR','ADMIN')")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> postMethodName(
             @RequestPart("dto") PostRequestDTO dto,
